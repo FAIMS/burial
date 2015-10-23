@@ -147,10 +147,6 @@
     </property>
     <property name="Profile" type="vocab">
       <description/>
-      <lookup>
-        <term>{No_Observation}
-<description/></term>
-      </lookup>
     </property>
     <property name="Plan" type="vocab">
       <description/>
@@ -326,10 +322,6 @@
     </property>
     <property name="RT Frequency" type="vocab">
       <description/>
-      <lookup>
-        <term>{No_Observation}
-<description/></term>
-      </lookup>
     </property>
     <property name="RT Description" type="measure">
       <description/>
