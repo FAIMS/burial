@@ -15,14 +15,14 @@
     <autonum/>
     <GPS_Diagnostics t="gpsdiag"/>
   </Main>
+  <search>
+    Records
+  </search>
   <Table>
     <Table>
       <!--This is replaced with a table view using @POSTPROC-->
     </Table>
   </Table>
-  <search>
-    Records
-  </search>
   <Map>
     <Map t="map"/>
   </Map>
@@ -297,56 +297,25 @@
 
 <logic><![CDATA[
 /********************************* TABLE VIEW *********************************/
-  q   = "select uuid, attributename, response\n" + 
-        "from (select attributename, attributeid\n" + 
-        "from attributekey join idealaent using (attributeid) join aenttype using (aenttypeid)\n" + 
-        "where aenttypename = 'small'), (select uuid, aenttypeid, aenttypename, aenttimestamp, group_concat(coalesce(measure, freetext, vocabname, '<null>'), '|') || coalesce(case certainty <1 when 1 then '?' end, '') as isIdent\n" + 
-        "from latestnondeletedarchentidentifiers \n" + 
-        "where aenttypename = 'small'\n" + 
-        "group by uuid\n" + 
-        "order by attributename\n" + 
-        ") as id \n" + 
-        "left outer join \n" + 
-        "(select uuid, valuetimestamp, attributename, attributeid, group_concat(coalesce(measure    || ' '  || vocabname  || '(' ||freetext||') '||  coalesce(case certainty <1 when 1 then '?' end, '') ,\n" + 
-        "                                                                                              measure    || ' (' || freetext   ||')'||  coalesce(case certainty <1 when 1 then '?' end, '') ,\n" + 
-        "                                                                                              vocabname  || ' (' || freetext   ||')'||  coalesce(case certainty <1 when 1 then '?' end, '') ,\n" + 
-        "                                                                                              measure    || ' ' || vocabname   ||  coalesce(case certainty <1 when 1 then '?' end, '') ,\n" + 
-        "                                                                                              vocabname  || ' (' || freetext || ')',\n" + 
-        "                                                                                              measure    || ' (' || freetext || ')',\n" + 
-        "                                                                                              measure    || coalesce(case certainty <1 when 1 then '?' end, '') ,\n" + 
-        "                                                                                              vocabname  || coalesce(case certainty <1 when 1 then '?' end, '') ,\n" + 
-        "                                                                                              freetext   || coalesce(case certainty <1 when 1 then '?' end, '') ,\n" + 
-        "                                                                                              measure,\n" + 
-        "                                                                                              vocabname,\n" + 
-        "                                                                                              freetext), ' | ') as response\n" + 
-        "FROM (  SELECT uuid, attributeid, vocabid, attributename, vocabname, measure, freetext, certainty, attributetype, valuetimestamp, aenttimestamp          \n" + 
-        "          FROM latestnondeletedaentvalue join latestnondeletedarchent using (uuid)\n" + 
-        "          JOIN attributekey using (attributeid)          \n" + 
-        "          LEFT OUTER JOIN vocabulary USING (vocabid, attributeid)          \n" + 
-        "       ORDER BY uuid, attributename ASC)\n" + 
-        "group by uuid, attributeid) using (uuid, attributeid, attributename)\n" + 
-        "union \n" + 
-        "select uuid, 'geometry', astext(geospatialcolumn)\n" + 
-        "from (select uuid, aenttypeid, aenttypename, aenttimestamp, group_concat(coalesce(measure, freetext, vocabname, '<null>'), '|') || coalesce(case certainty <1 when 1 then '?' end, '') as isIdent, geospatialcolumn\n" + 
-        "from latestnondeletedarchentidentifiers \n" + 
-        "where aenttypename = 'small'\n" + 
-        "group by uuid\n" + 
-        "order by attributename\n" + 
-        ") as id \n" + 
-        "union \n" + 
-        "select uuid, 'username', fname || ' ' || lname\n" + 
-        "from (select uuid, aenttypeid, aenttypename, aenttimestamp, group_concat(coalesce(measure, freetext, vocabname, '<null>'), '|') || coalesce(case certainty <1 when 1 then '?' end, '') as isIdent, fname, lname\n" + 
-        "from latestnondeletedarchentidentifiers join user using (userid)\n" + 
-        "where aenttypename = 'small'\n" + 
-        "group by uuid\n" + 
-        "order by attributename\n" + 
-        ") as id \n" + 
-        "union \n" + 
-        "select uuid, 'action', uuid \n" + 
-        "from latestnondeletedarchent join aenttype using (aenttypeid) \n" + 
-        "where aenttypename = 'small' \n" + 
-        "group by uuid \n" + 
-        "order by uuid, attributename;";
+  query  = "select uuid, 'identifier' as attributename, response, -1 as aentcountorder ";
+  query += " from latestNonDeletedArchEntFormattedIdentifiers ";
+  query += " union ";
+  query += "select uuid, attributename, group_concat(format(formatstring, vocabname, measure, freetext, certainty), appendcharacterstring) as response, aentcountorder ";
+  query += "  from ( ";
+  query += "    select uuid, attributename, aenttypename, formatstring, vocabname, measure, freetext, certainty, appendcharacterstring, aentcountorder, vocabcountorder, attributeid ";
+  query += "    from latestNonDeletedArchent ";
+  query += "      JOIN aenttype using (aenttypeid) ";
+  query += "      join idealaent using (aenttypeid) ";
+  query += "      join attributekey using (attributeid) ";
+  query += "      join latestNonDeletedAentValue using (uuid, attributeid) ";
+  query += "      left outer join vocabulary using (attributeid, vocabid) ";
+  query += "    order by uuid, aentcountorder, vocabcountorder ";
+  query += "  ) ";
+  query += "  where aenttypename='Burial Mound' ";
+  query += "  and attributename in ('Type', 'Date', 'Exists in Legacy', 'Surrounding Landuse', 'Surface landuse', 'Height', 'Length Max') ";
+  query += "  group by uuid, attributeid ";
+  query += "  having response is not null ";
+  query += "  order by uuid, aentcountorder; ";
 
   tableRef       = "Control/Table/Table";
   // query          = "SELECT uuid, response ";
@@ -356,60 +325,17 @@
   actionIdx      = 0;
   actionCallback = "loadEntityFromTable()";
 
-  headers.add("Object ID");
+  headers.add("");
   headers.add("Type");
-  headers.add("Site Significance");
-  headers.add("Name");
-  headers.add("Description");
-  headers.add("Source");
+  headers.add("Date");
   headers.add("Exists in Legacy");
   headers.add("Surrounding Landuse");
-  headers.add("Surface Landuse");
-  headers.add("Visibility");
-  headers.add("Elevation");
-  headers.add("General Notes");
-  headers.add("General Photo");
-  headers.add("Profile");
-  headers.add("Plan");
+  headers.add("Surface landuse");
+  headers.add("Height");
   headers.add("Length Max");
-  headers.add("Width Max");
-  headers.add("Height Max");
-  headers.add("Area Max");
-  headers.add("Length Min");
-  headers.add("Width Min");
-  headers.add("Height Min");
-  headers.add("Area Min");
-  headers.add("Other Dimension");
-  headers.add("Dimensions Notes");
-  headers.add("Attach A Sketch");
-  headers.add("Sketch Photo");
-  headers.add("Stone Feature Present And Visible");
-  headers.add("Stone Feature Description");
-  headers.add("Surface Material Density");
-  headers.add("Surface Material Description");
-  headers.add("Sample Collected");
-  headers.add("Material Photo");
-  headers.add("Disturbance Kind");
-  headers.add("Disturbance Factors");
-  headers.add("Principal Factors");
-  headers.add("Age of Damage");
-  headers.add("Disturbance Description");
-  headers.add("RT Kind");
-  headers.add("RT Method");
-  headers.add("RT Frequency");
-  headers.add("RT Description");
-  headers.add("Volume of Soil Removed via RT");
-  headers.add("Affect");
-  headers.add("Impact");
-  headers.add("Comments and Recommendations");
-  headers.add("CRM Photo");
-  headers.add("Latitude");
-  headers.add("Longitude");
-  headers.add("Northing");
-  headers.add("Easting");
 
   populateTable() {
-    populateTableRaw(tableRef, q    , headers, actionName, actionIdx, actionCallback);
+    populateTablePivot(tableRef, query, headers, actionName, actionIdx, actionCallback);
   }
 
   loadEntityFromTable() {

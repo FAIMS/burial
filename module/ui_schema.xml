@@ -28,9 +28,6 @@
               <Next_Object_ID/>
               <GPS_Diagnostics/>
             </Main>
-            <Table>
-              <Table/>
-            </Table>
             <Search>
               <Colgroup_0>
                 <Col_0>
@@ -42,6 +39,9 @@
               </Colgroup_0>
               <Entity_List/>
             </Search>
+            <Table>
+              <Table/>
+            </Table>
             <Map>
               <Map/>
             </Map>
@@ -188,12 +188,6 @@
           <label>{GPS_Diagnostics}</label>
         </input>
       </group>
-      <group ref="Table">
-        <label>{Table}</label>
-        <input ref="Table" faims_table="true">
-          <label>{Table}</label>
-        </input>
-      </group>
       <group ref="Search" faims_scrollable="false">
         <label>{Records}</label>
         <group faims_style="orientation" ref="Colgroup_0">
@@ -218,6 +212,12 @@
             <value>Options not loaded</value>
           </item>
         </select1>
+      </group>
+      <group ref="Table">
+        <label>{Table}</label>
+        <input ref="Table" faims_table="true">
+          <label>{Table}</label>
+        </input>
       </group>
       <group ref="Map" faims_scrollable="false">
         <label>{Map}</label>
