@@ -28,6 +28,9 @@
               <Next_Object_ID/>
               <GPS_Diagnostics/>
             </Main>
+            <Table>
+              <Table/>
+            </Table>
             <Search>
               <Colgroup_0>
                 <Col_0>
@@ -125,6 +128,7 @@
               <Button_CRM_Photo/>
             </CRM>
           </Burial_Mound>
+          <logic/>
         </faims>
       </instance>
       <bind type="decimal" nodeset="/faims/Control/Main/Next_Object_ID"/>
@@ -184,6 +188,12 @@
           <label>{GPS_Diagnostics}</label>
         </input>
       </group>
+      <group ref="Table">
+        <label>{Table}</label>
+        <input ref="Table" faims_table="true">
+          <label>{Table}</label>
+        </input>
+      </group>
       <group ref="Search" faims_scrollable="false">
         <label>{Records}</label>
         <group faims_style="orientation" ref="Colgroup_0">
@@ -212,7 +222,7 @@
       <group ref="Map" faims_scrollable="false">
         <label>{Map}</label>
         <input faims_map="true" ref="Map">
-          <label>{Map}</label>
+          <label/>
         </input>
       </group>
     </group>

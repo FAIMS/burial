@@ -29,6 +29,25 @@ makeLocalID(){
 }
 makeLocalID();
 
+insertIntoLocalSettings(String key, String val) {
+  fetchOne("REPLACE INTO localSettings(key, value) VALUES('" + key + "', '" + val + "');");
+}
+
+insertIntoLocalSettings(String key, Integer val) {
+  insertIntoLocalSettings(key, Integer.toString(val));
+}
+
+setFieldValueFromLocalSettings(String key, String ref) {
+  String q = "SELECT value FROM localSettings WHERE key = '" + key + "';";
+  fetchOne(q, new FetchCallback() {
+    onFetch(result) {
+      if (!isNull(result)) {
+        setFieldValue(ref, result.get(0));
+      }
+    }
+  });
+}
+
 newTab(String tab, Boolean resolveTabGroups) {
   if (!resolveTabGroups) {
     return newTab(tab);
@@ -101,9 +120,6 @@ bindOnEvent(String ref, String event) {
     stmtsExpr += "; ";
   }
 
-  Log.e(".", ref);
-  Log.e(".", event);
-  Log.e(".", stmtsExpr);
   onEvent(ref, event, stmtsExpr);
 }
 
@@ -353,6 +369,22 @@ addOnEvent(userMenuPath, "click", "selectUser()");
 /******************************************************************************/
 /*                              MENU POPULATION                               */
 /******************************************************************************/
+/** Fetches the contents of a specifed vocabulary and stores it in the given list. **/
+fetchVocab(String vocabName, List storageList) {
+  fetchVocab(vocabName, storageList, null);
+}
+fetchVocab(String vocabName, List storageList, String callbackFunction) {
+  fetchAll("select vocabid, vocabname from vocabulary left join attributekey using (attributeid) where attributename = '" + vocabName + "';", new FetchCallback() {
+    onFetch(result) {
+      storageList.addAll(result);
+      Log.d("fetchVocab()", "Fetched vocabulary \"" + vocabname + "\" contents: " + result.toString());
+      if (callbackFunction != null && !isNull(callbackFunction)) {
+        execute(callbackFunction);
+      }
+    }
+  });
+}
+
 /** Wrapper for to make a vocab without an exlusion list **/
 makeVocab(String type, String path, String attrib) {
   makeVocab(type, path, attrib, null);
@@ -814,7 +846,6 @@ makeDuplicateRelationships(fetchedAttributes, String newuuid){
   for (savedAttribute : fetchedAttributes){
     //  saveEntitiesToHierRel(relnname, parent, child, parentverb, childverb, relSaveCallback);
     //relntypename, parentparticipatesverb, childparticipatesverb, childuuid
-    Log.e("Module", "in");
     String relntypename           = savedAttribute.get(0);
     String parentparticipatesverb = savedAttribute.get(1);
     String childparticipatesverb  = savedAttribute.get(2);
@@ -1087,14 +1118,6 @@ fillInGPS(String tabgroup) {
 /******************************************************************************/
 /*                       AUTONUMBERING HELPER FUNCTIONS                       */
 /******************************************************************************/
-insertIntoLocalSettings(String key, String val) {
-    fetchOne("REPLACE INTO localSettings(key, value) VALUES('" + key + "', '" + val + "');");
-}
-
-insertIntoLocalSettings(String key, Integer val) {
-    insertIntoLocalSettings(key, Integer.toString(val));
-}
-
 /*
  * If value of field specified by `ref` is null, sets the field to `defaultVal`,
  * otherwise increments its value.
@@ -1123,12 +1146,12 @@ incField(String ref) {
   return incField(ref, 1);
 }
 
-addOnEvent("Control", "load", "onLoadControl()");
+addOnEvent("Control/Main", "show", "onShowAutonum()");
 
 /* This function should only be called once since it creates event handlers,
  * otherwise multiple copies of the same handler will trigger with the event.
  */
-onLoadControl() {
+onShowAutonum() {
   List l = new ArrayList();
   l.add("Control/Main/Next_Object_ID");
 
@@ -1163,6 +1186,136 @@ incAutoNum(String destPath) {
   setFieldValue(destPath, destVal);
   incField(sourcePath);
 }
+
+/******************************************************************************/
+/*                             HANDWRITTEN LOGIC                              */
+/******************************************************************************/
+
+/********************************* TABLE VIEW *********************************/
+  q   = "select uuid, attributename, response\n" + 
+        "from (select attributename, attributeid\n" + 
+        "from attributekey join idealaent using (attributeid) join aenttype using (aenttypeid)\n" + 
+        "where aenttypename = 'small'), (select uuid, aenttypeid, aenttypename, aenttimestamp, group_concat(coalesce(measure, freetext, vocabname, '<null>'), '|') || coalesce(case certainty <1 when 1 then '?' end, '') as isIdent\n" + 
+        "from latestnondeletedarchentidentifiers \n" + 
+        "where aenttypename = 'small'\n" + 
+        "group by uuid\n" + 
+        "order by attributename\n" + 
+        ") as id \n" + 
+        "left outer join \n" + 
+        "(select uuid, valuetimestamp, attributename, attributeid, group_concat(coalesce(measure    || ' '  || vocabname  || '(' ||freetext||') '||  coalesce(case certainty <1 when 1 then '?' end, '') ,\n" + 
+        "                                                                                              measure    || ' (' || freetext   ||')'||  coalesce(case certainty <1 when 1 then '?' end, '') ,\n" + 
+        "                                                                                              vocabname  || ' (' || freetext   ||')'||  coalesce(case certainty <1 when 1 then '?' end, '') ,\n" + 
+        "                                                                                              measure    || ' ' || vocabname   ||  coalesce(case certainty <1 when 1 then '?' end, '') ,\n" + 
+        "                                                                                              vocabname  || ' (' || freetext || ')',\n" + 
+        "                                                                                              measure    || ' (' || freetext || ')',\n" + 
+        "                                                                                              measure    || coalesce(case certainty <1 when 1 then '?' end, '') ,\n" + 
+        "                                                                                              vocabname  || coalesce(case certainty <1 when 1 then '?' end, '') ,\n" + 
+        "                                                                                              freetext   || coalesce(case certainty <1 when 1 then '?' end, '') ,\n" + 
+        "                                                                                              measure,\n" + 
+        "                                                                                              vocabname,\n" + 
+        "                                                                                              freetext), ' | ') as response\n" + 
+        "FROM (  SELECT uuid, attributeid, vocabid, attributename, vocabname, measure, freetext, certainty, attributetype, valuetimestamp, aenttimestamp          \n" + 
+        "          FROM latestnondeletedaentvalue join latestnondeletedarchent using (uuid)\n" + 
+        "          JOIN attributekey using (attributeid)          \n" + 
+        "          LEFT OUTER JOIN vocabulary USING (vocabid, attributeid)          \n" + 
+        "       ORDER BY uuid, attributename ASC)\n" + 
+        "group by uuid, attributeid) using (uuid, attributeid, attributename)\n" + 
+        "union \n" + 
+        "select uuid, 'geometry', astext(geospatialcolumn)\n" + 
+        "from (select uuid, aenttypeid, aenttypename, aenttimestamp, group_concat(coalesce(measure, freetext, vocabname, '<null>'), '|') || coalesce(case certainty <1 when 1 then '?' end, '') as isIdent, geospatialcolumn\n" + 
+        "from latestnondeletedarchentidentifiers \n" + 
+        "where aenttypename = 'small'\n" + 
+        "group by uuid\n" + 
+        "order by attributename\n" + 
+        ") as id \n" + 
+        "union \n" + 
+        "select uuid, 'username', fname || ' ' || lname\n" + 
+        "from (select uuid, aenttypeid, aenttypename, aenttimestamp, group_concat(coalesce(measure, freetext, vocabname, '<null>'), '|') || coalesce(case certainty <1 when 1 then '?' end, '') as isIdent, fname, lname\n" + 
+        "from latestnondeletedarchentidentifiers join user using (userid)\n" + 
+        "where aenttypename = 'small'\n" + 
+        "group by uuid\n" + 
+        "order by attributename\n" + 
+        ") as id \n" + 
+        "union \n" + 
+        "select uuid, 'action', uuid \n" + 
+        "from latestnondeletedarchent join aenttype using (aenttypeid) \n" + 
+        "where aenttypename = 'small' \n" + 
+        "group by uuid \n" + 
+        "order by uuid, attributename;";
+
+  tableRef       = "Control/Table/Table";
+  // query          = "SELECT uuid, response ";
+  // query         += "FROM latestNonDeletedArchEntFormattedIdentifiers ";
+  headers        = new ArrayList();
+  actionName     = "Load";
+  actionIdx      = 0;
+  actionCallback = "loadEntityFromTable()";
+
+  headers.add("Object ID");
+  headers.add("Type");
+  headers.add("Site Significance");
+  headers.add("Name");
+  headers.add("Description");
+  headers.add("Source");
+  headers.add("Exists in Legacy");
+  headers.add("Surrounding Landuse");
+  headers.add("Surface Landuse");
+  headers.add("Visibility");
+  headers.add("Elevation");
+  headers.add("General Notes");
+  headers.add("General Photo");
+  headers.add("Profile");
+  headers.add("Plan");
+  headers.add("Length Max");
+  headers.add("Width Max");
+  headers.add("Height Max");
+  headers.add("Area Max");
+  headers.add("Length Min");
+  headers.add("Width Min");
+  headers.add("Height Min");
+  headers.add("Area Min");
+  headers.add("Other Dimension");
+  headers.add("Dimensions Notes");
+  headers.add("Attach A Sketch");
+  headers.add("Sketch Photo");
+  headers.add("Stone Feature Present And Visible");
+  headers.add("Stone Feature Description");
+  headers.add("Surface Material Density");
+  headers.add("Surface Material Description");
+  headers.add("Sample Collected");
+  headers.add("Material Photo");
+  headers.add("Disturbance Kind");
+  headers.add("Disturbance Factors");
+  headers.add("Principal Factors");
+  headers.add("Age of Damage");
+  headers.add("Disturbance Description");
+  headers.add("RT Kind");
+  headers.add("RT Method");
+  headers.add("RT Frequency");
+  headers.add("RT Description");
+  headers.add("Volume of Soil Removed via RT");
+  headers.add("Affect");
+  headers.add("Impact");
+  headers.add("Comments and Recommendations");
+  headers.add("CRM Photo");
+  headers.add("Latitude");
+  headers.add("Longitude");
+  headers.add("Northing");
+  headers.add("Easting");
+
+
+  populateTable() {
+    populateTableRaw(tableRef, q    , headers, actionName, actionIdx, actionCallback);
+  }
+
+  loadEntityFromTable() {
+    uuid = getTableValue();
+    loadEntityFrom(uuid); // Auto-gen'd function
+  }
+
+  addOnEvent(tableRef, "show", "populateTable()");
+
+
 
 /******************************************************************************/
 /*                                    INIT                                    */
