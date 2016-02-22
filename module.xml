@@ -31,7 +31,7 @@
 <Burial_Mound>
   <General>
     <Object_ID f="id notnull autonum"/>
-    <timestamp/>
+    <Date f="readonly"/>
     <author/>
     <Type>
       <opts>
@@ -296,6 +296,16 @@
 </Burial_Mound>
 
 <logic><![CDATA[
+/****************************** DATE POPULATION *******************************/
+  setDayMonth() {
+    ref     = "Burial_Mound/General/Date";
+    fmt     = "dd MMM";
+    date    = new Date();
+    dateFmt = new java.text.SimpleDateFormat(fmt);
+    dateStr = dateFmt.format(date);
+    setFieldValue(ref, dateStr);
+  }
+
 /********************************* TABLE VIEW *********************************/
   query  = "select uuid, 'identifier' as attributename, response, -1 as aentcountorder ";
   query += " from latestNonDeletedArchEntFormattedIdentifiers ";
@@ -312,7 +322,7 @@
   query += "    order by uuid, aentcountorder, vocabcountorder ";
   query += "  ) ";
   query += "  where aenttypename='Burial Mound' ";
-  query += "  and attributename in ('Type', 'Date', 'Exists in Legacy', 'Surrounding Landuse', 'Surface landuse', 'Height', 'Length Max') ";
+  query += "  and attributename in ('Type', 'Date', 'Exists in Legacy', 'Surrounding Landuse', 'Surface Landuse', 'Height Max', 'Length Max') ";
   query += "  group by uuid, attributeid ";
   query += "  having response is not null ";
   query += "  order by uuid, aentcountorder; ";
@@ -330,8 +340,8 @@
   headers.add("Date");
   headers.add("Exists in Legacy");
   headers.add("Surrounding Landuse");
-  headers.add("Surface landuse");
-  headers.add("Height");
+  headers.add("Surface Landuse");
+  headers.add("Height Max");
   headers.add("Length Max");
 
   populateTable() {

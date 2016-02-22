@@ -635,7 +635,6 @@ populateAuthorAndTimestamp(String tabgroup) {
   Map tabgroupToAuthor    = new HashMap();
   Map tabgroupToTimestamp = new HashMap();
   tabgroupToAuthor.put("Burial_Mound", "Burial_Mound/General/Author");
-  tabgroupToTimestamp.put("Burial_Mound", "Burial_Mound/General/Timestamp");
 
   String uuid          = getUuid(tabgroup);
   String authorPath    = tabgroupToAuthor.get(tabgroup);
@@ -915,6 +914,7 @@ newBurialMound(){
 
   setUuid(tabgroup, null);
   newTabGroup(tabgroup);
+  setDayMonth();
 
   String autoNumDest = "";
   autoNumDest = "Burial_Mound/General/Object_ID";
@@ -1191,6 +1191,16 @@ incAutoNum(String destPath) {
 /*                             HANDWRITTEN LOGIC                              */
 /******************************************************************************/
 
+/****************************** DATE POPULATION *******************************/
+  setDayMonth() {
+    ref     = "Burial_Mound/General/Date";
+    fmt     = "dd MMM";
+    date    = new Date();
+    dateFmt = new java.text.SimpleDateFormat(fmt);
+    dateStr = dateFmt.format(date);
+    setFieldValue(ref, dateStr);
+  }
+
 /********************************* TABLE VIEW *********************************/
   query  = "select uuid, 'identifier' as attributename, response, -1 as aentcountorder ";
   query += " from latestNonDeletedArchEntFormattedIdentifiers ";
@@ -1207,7 +1217,7 @@ incAutoNum(String destPath) {
   query += "    order by uuid, aentcountorder, vocabcountorder ";
   query += "  ) ";
   query += "  where aenttypename='Burial Mound' ";
-  query += "  and attributename in ('Type', 'Date', 'Exists in Legacy', 'Surrounding Landuse', 'Surface landuse', 'Height', 'Length Max') ";
+  query += "  and attributename in ('Type', 'Date', 'Exists in Legacy', 'Surrounding Landuse', 'Surface Landuse', 'Height Max', 'Length Max') ";
   query += "  group by uuid, attributeid ";
   query += "  having response is not null ";
   query += "  order by uuid, aentcountorder; ";
@@ -1225,8 +1235,8 @@ incAutoNum(String destPath) {
   headers.add("Date");
   headers.add("Exists in Legacy");
   headers.add("Surrounding Landuse");
-  headers.add("Surface landuse");
-  headers.add("Height");
+  headers.add("Surface Landuse");
+  headers.add("Height Max");
   headers.add("Length Max");
 
   populateTable() {
