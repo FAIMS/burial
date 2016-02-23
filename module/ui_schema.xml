@@ -213,7 +213,7 @@
           </item>
         </select1>
       </group>
-      <group ref="Table">
+      <group ref="Table" faims_scrollable="false">
         <label>{Table}</label>
         <input ref="Table" faims_table="true">
           <label>{Table}</label>

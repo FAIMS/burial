@@ -1217,7 +1217,7 @@ incAutoNum(String destPath) {
   query += "    order by uuid, aentcountorder, vocabcountorder ";
   query += "  ) ";
   query += "  where aenttypename='Burial Mound' ";
-  query += "  and attributename in ('Type', 'Date', 'Exists in Legacy', 'Surrounding Landuse', 'Surface Landuse', 'Height Max', 'Length Max') ";
+  query += "  and attributename in ('Object ID', 'Type', 'Date', 'Exists in Legacy', 'Surrounding Landuse', 'Surface Landuse', 'Height Max', 'Length Max') ";
   query += "  group by uuid, attributeid ";
   query += "  having response is not null ";
   query += "  order by uuid, aentcountorder; ";
@@ -1231,6 +1231,7 @@ incAutoNum(String destPath) {
   actionCallback = "loadEntityFromTable()";
 
   headers.add("");
+  headers.add("Object ID");
   headers.add("Type");
   headers.add("Date");
   headers.add("Exists in Legacy");
