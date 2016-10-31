@@ -101,37 +101,27 @@
         </opt>
       </opts>
     </Surface_Landuse>
-
-    <!--TODO:-->
     <Prominence>
       <opts>
-        <opt>0-20%</opt>
-        <opt>20-40%</opt>
-        <opt>40-60%</opt>
-        <opt>60-80%</opt>
-        <opt>80-100%</opt>
+        <opt>Valley Bottom or Plain</opt>
+        <opt>Foothill</opt>
+        <opt>Hilltop</opt>
+        <opt>Ridge</opt>
+        <opt>Other</opt>
       </opts>
     </Prominence>
-
     <gps/>
     <Elevation b="decimal">
       Elevation (MASL)
     </Elevation>
     <General_Notes/>
     <Create_Shapefile t="button" l="Control/Map"/>
-    <General_Photo t="camera">
+    <Facing_Direction/>
+    <Mound_Overview_Photo t="camera">
       <desc>Take 1 general overview shot that includes the complete feature profile, and a scale. Include direction in the Annotation (from which direction was the image taken)</desc>
-    </General_Photo>
+    </Mound_Overview_Photo>
   </General>
   <Dimensions>
-    <Profile t="picture"/>
-    <Plan t="picture">
-      <opts>
-        <opt>Circular</opt>
-        <opt>Elipsoid</opt>
-        <opt>Uneven</opt>
-      </opts>
-    </Plan>
     <cols>
       <col>
         <Length_Max/>
@@ -147,19 +137,12 @@
       </col>
     </cols>
     <Other_Dimension/>
-    <Dimensions_Notes/>
-    <Attach_A_Sketch t="file"/>
+    <Shape_Notes/>
+    <Attach_a_Sketch t="file"/>
     <Sketch_Photo t="camera"/>
   </Dimensions>
   <Material>
-    <Stone_Feature_Present_And_Visible t="radio">
-      Stone Feature Present And Visible?
-      <opts>
-        <opt>Yes</opt>
-        <opt>No</opt>
-      </opts>
-    </Stone_Feature_Present_And_Visible>
-    <Stone_Feature_Description/>
+    <Surface_Material_Description/>
     <Surface_Material_Density>
       <opts>
         <opt>zero</opt>
@@ -168,7 +151,6 @@
         <opt>high</opt>
       </opts>
     </Surface_Material_Density>
-    <Surface_Material_Description/>
     <Sample_Collected t="radio">
       Sample Collected?
       <opts>
@@ -176,10 +158,18 @@
         <opt>No</opt>
       </opts>
     </Sample_Collected>
+    <Stone_Feature_Present_And_Visible t="radio">
+      Stone Feature Present And Visible?
+      <opts>
+        <opt>Yes</opt>
+        <opt>No</opt>
+      </opts>
+    </Stone_Feature_Present_And_Visible>
+    <Stone_Feature_Description/>
     <Material_Photo t="camera"/>
   </Material>
   <CRM>
-    <Disturbance_Kind>
+    <Condition>
       <opts>
         <opt>undisturbed</opt>
         <opt>surface sediment disturbed</opt>
@@ -187,15 +177,7 @@
         <opt>totally disturbed</opt>
         <opt>unknown</opt>
       </opts>
-    </Disturbance_Kind>
-    <Disturbance_Factors t="checkbox">
-      <opts>
-        <opt>anthropic</opt>
-        <opt>animal activity</opt>
-        <opt>post depositional</opt>
-        <opt>topographic</opt>
-      </opts>
-    </Disturbance_Factors>
+    </Condition>
     <Principal_Factors>
       <desc>Select one factor that contributes to most visible damage</desc>
       <opts>
@@ -203,6 +185,7 @@
           <opt>Agricultural</opt>
           <opt>Looting</opt>
           <opt>Development</opt>
+          <opt>Other</opt>
         </opt>
         <opt>Post-depositional
           <opt>Mound geomorphology</opt>
@@ -210,15 +193,26 @@
           <opt>Wind damage</opt>
           <opt>Water damage</opt>
           <opt>Age</opt>
+          <opt>Other</opt>
         </opt>
         <opt>Topographic
           <opt>Aspect</opt>
           <opt>Slope</opt>
           <opt>Exposure</opt>
           <opt>Hydrology</opt>
+          <opt>Other</opt>
         </opt>
+        <opt>Other</opt>
       </opts>
     </Principal_Factors>
+    <Other_Sources_of_Impact t="checkbox">
+      <opts>
+        <opt>anthropic</opt>
+        <opt>animal activity</opt>
+        <opt>post depositional</opt>
+        <opt>topographic</opt>
+      </opts>
+    </Other_Sources_of_Impact>
     <Age_of_Damage t="checkbox">
       <opts>
         <opt>Remote</opt>
@@ -227,6 +221,7 @@
       </opts>
     </Age_of_Damage>
     <Disturbance_Description/>
+    <RT_Number b="decimal"/>
     <RT_Kind t="checkbox">
       <opts>
         <opt>Basic pit</opt>
@@ -240,7 +235,6 @@
         <opt>Mechanized</opt>
       </opts>
     </RT_Method>
-    <RT_Frequency t="picture"/>
     <RT_Description/>
     <Volume_of_Soil_Removed_via_RT>
       <opts>
