@@ -4,7 +4,7 @@
 
 <User f="nodata">
   <User f="noscroll">
-    <User    t="list" f="user"/>
+    <User    t="dropdown" f="user"/>
     <Log_in  t="button"/>
     <Sign_up t="button"/>
   </User>
@@ -24,8 +24,9 @@
       <!--This is replaced with a table view using @POSTPROC-->
     </Table>
   </Table>
-  <Map>
+  <Map f="noscroll">
     <Map t="map"/>
+    <Go_Back t="button"/>
   </Map>
 </Control>
 
@@ -261,7 +262,7 @@
       </opts>
     </Affect>
     <Impact>
-      <desc>1= context is nearly intact; 5 = original context of the feature is nearly all destroyed</desc>
+      <desc>1 = context is nearly intact; 5 = original context of the feature is nearly all destroyed</desc>
       <opts>
         <opt>1</opt>
         <opt>2</opt>
@@ -276,15 +277,148 @@
 </Burial_Mound>
 
 <logic><![CDATA[
+/******************************* SHAPE FILE/MAP *******************************/
+
+DATA_ENTRY_LAYER    = "Data Entry Layer";
+DATA_ENTRY_LAYER_ID = 0;
+
+void initMap() {
+  String refMap = "Control/Map/Map";
+
+  setMapZoom(refMap, 15.0f);
+
+  DATA_ENTRY_LAYER_ID = createCanvasLayer(refMap, DATA_ENTRY_LAYER);
+
+  // Burial Mound
+  isEntity = true;
+  queryName = "Burial Mound";
+  querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Burial Mound'";
+  ps = createPointStyle(10, Color.YELLOW, 0.2f, 0.5f);
+  ls = createLineStyle(10, Color.YELLOW, 0.05f, 0.3f, null);
+  pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
+  ts = createTextStyle(10, Color.YELLOW, 30, Typeface.SANS_SERIF);
+  showDatabaseLayer(refMap, "Burial Mound Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
+}
+
+// void saveBurialMound() {
+//   String refMap = "Control/Map/Map";
+//   String
+//
+//   List geoList = getGeometryList(refMap, DATA_ENTRY_LAYER_ID);
+//   print("[saveShape()] saving with geoList: " + geoList);
+//   Boolean enable_autosave = true;
+//   saveTabGroup("Shape", shapeUUID, geoList, null, new SaveCallback() {
+//     onSave(uuid, newRecord) {
+//       shapeUUID = uuid;
+//       print("[saveShape()] Autosaved shape uuid: "+shapeUUID);
+//       // Clear the data entry layer
+//       if (newRecord && geoList != null && geoList.size() != 0) {
+//         for (geom : geoList) {
+//           print("Geometry cleared:" + geom.userData.geomId);
+//           clearGeometry(refMap, geom.userData.geomId);
+//         }
+//         geoList = getGeometryList(refMap, DATA_ENTRY_LAYER_ID);
+//         print("[saveShape()] Cleared geometry list: " + geoList);
+//       }
+//     }
+//     onError(message) {
+//       showToast(message);
+//     }
+//   }, enable_autosave);
+// }
+
+void saveBurialMound() {
+  String refMap = "Control/Map/Map";
+
+  String  tabgroup            = "Burial_Mound";
+  Boolean enableAutosave      = true;
+  String  id                  = getUuid(tabgroup);
+  List    geometry            = getGeometryList(refMap, DATA_ENTRY_LAYER_ID);
+  List    attributes          = null;
+  String  parentTabgroup_     = parentTabgroup;
+  String  parentTabgroupUuid_ = getUuid(parentTabgroup_);
+  Boolean userWasSet          = !username.equals("");
+
+  String callback = "";
+  callback += "; onSave" + getArchEntTypePascalCased(tabgroup) + "__()";
+
+  parentTabgroup = null;
+
+  SaveCallback saveCallback  = new SaveCallback() {
+    onSave(uuid, newRecord) {
+      setUuid(tabgroup, uuid);
+      // Make a child-parent relationship if need be.
+      if (
+          newRecord &&
+          !isNull(parentTabgroup_) &&
+          !isNull(parentTabgroupUuid_)
+      ) {
+        String rel = "";
+        rel += parentTabgroup_.replaceAll("_", " ");
+        rel += " - ";
+        rel += tabgroup.replaceAll("_", " ");
+        saveEntitiesToHierRel(
+          rel,
+          parentTabgroupUuid_,
+          uuid,
+          "Parent Of",
+          "Child Of",
+          callback
+        );
+      } else {
+        execute(callback);
+      }
+
+      // This fixes an interesting bug. Without this, if a user was not set
+      // (by calling `setUser`) at the time `saveTabGroup` was first called, but
+      // set by the time `onSave` was called, the tab group is saved correctly
+      // the first time only.
+      //
+      // Adding this allows subsequent saves to succeed. Presumably it plays
+      // some role in helping FAIMS associate the correct user with a record.
+      if (!userWasSet) {
+        saveTabGroup(tabgroup, callback);
+      }
+
+      if (newRecord) clearGeometry(refMap, geometry);
+    }
+    onError(message) {
+      showToast(message);
+    }
+  };
+
+  saveTabGroup(tabgroup, id, geometry, attributes, saveCallback, enableAutosave);
+}
+
+void clearGeometry(String refMap, Object geoList) {
+  if (geoList == null)     return;
+  if (geoList.size() == 0) return;
+
+  for (geom : geoList) {
+    print("Geometry cleared:" + geom.userData.geomId);
+    clearGeometry(refMap, geom.userData.geomId);
+  }
+}
+
+initMap();
+addOnEvent("Control/Map/Go_Back", "click", "goBack()");
+
+delOnEvent("Burial_Mound", "show", "onShowBurialMound()");
+addOnEvent("Burial_Mound", "show", "saveBurialMound()");
+
 /****************************** DATE POPULATION *******************************/
-  setDayMonth() {
+  void setDayMonth() {
     ref     = "Burial_Mound/General/Date";
+
     fmt     = "dd MMM";
     date    = new Date();
     dateFmt = new java.text.SimpleDateFormat(fmt);
     dateStr = dateFmt.format(date);
+
     setFieldValue(ref, dateStr);
   }
+
+  addOnEvent("Burial_Mound", "create", "setDayMonth()");
 
 /********************************* TABLE VIEW *********************************/
   query  = "select uuid, 'identifier' as attributename, response, -1 as aentcountorder ";
@@ -337,55 +471,55 @@
   addOnEvent(tableRef, "show", "populateTable()");
 
 /*********************************** LOGIN ************************************/
-// Overrides autogenerated definition
-selectUser () {
-  String userVocabId  = getFieldValue(userMenuPath);
-  if (isNull(userVocabId))
-    return;
+  // Overrides autogenerated definition
+  selectUser () {
+    String userVocabId  = getFieldValue(userMenuPath);
+    if (isNull(userVocabId))
+      return;
 
-  String userQ        = "SELECT userid,fname,lname,email,password FROM user " +
-                        "WHERE  userid='" + userVocabId + "';";
-  FetchCallback callback = new FetchCallback() {
-    onFetch(result) {
-      user = new User(
-            result.get(0),
-            result.get(1),
-            result.get(2),
-            result.get(3),
-            result.get(4)
-      );
-      setUser(user);
-      username = result.get(1) + " " + result.get(2);
-    }
-  };
+    String userQ = "SELECT userid,fname,lname,email,password FROM user " +
+                   "WHERE  userid='" + userVocabId + "';";
+    FetchCallback callback = new FetchCallback() {
+      onFetch(result) {
+        user = new User(
+              result.get(0),
+              result.get(1),
+              result.get(2),
+              result.get(3),
+              result.get(4)
+        );
+        setUser(user);
+        username = result.get(1) + " " + result.get(2);
+      }
+    };
 
-  fetchOne(userQ, callback);
-}
+    fetchOne(userQ, callback);
+  }
 
-onClickLogin () {
-  showVerifyUserDialog("doUserLogin()");
-}
+  onClickLogin () {
+    showVerifyUserDialog("doUserLogin()");
+  }
 
-onClickSignup () {
-  setSyncEnabled(true);
-  showCreateUserDialog("signupSuccessful()");
-}
+  onClickSignup () {
+    setSyncEnabled(true);
+    showCreateUserDialog("signupSuccessful()");
+  }
 
-signupSuccessful() {
-  String head  = "Signup Successful";
-  String body  = "You have successfuly signed up. You may now log in as the ";
-         body += "newly created user.";
+  signupSuccessful() {
+    String head  = "Signup Successful";
+    String body  = "You have successfuly signed up. You may now log in as the ";
+           body += "newly created user.";
 
-  showWarning(head, body);
-  populateListForUsers();
-}
+    showWarning(head, body);
+    populateListForUsers();
+  }
 
-doUserLogin () {
-  newTab("Control", true);
-}
+  doUserLogin () {
+    newTab("Control", true);
+  }
 
-addOnEvent("User/User/Log_in",  "click", "onClickLogin()");
-addOnEvent("User/User/Sign_up", "click", "onClickSignup()");
+  addOnEvent("User/User/Log_in",  "click", "onClickLogin()");
+  addOnEvent("User/User/Sign_up", "click", "onClickSignup()");
 
 ]]></logic>
 

@@ -1,9 +1,9 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='utf-8'?>
 <ValidationSchema>
-  <ArchaeologicalElement name="Burial_Mound">
+  <ArchaeologicalElement name="Burial Mound">
     <property name="Object ID">
       <validator type="blankchecker">
-        <param value="measure" type="field"/>
+        <param type="field" value="measure"/>
       </validator>
     </property>
   </ArchaeologicalElement>

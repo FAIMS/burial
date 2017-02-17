@@ -1,10 +1,11 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='utf-8'?>
 <h:html xmlns:h="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:jr="http://openrosa.org/javarosa" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <h:head>
-    <h:title>Fill This In</h:title>
+    <h:title>FILL THIS IN</h:title>
     <model>
       <instance>
-        <faims id="Fill_This_In">
+        <faims id="FILL_THIS_IN">
+          <!--START: Style-->
           <style>
             <orientation>
               <orientation/>
@@ -16,10 +17,12 @@
               <layout_weight/>
             </large>
           </style>
+          <!--END: Style-->
           <User>
             <User>
-              <Select_User/>
-              <Login/>
+              <User/>
+              <Log_in/>
+              <Sign_up/>
             </User>
           </User>
           <Control>
@@ -44,99 +47,106 @@
             </Table>
             <Map>
               <Map/>
+              <Go_Back/>
             </Map>
           </Control>
           <Burial_Mound>
             <General>
               <Object_ID/>
               <Date/>
-              <Author/>
+              <Burial_Mound_author/>
               <Type/>
-              <Site_Significance/>
-              <Name/>
-              <Description/>
+              <Name_or_Other_ID/>
               <Source/>
-              <Exists_in_Legacy/>
+              <Description/>
               <Surrounding_Landuse/>
               <Surface_Landuse/>
-              <Visibility/>
-              <Colgroup_GPS>
-                <Col_0>
-                  <Latitude/>
-                  <Northing/>
-                </Col_0>
+              <Prominence/>
+              <Colgroup_1>
                 <Col_1>
-                  <Longitude/>
-                  <Easting/>
+                  <Latitude/>
                 </Col_1>
-              </Colgroup_GPS>
-              <Take_From_GPS/>
+                <Col_2>
+                  <Longitude/>
+                </Col_2>
+              </Colgroup_1>
+              <Colgroup_2>
+                <Col_1>
+                  <Northing/>
+                </Col_1>
+                <Col_2>
+                  <Easting/>
+                </Col_2>
+                <Col_3>
+                  <Accuracy/>
+                </Col_3>
+              </Colgroup_2>
+              <Take_From_GPS_1/>
               <Elevation/>
               <General_Notes/>
               <Create_Shapefile/>
-              <General_Photo/>
-              <Button_General_Photo/>
+              <Facing_Direction/>
+              <Mound_Overview_Photo/>
+              <Mound_Overview_Photo_Button_1/>
             </General>
             <Dimensions>
-              <Profile/>
-              <Plan/>
-              <Colgroup_0>
-                <Col_0>
+              <Colgroup_1>
+                <Col_1>
                   <Length_Max/>
                   <Width_Max/>
                   <Height_Max/>
                   <Area_Max/>
-                </Col_0>
-                <Col_1>
+                </Col_1>
+                <Col_2>
                   <Length_Min/>
                   <Width_Min/>
                   <Height_Min/>
                   <Area_Min/>
-                </Col_1>
-              </Colgroup_0>
+                </Col_2>
+              </Colgroup_1>
               <Other_Dimension/>
-              <Dimensions_Notes/>
-              <Attach_A_Sketch/>
-              <Button_Attach_A_Sketch/>
+              <Shape_Notes/>
+              <Attach_a_Sketch/>
+              <Attach_a_Sketch_Button_1/>
               <Sketch_Photo/>
-              <Button_Sketch_Photo/>
+              <Sketch_Photo_Button_1/>
             </Dimensions>
             <Material>
+              <Surface_Material_Description/>
+              <Surface_Material_Density/>
+              <Sample_Collected/>
               <Stone_Feature_Present_And_Visible/>
               <Stone_Feature_Description/>
-              <Surface_Material_Density/>
-              <Surface_Material_Description/>
-              <Sample_Collected/>
               <Material_Photo/>
-              <Button_Material_Photo/>
+              <Material_Photo_Button_1/>
             </Material>
             <CRM>
-              <Disturbance_Kind/>
-              <Disturbance_Factors/>
+              <Condition/>
               <Principal_Factors/>
+              <Other_Sources_of_Impact/>
               <Age_of_Damage/>
               <Disturbance_Description/>
+              <RT_Number/>
               <RT_Kind/>
               <RT_Method/>
-              <RT_Frequency/>
               <RT_Description/>
               <Volume_of_Soil_Removed_via_RT/>
               <Affect/>
               <Impact/>
               <Comments_and_Recommendations/>
               <CRM_Photo/>
-              <Button_CRM_Photo/>
+              <CRM_Photo_Button_1/>
             </CRM>
           </Burial_Mound>
-          <logic/>
         </faims>
       </instance>
-      <bind type="decimal" nodeset="/faims/Control/Main/Next_Object_ID"/>
-      <bind type="decimal" nodeset="/faims/Burial_Mound/General/Object_ID"/>
-      <bind type="decimal" nodeset="/faims/Burial_Mound/General/Elevation"/>
+      <bind nodeset="/faims/Control/Main/Next_Object_ID" type="decimal"/>
+      <bind nodeset="/faims/Burial_Mound/General/Elevation" type="decimal"/>
+      <bind nodeset="/faims/Burial_Mound/CRM/RT_Number" type="decimal"/>
     </model>
   </h:head>
   <h:body>
+    <!--START: Style-->
     <group ref="style">
       <label/>
       <group ref="orientation">
@@ -158,392 +168,385 @@
         </input>
       </group>
     </group>
+    <!--END: Style-->
     <group ref="User">
-      <label>{User}</label>
-      <group ref="User">
-        <label>{User}</label>
-        <select1 ref="Select_User">
-          <label>{Select_User}</label>
+      <label>{b512d97e7c}</label>
+      <group ref="User" faims_scrollable="false">
+        <label>{ab74b86763}</label>
+        <select1 ref="User">
+          <label>{501c2a1469}</label>
           <item>
             <label>Options not loaded</label>
             <value>0</value>
           </item>
         </select1>
-        <trigger ref="Login">
-          <label>{Login}</label>
+        <trigger ref="Log_in">
+          <label>{d1613ab6da}</label>
+        </trigger>
+        <trigger ref="Sign_up">
+          <label>{69d085e52d}</label>
         </trigger>
       </group>
     </group>
     <group ref="Control">
-      <label>{Control}</label>
+      <label>{32d7e82082}</label>
       <group ref="Main">
-        <label>{Main}</label>
+        <label>{0b4b1a2af6}</label>
         <trigger ref="Take_Feature">
-          <label>{Take_Feature}</label>
+          <label>{b4601a802e}</label>
         </trigger>
         <input ref="Next_Object_ID" faims_style_class="required">
-          <label>{Next_Object_ID}</label>
+          <label>{5efe0585f1}</label>
         </input>
         <input faims_read_only="true" ref="GPS_Diagnostics">
-          <label>{GPS_Diagnostics}</label>
+          <label>{0cd9d19436}</label>
         </input>
       </group>
       <group ref="Search" faims_scrollable="false">
-        <label>{Records}</label>
-        <group faims_style="orientation" ref="Colgroup_0">
-          <label/>
-          <group faims_style="even" ref="Col_0">
-            <label/>
-            <input ref="Search_Term">
-              <label>{Search_Term}</label>
-            </input>
-          </group>
-          <group faims_style="large" ref="Col_1">
-            <label/>
-            <trigger ref="Search_Button">
-              <label>{Search}</label>
-            </trigger>
-          </group>
-        </group>
-        <select1 appearance="compact" ref="Entity_List">
-          <label>{Entity_List}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>Options not loaded</value>
-          </item>
-        </select1>
-      </group>
-      <group ref="Table" faims_scrollable="false">
-        <label>{Table}</label>
-        <input ref="Table" faims_table="true">
-          <label>{Table}</label>
-        </input>
-      </group>
-      <group ref="Map" faims_scrollable="false">
-        <label>{Map}</label>
-        <input faims_map="true" ref="Map">
-          <label/>
-        </input>
-      </group>
-    </group>
-    <group ref="Burial_Mound" faims_archent_type="Burial Mound">
-      <label>{Burial_Mound}</label>
-      <group ref="General">
-        <label>{General}</label>
-        <input faims_attribute_type="measure" ref="Object_ID" faims_attribute_name="Object ID" faims_style_class="required">
-          <label>{Object_ID}</label>
-        </input>
-        <input faims_attribute_type="measure" ref="Date" faims_attribute_name="Date" faims_read_only="true">
-          <label>{Date}</label>
-        </input>
-        <input ref="Author" faims_read_only="true" faims_annotation="false" faims_certainty="false">
-          <label>{author}</label>
-        </input>
-        <select1 faims_attribute_type="vocab" ref="Type" faims_attribute_name="Type">
-          <label>{Type}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
-        <select1 faims_attribute_type="vocab" ref="Site_Significance" faims_attribute_name="Site Significance">
-          <label>{Site_Significance}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
-        <input faims_attribute_type="measure" ref="Name" faims_attribute_name="Name">
-          <label>{Name}</label>
-        </input>
-        <input faims_attribute_type="measure" ref="Description" faims_attribute_name="Description">
-          <label>{Description}</label>
-        </input>
-        <select1 faims_attribute_type="vocab" ref="Source" faims_attribute_name="Source">
-          <label>{Source}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
-        <select faims_attribute_type="vocab" ref="Exists_in_Legacy" faims_attribute_name="Exists in Legacy">
-          <label>{Exists_in_Legacy}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select>
-        <select1 faims_attribute_type="vocab" ref="Surrounding_Landuse" faims_attribute_name="Surrounding Landuse">
-          <label>{Surrounding_Landuse}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
-        <select1 faims_attribute_type="vocab" ref="Surface_Landuse" faims_attribute_name="Surface Landuse">
-          <label>{Surface_Landuse}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
-        <select1 faims_attribute_type="vocab" ref="Visibility" faims_attribute_name="Visibility">
-          <label>{Visibility}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
-        <group ref="Colgroup_GPS" faims_style="orientation">
-          <label/>
-          <group ref="Col_0" faims_style="even">
-            <label/>
-            <input ref="Latitude" faims_attribute_name="Latitude" faims_attribute_type="measure" faims_read_only="true">
-              <label>{Latitude}</label>
-            </input>
-            <input ref="Northing" faims_attribute_name="Northing" faims_attribute_type="measure" faims_read_only="true">
-              <label>{Northing}</label>
-            </input>
-          </group>
-          <group ref="Col_1" faims_style="even">
-            <label/>
-            <input ref="Longitude" faims_attribute_name="Longitude" faims_attribute_type="measure" faims_read_only="true">
-              <label>{Longitude}</label>
-            </input>
-            <input ref="Easting" faims_attribute_name="Easting" faims_attribute_type="measure" faims_read_only="true">
-              <label>{Easting}</label>
-            </input>
-          </group>
-        </group>
-        <trigger ref="Take_From_GPS">
-          <label>{Take_From_GPS}</label>
-        </trigger>
-        <input faims_attribute_type="measure" ref="Elevation" faims_attribute_name="Elevation">
-          <label>{Elevation__MASL_}</label>
-        </input>
-        <input faims_attribute_type="measure" ref="General_Notes" faims_attribute_name="General Notes">
-          <label>{General_Notes}</label>
-        </input>
-        <trigger ref="Create_Shapefile">
-          <label>{Create_Shapefile}</label>
-        </trigger>
-        <select type="camera" faims_attribute_type="measure" faims_sync="true" ref="General_Photo" faims_attribute_name="General Photo">
-          <label>{General_Photo}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select>
-        <trigger ref="Button_General_Photo">
-          <label>{Button_General_Photo}</label>
-        </trigger>
-      </group>
-      <group ref="Dimensions">
-        <label>{Dimensions}</label>
-        <select1 type="image" faims_attribute_type="vocab" ref="Profile" faims_attribute_name="Profile">
-          <label>{Profile}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
-        <select1 type="image" faims_attribute_type="vocab" ref="Plan" faims_attribute_name="Plan">
-          <label>{Plan}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
+        <label>{b5348d5536}</label>
         <group ref="Colgroup_0" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Length_Max" faims_attribute_name="Length Max">
-              <label>{Length_Max}</label>
-            </input>
-            <input faims_attribute_type="measure" ref="Width_Max" faims_attribute_name="Width Max">
-              <label>{Width_Max}</label>
-            </input>
-            <input faims_attribute_type="measure" ref="Height_Max" faims_attribute_name="Height Max">
-              <label>{Height_Max}</label>
-            </input>
-            <input faims_attribute_type="measure" ref="Area_Max" faims_attribute_name="Area Max">
-              <label>{Area_Max}</label>
+            <input ref="Search_Term">
+              <label>{694e4e9057}</label>
             </input>
           </group>
+          <group ref="Col_1" faims_style="large">
+            <label/>
+            <trigger ref="Search_Button">
+              <label>{00a6aefbda}</label>
+            </trigger>
+          </group>
+        </group>
+        <select1 appearance="compact" ref="Entity_List">
+          <label>{89e10496a5}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
+      </group>
+      <group ref="Table" faims_scrollable="false">
+        <label>{f2a9809f16}</label>
+        <input ref="Table" faims_table="true">
+          <label>{0a5eca9a91}</label>
+        </input>
+      </group>
+      <group ref="Map" faims_scrollable="false">
+        <label>{50ca824fd5}</label>
+        <input faims_map="true" ref="Map">
+          <label>{6c9c495be9}</label>
+        </input>
+        <trigger ref="Go_Back">
+          <label>{ad6aa358b2}</label>
+        </trigger>
+      </group>
+    </group>
+    <group ref="Burial_Mound" faims_archent_type="Burial Mound">
+      <label>{8b15552ce5}</label>
+      <group ref="General">
+        <label>{c88a711451}</label>
+        <input faims_attribute_name="Object ID" faims_attribute_type="measure" ref="Object_ID" faims_style_class="required">
+          <label>{58e19ee23b}</label>
+        </input>
+        <input faims_attribute_name="Date" faims_attribute_type="measure" ref="Date" faims_read_only="true">
+          <label>{a81911cac3}</label>
+        </input>
+        <input faims_attribute_name="Burial Mound author" faims_attribute_type="measure" ref="Burial_Mound_author" faims_read_only="true">
+          <label>{fef5d16ddd}</label>
+        </input>
+        <select1 faims_attribute_name="Type" faims_attribute_type="vocab" ref="Type">
+          <label>{b3743bf985}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
+        <input faims_attribute_name="Name or Other ID" faims_attribute_type="measure" ref="Name_or_Other_ID">
+          <label>{5c8baaf155}</label>
+        </input>
+        <select1 faims_attribute_name="Source" faims_attribute_type="vocab" ref="Source">
+          <label>{cd9e77f0ef}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
+        <input faims_attribute_name="Description" faims_attribute_type="measure" ref="Description">
+          <label>{a6425c9027}</label>
+        </input>
+        <select1 faims_attribute_name="Surrounding Landuse" faims_attribute_type="vocab" ref="Surrounding_Landuse">
+          <label>{8ca2fcb4d1}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
+        <select1 faims_attribute_name="Surface Landuse" faims_attribute_type="vocab" ref="Surface_Landuse">
+          <label>{752e1b90d0}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
+        <select1 faims_attribute_name="Prominence" faims_attribute_type="vocab" ref="Prominence">
+          <label>{e2ea7dc1c5}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
+        <group ref="Colgroup_1" faims_style="orientation">
+          <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Length_Min" faims_attribute_name="Length Min">
-              <label>{Length_Min}</label>
+            <input faims_attribute_name="Latitude" faims_attribute_type="measure" ref="Latitude" faims_read_only="true">
+              <label>{02a4920d7c}</label>
             </input>
-            <input faims_attribute_type="measure" ref="Width_Min" faims_attribute_name="Width Min">
-              <label>{Width_Min}</label>
-            </input>
-            <input faims_attribute_type="measure" ref="Height_Min" faims_attribute_name="Height Min">
-              <label>{Height_Min}</label>
-            </input>
-            <input faims_attribute_type="measure" ref="Area_Min" faims_attribute_name="Area Min">
-              <label>{Area_Min}</label>
+          </group>
+          <group ref="Col_2" faims_style="even">
+            <label/>
+            <input faims_attribute_name="Longitude" faims_attribute_type="measure" ref="Longitude" faims_read_only="true">
+              <label>{18c21296c8}</label>
             </input>
           </group>
         </group>
-        <input faims_attribute_type="measure" ref="Other_Dimension" faims_attribute_name="Other Dimension">
-          <label>{Other_Dimension}</label>
-        </input>
-        <input faims_attribute_type="measure" ref="Dimensions_Notes" faims_attribute_name="Dimensions Notes">
-          <label>{Dimensions_Notes}</label>
-        </input>
-        <select type="file" faims_attribute_type="measure" faims_sync="true" ref="Attach_A_Sketch" faims_attribute_name="Attach A Sketch">
-          <label>{Attach_A_Sketch}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select>
-        <trigger ref="Button_Attach_A_Sketch">
-          <label>{Button_Attach_A_Sketch}</label>
+        <group ref="Colgroup_2" faims_style="orientation">
+          <label/>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <input faims_attribute_name="Northing" faims_attribute_type="measure" ref="Northing" faims_read_only="true">
+              <label>{268359b0da}</label>
+            </input>
+          </group>
+          <group ref="Col_2" faims_style="even">
+            <label/>
+            <input faims_attribute_name="Easting" faims_attribute_type="measure" ref="Easting" faims_read_only="true">
+              <label>{1f6c5614fe}</label>
+            </input>
+          </group>
+          <group ref="Col_3" faims_style="even">
+            <label/>
+            <input faims_attribute_name="Accuracy" faims_attribute_type="measure" ref="Accuracy" faims_read_only="true">
+              <label>{b23b70913a}</label>
+            </input>
+          </group>
+        </group>
+        <trigger ref="Take_From_GPS_1">
+          <label>{2b3e87c732}</label>
         </trigger>
-        <select type="camera" faims_attribute_type="measure" faims_sync="true" ref="Sketch_Photo" faims_attribute_name="Sketch Photo">
-          <label>{Sketch_Photo}</label>
+        <input faims_attribute_name="Elevation" faims_attribute_type="measure" ref="Elevation">
+          <label>{ae0b55fbdd}</label>
+        </input>
+        <input faims_attribute_name="General Notes" faims_attribute_type="measure" ref="General_Notes">
+          <label>{832292fc9e}</label>
+        </input>
+        <trigger ref="Create_Shapefile">
+          <label>{373560e125}</label>
+        </trigger>
+        <input faims_attribute_name="Facing Direction" faims_attribute_type="measure" ref="Facing_Direction">
+          <label>{33154462f7}</label>
+        </input>
+        <select faims_sync="true" type="camera" faims_attribute_name="Mound Overview Photo" faims_attribute_type="measure" ref="Mound_Overview_Photo">
+          <label>{d09fa08515}</label>
           <item>
             <label>Options not loaded</label>
             <value>0</value>
           </item>
         </select>
-        <trigger ref="Button_Sketch_Photo">
-          <label>{Button_Sketch_Photo}</label>
+        <trigger ref="Mound_Overview_Photo_Button_1">
+          <label>{d7a3f3a4c1}</label>
+        </trigger>
+      </group>
+      <group ref="Dimensions">
+        <label>{580960d3fe}</label>
+        <group ref="Colgroup_1" faims_style="orientation">
+          <label/>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <input faims_attribute_name="Length Max" faims_attribute_type="measure" ref="Length_Max">
+              <label>{dc4f6ef65b}</label>
+            </input>
+            <input faims_attribute_name="Width Max" faims_attribute_type="measure" ref="Width_Max">
+              <label>{a98b671442}</label>
+            </input>
+            <input faims_attribute_name="Height Max" faims_attribute_type="measure" ref="Height_Max">
+              <label>{75dca8d0f4}</label>
+            </input>
+            <input faims_attribute_name="Area Max" faims_attribute_type="measure" ref="Area_Max">
+              <label>{566e261b66}</label>
+            </input>
+          </group>
+          <group ref="Col_2" faims_style="even">
+            <label/>
+            <input faims_attribute_name="Length Min" faims_attribute_type="measure" ref="Length_Min">
+              <label>{8afa03b1ec}</label>
+            </input>
+            <input faims_attribute_name="Width Min" faims_attribute_type="measure" ref="Width_Min">
+              <label>{2b8c6b791f}</label>
+            </input>
+            <input faims_attribute_name="Height Min" faims_attribute_type="measure" ref="Height_Min">
+              <label>{2cda233b2e}</label>
+            </input>
+            <input faims_attribute_name="Area Min" faims_attribute_type="measure" ref="Area_Min">
+              <label>{faea1aca88}</label>
+            </input>
+          </group>
+        </group>
+        <input faims_attribute_name="Other Dimension" faims_attribute_type="measure" ref="Other_Dimension">
+          <label>{86f780965d}</label>
+        </input>
+        <input faims_attribute_name="Shape Notes" faims_attribute_type="measure" ref="Shape_Notes">
+          <label>{bb86123a4d}</label>
+        </input>
+        <select faims_sync="true" type="file" faims_attribute_name="Attach a Sketch" faims_attribute_type="measure" ref="Attach_a_Sketch">
+          <label>{d77707d524}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select>
+        <trigger ref="Attach_a_Sketch_Button_1">
+          <label>{ae3f58775e}</label>
+        </trigger>
+        <select faims_sync="true" type="camera" faims_attribute_name="Sketch Photo" faims_attribute_type="measure" ref="Sketch_Photo">
+          <label>{2be254a911}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select>
+        <trigger ref="Sketch_Photo_Button_1">
+          <label>{5671c55f8c}</label>
         </trigger>
       </group>
       <group ref="Material">
-        <label>{Material}</label>
-        <select1 appearance="full" faims_attribute_type="vocab" ref="Stone_Feature_Present_And_Visible" faims_attribute_name="Stone Feature Present And Visible">
-          <label>{Stone_Feature_Present_And_Visible_}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
-        <input faims_attribute_type="measure" ref="Stone_Feature_Description" faims_attribute_name="Stone Feature Description">
-          <label>{Stone_Feature_Description}</label>
+        <label>{205edc961b}</label>
+        <input faims_attribute_name="Surface Material Description" faims_attribute_type="measure" ref="Surface_Material_Description">
+          <label>{80a06243ed}</label>
         </input>
-        <select1 faims_attribute_type="vocab" ref="Surface_Material_Density" faims_attribute_name="Surface Material Density">
-          <label>{Surface_Material_Density}</label>
+        <select1 faims_attribute_name="Surface Material Density" faims_attribute_type="vocab" ref="Surface_Material_Density">
+          <label>{fbb8cd8a97}</label>
           <item>
             <label>Options not loaded</label>
             <value>0</value>
           </item>
         </select1>
-        <input faims_attribute_type="measure" ref="Surface_Material_Description" faims_attribute_name="Surface Material Description">
-          <label>{Surface_Material_Description}</label>
+        <select1 appearance="full" faims_attribute_name="Sample Collected" faims_attribute_type="vocab" ref="Sample_Collected">
+          <label>{2174068b0a}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
+        <select1 appearance="full" faims_attribute_name="Stone Feature Present And Visible" faims_attribute_type="vocab" ref="Stone_Feature_Present_And_Visible">
+          <label>{0eb26b5b73}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
+        <input faims_attribute_name="Stone Feature Description" faims_attribute_type="measure" ref="Stone_Feature_Description">
+          <label>{8dab434506}</label>
         </input>
-        <select1 appearance="full" faims_attribute_type="vocab" ref="Sample_Collected" faims_attribute_name="Sample Collected">
-          <label>{Sample_Collected_}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
-        <select type="camera" faims_attribute_type="measure" faims_sync="true" ref="Material_Photo" faims_attribute_name="Material Photo">
-          <label>{Material_Photo}</label>
+        <select faims_sync="true" type="camera" faims_attribute_name="Material Photo" faims_attribute_type="measure" ref="Material_Photo">
+          <label>{41db5c56d7}</label>
           <item>
             <label>Options not loaded</label>
             <value>0</value>
           </item>
         </select>
-        <trigger ref="Button_Material_Photo">
-          <label>{Button_Material_Photo}</label>
+        <trigger ref="Material_Photo_Button_1">
+          <label>{e69a8b67be}</label>
         </trigger>
       </group>
       <group ref="CRM">
-        <label>{CRM}</label>
-        <select1 faims_attribute_type="vocab" ref="Disturbance_Kind" faims_attribute_name="Disturbance Kind">
-          <label>{Disturbance_Kind}</label>
+        <label>{578e70c4fb}</label>
+        <select1 faims_attribute_name="Condition" faims_attribute_type="vocab" ref="Condition">
+          <label>{7a8ab42d01}</label>
           <item>
             <label>Options not loaded</label>
             <value>0</value>
           </item>
         </select1>
-        <select faims_attribute_type="vocab" ref="Disturbance_Factors" faims_attribute_name="Disturbance Factors">
-          <label>{Disturbance_Factors}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select>
-        <select1 faims_attribute_type="vocab" ref="Principal_Factors" faims_attribute_name="Principal Factors">
-          <label>{Principal_Factors}</label>
+        <select1 faims_attribute_name="Principal Factors" faims_attribute_type="vocab" ref="Principal_Factors">
+          <label>{85809d8afd}</label>
           <item>
             <label>Options not loaded</label>
             <value>0</value>
           </item>
         </select1>
-        <select faims_attribute_type="vocab" ref="Age_of_Damage" faims_attribute_name="Age of Damage">
-          <label>{Age_of_Damage}</label>
+        <select faims_attribute_name="Other Sources of Impact" faims_attribute_type="vocab" ref="Other_Sources_of_Impact">
+          <label>{3df036ce2a}</label>
           <item>
             <label>Options not loaded</label>
             <value>0</value>
           </item>
         </select>
-        <input faims_attribute_type="measure" ref="Disturbance_Description" faims_attribute_name="Disturbance Description">
-          <label>{Disturbance_Description}</label>
+        <select faims_attribute_name="Age of Damage" faims_attribute_type="vocab" ref="Age_of_Damage">
+          <label>{0bb7450a40}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select>
+        <input faims_attribute_name="Disturbance Description" faims_attribute_type="measure" ref="Disturbance_Description">
+          <label>{e88c78d6e4}</label>
         </input>
-        <select faims_attribute_type="vocab" ref="RT_Kind" faims_attribute_name="RT Kind">
-          <label>{RT_Kind}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select>
-        <select faims_attribute_type="vocab" ref="RT_Method" faims_attribute_name="RT Method">
-          <label>{RT_Method}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select>
-        <select1 type="image" faims_attribute_type="vocab" ref="RT_Frequency" faims_attribute_name="RT Frequency">
-          <label>{RT_Frequency}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
-        <input faims_attribute_type="measure" ref="RT_Description" faims_attribute_name="RT Description">
-          <label>{RT_Description}</label>
+        <input faims_attribute_name="RT Number" faims_attribute_type="measure" ref="RT_Number">
+          <label>{6228148b9b}</label>
         </input>
-        <select1 faims_attribute_type="vocab" ref="Volume_of_Soil_Removed_via_RT" faims_attribute_name="Volume of Soil Removed via RT">
-          <label>{Volume_of_Soil_Removed_via_RT}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
-        <select1 faims_attribute_type="vocab" ref="Affect" faims_attribute_name="Affect">
-          <label>{Affect}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
-        <select1 faims_attribute_type="vocab" ref="Impact" faims_attribute_name="Impact">
-          <label>{Impact}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
-        <input faims_attribute_type="measure" ref="Comments_and_Recommendations" faims_attribute_name="Comments and Recommendations">
-          <label>{Comments_and_Recommendations}</label>
-        </input>
-        <select type="camera" faims_attribute_type="measure" faims_sync="true" ref="CRM_Photo" faims_attribute_name="CRM Photo">
-          <label>{CRM_Photo}</label>
+        <select faims_attribute_name="RT Kind" faims_attribute_type="vocab" ref="RT_Kind">
+          <label>{ddfce10bec}</label>
           <item>
             <label>Options not loaded</label>
             <value>0</value>
           </item>
         </select>
-        <trigger ref="Button_CRM_Photo">
-          <label>{Button_CRM_Photo}</label>
+        <select faims_attribute_name="RT Method" faims_attribute_type="vocab" ref="RT_Method">
+          <label>{1c126bc725}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select>
+        <input faims_attribute_name="RT Description" faims_attribute_type="measure" ref="RT_Description">
+          <label>{cdbf2d15e9}</label>
+        </input>
+        <select1 faims_attribute_name="Volume of Soil Removed via RT" faims_attribute_type="vocab" ref="Volume_of_Soil_Removed_via_RT">
+          <label>{e00d039291}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
+        <select1 faims_attribute_name="Affect" faims_attribute_type="vocab" ref="Affect">
+          <label>{9ec6165935}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
+        <select1 faims_attribute_name="Impact" faims_attribute_type="vocab" ref="Impact">
+          <label>{6a0cb0169b}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
+        <input faims_attribute_name="Comments and Recommendations" faims_attribute_type="measure" ref="Comments_and_Recommendations">
+          <label>{d4c3d52074}</label>
+        </input>
+        <select faims_sync="true" type="camera" faims_attribute_name="CRM Photo" faims_attribute_type="measure" ref="CRM_Photo">
+          <label>{98e4386534}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select>
+        <trigger ref="CRM_Photo_Button_1">
+          <label>{71f5a48665}</label>
         </trigger>
       </group>
     </group>
