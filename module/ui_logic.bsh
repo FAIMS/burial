@@ -1938,15 +1938,14 @@ for (m : ENTITY_MENUS) {
 
 /******************************* SHAPE FILE/MAP *******************************/
 
-DATA_ENTRY_LAYER    = "Data Entry Layer";
-DATA_ENTRY_LAYER_ID = 0;
+HAS_UNSAVED_GEOMETRY = false;
+DATA_ENTRY_LAYER     = "Data Entry Layer";
+DATA_ENTRY_LAYER_ID  = 0;
 
 void initMap() {
   String refMap = "Control/Map/Map";
 
   setMapZoom(refMap, 15.0f);
-
-  DATA_ENTRY_LAYER_ID = createCanvasLayer(refMap, DATA_ENTRY_LAYER);
 
   // Burial Mound
   isEntity = true;
@@ -1957,96 +1956,45 @@ void initMap() {
   pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
   ts = createTextStyle(10, Color.YELLOW, 30, Typeface.SANS_SERIF);
   showDatabaseLayer(refMap, "Burial Mound Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
+
+  // Data entry layer
+  DATA_ENTRY_LAYER_ID = createCanvasLayer(refMap, DATA_ENTRY_LAYER);
+  setSelectedLayer(refMap, DATA_ENTRY_LAYER);
 }
 
-// void saveBurialMound() {
-//   String refMap = "Control/Map/Map";
-//   String
-//
-//   List geoList = getGeometryList(refMap, DATA_ENTRY_LAYER_ID);
-//   print("[saveShape()] saving with geoList: " + geoList);
-//   Boolean enable_autosave = true;
-//   saveTabGroup("Shape", shapeUUID, geoList, null, new SaveCallback() {
-//     onSave(uuid, newRecord) {
-//       shapeUUID = uuid;
-//       print("[saveShape()] Autosaved shape uuid: "+shapeUUID);
-//       // Clear the data entry layer
-//       if (newRecord && geoList != null && geoList.size() != 0) {
-//         for (geom : geoList) {
-//           print("Geometry cleared:" + geom.userData.geomId);
-//           clearGeometry(refMap, geom.userData.geomId);
-//         }
-//         geoList = getGeometryList(refMap, DATA_ENTRY_LAYER_ID);
-//         print("[saveShape()] Cleared geometry list: " + geoList);
-//       }
-//     }
-//     onError(message) {
-//       showToast(message);
-//     }
-//   }, enable_autosave);
-// }
+boolean hasUnsavedGeometry() {
+  return HAS_UNSAVED_GEOMETRY;
+}
 
-void saveBurialMound() {
-  String refMap = "Control/Map/Map";
+void setHasUnsavedGeometry() {
+  setHasUnsavedGeometry(true);
+}
 
-  String  tabgroup            = "Burial_Mound";
-  Boolean enableAutosave      = true;
-  String  id                  = getUuid(tabgroup);
-  List    geometry            = getGeometryList(refMap, DATA_ENTRY_LAYER_ID);
-  List    attributes          = null;
-  String  parentTabgroup_     = parentTabgroup;
-  String  parentTabgroupUuid_ = getUuid(parentTabgroup_);
-  Boolean userWasSet          = !username.equals("");
+void setHasUnsavedGeometry(boolean hasUnsavedGeometry) {
+  HAS_UNSAVED_GEOMETRY = hasUnsavedGeometry;
+}
 
-  String callback = "";
-  callback += "; onSave" + getArchEntTypePascalCased(tabgroup) + "__()";
+void saveGeometry() {
+  String refMap      = "Control/Map/Map";
+  String tabGroup    = "Burial_Mound";
+  String uuid        = getUuid(tabGroup);
+  String archEntType = getArchEntType(tabGroup);
+  List   geometry    = getGeometryList(refMap, DATA_ENTRY_LAYER_ID);
 
-  parentTabgroup = null;
-
-  SaveCallback saveCallback  = new SaveCallback() {
+  SaveCallback clearGeometry = new SaveCallback() {
     onSave(uuid, newRecord) {
-      setUuid(tabgroup, uuid);
-      // Make a child-parent relationship if need be.
-      if (
-          newRecord &&
-          !isNull(parentTabgroup_) &&
-          !isNull(parentTabgroupUuid_)
-      ) {
-        String rel = "";
-        rel += parentTabgroup_.replaceAll("_", " ");
-        rel += " - ";
-        rel += tabgroup.replaceAll("_", " ");
-        saveEntitiesToHierRel(
-          rel,
-          parentTabgroupUuid_,
-          uuid,
-          "Parent Of",
-          "Child Of",
-          callback
-        );
-      } else {
-        execute(callback);
-      }
-
-      // This fixes an interesting bug. Without this, if a user was not set
-      // (by calling `setUser`) at the time `saveTabGroup` was first called, but
-      // set by the time `onSave` was called, the tab group is saved correctly
-      // the first time only.
-      //
-      // Adding this allows subsequent saves to succeed. Presumably it plays
-      // some role in helping FAIMS associate the correct user with a record.
-      if (!userWasSet) {
-        saveTabGroup(tabgroup, callback);
-      }
-
-      if (newRecord) clearGeometry(refMap, geometry);
+      clearGeometry(refMap, geometry);
+      setHasUnsavedGeometry(false);
+      refreshMap(refMap);
     }
     onError(message) {
-      showToast(message);
+      String head = "Geometry Could Not Be Saved";
+      String body = message;
+      showWarning(head, body);
     }
   };
 
-  saveTabGroup(tabgroup, id, geometry, attributes, saveCallback, enableAutosave);
+  saveArchEnt(uuid, archEntType, geometry, (List) null, clearGeometry);
 }
 
 void clearGeometry(String refMap, Object geoList) {
@@ -2059,11 +2007,14 @@ void clearGeometry(String refMap, Object geoList) {
   }
 }
 
-initMap();
-addOnEvent("Control/Map/Go_Back", "click", "goBack()");
+void trySaveGeometry() {
+  if (hasUnsavedGeometry()) saveGeometry();
+}
 
-delOnEvent("Burial_Mound", "show", "onShowBurialMound()");
-addOnEvent("Burial_Mound", "show", "saveBurialMound()");
+initMap();
+addOnEvent("Burial_Mound/General/Create_Shapefile", "click", "setHasUnsavedGeometry()");
+addOnEvent("Control/Map/Go_Back",                   "click", "trySaveGeometry()");
+addOnEvent("Control/Map/Go_Back",                   "click", "goBack()");
 
 /****************************** DATE POPULATION *******************************/
   void setDayMonth() {
@@ -2095,7 +2046,7 @@ addOnEvent("Burial_Mound", "show", "saveBurialMound()");
   query += "    order by uuid, aentcountorder, vocabcountorder ";
   query += "  ) ";
   query += "  where aenttypename='Burial Mound' ";
-  query += "  and attributename in ('Object ID', 'Type', 'Date', 'Exists in Legacy', 'Surrounding Landuse', 'Surface Landuse', 'Height Max', 'Length Max') ";
+  query += "  and attributename in ('Object ID', 'Type', 'Date', 'Surrounding Landuse', 'Surface Landuse', 'Height Max', 'Length Max') ";
   query += "  group by uuid, attributeid ";
   query += "  having response is not null ";
   query += "  order by uuid, aentcountorder; ";
@@ -2112,7 +2063,6 @@ addOnEvent("Burial_Mound", "show", "saveBurialMound()");
   headers.add("Object ID");
   headers.add("Type");
   headers.add("Date");
-  headers.add("Exists in Legacy");
   headers.add("Surrounding Landuse");
   headers.add("Surface Landuse");
   headers.add("Height Max");
