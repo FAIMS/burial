@@ -40,6 +40,7 @@
                   <Search_Button/>
                 </Col_1>
               </Colgroup_0>
+              <Entity_Types/>
               <Entity_List/>
             </Search>
             <Table>
@@ -47,7 +48,14 @@
             </Table>
             <Map>
               <Map/>
-              <Go_Back/>
+              <Colgroup_1>
+                <Col_1>
+                  <Centre_Me/>
+                </Col_1>
+                <Col_2>
+                  <Create_Shape/>
+                </Col_2>
+              </Colgroup_1>
             </Map>
           </Control>
           <Burial_Mound>
@@ -138,6 +146,12 @@
               <CRM_Photo_Button_1/>
             </CRM>
           </Burial_Mound>
+          <Shape>
+            <Shape_Note>
+              <Label/>
+              <Note/>
+            </Shape_Note>
+          </Shape>
         </faims>
       </instance>
       <bind nodeset="/faims/Control/Main/Next_Object_ID" type="decimal"/>
@@ -219,6 +233,13 @@
             </trigger>
           </group>
         </group>
+        <select1 ref="Entity_Types">
+          <label>{18e4ee8dff}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
         <select1 appearance="compact" ref="Entity_List">
           <label>{89e10496a5}</label>
           <item>
@@ -238,9 +259,21 @@
         <input faims_map="true" ref="Map">
           <label>{6c9c495be9}</label>
         </input>
-        <trigger ref="Go_Back">
-          <label>{ad6aa358b2}</label>
-        </trigger>
+        <group ref="Colgroup_1" faims_style="orientation">
+          <label/>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <trigger ref="Centre_Me">
+              <label>{ac615a1a7b}</label>
+            </trigger>
+          </group>
+          <group ref="Col_2" faims_style="even">
+            <label/>
+            <trigger ref="Create_Shape">
+              <label>{02e96822d3}</label>
+            </trigger>
+          </group>
+        </group>
       </group>
     </group>
     <group ref="Burial_Mound" faims_archent_type="Burial Mound">
@@ -548,6 +581,18 @@
         <trigger ref="CRM_Photo_Button_1">
           <label>{71f5a48665}</label>
         </trigger>
+      </group>
+    </group>
+    <group ref="Shape" faims_archent_type="Shape">
+      <label>{e0e492707f}</label>
+      <group ref="Shape_Note">
+        <label>{1d8fca5d37}</label>
+        <input faims_attribute_name="Label" faims_attribute_type="measure" ref="Label">
+          <label>{3dd20e67ba}</label>
+        </input>
+        <input faims_attribute_name="Note" faims_attribute_type="measure" ref="Note">
+          <label>{0738f7039f}</label>
+        </input>
       </group>
     </group>
   </h:body>

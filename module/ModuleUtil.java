@@ -26,6 +26,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: tab group
+        Ref:  Shape
+     */
+    public static View get_Shape(Solo solo) {
+        String ref = "Shape";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab group
         Ref:  User
      */
     public static View get_User(Solo solo) {
@@ -106,6 +115,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: tab
+        Ref:  Shape/Shape_Note
+     */
+    public static View get_Shape_ShapeNote(Solo solo) {
+        String ref = "Shape/Shape_Note";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab
         Ref:  User/User
      */
     public static View get_User_User(Solo solo) {
@@ -177,10 +195,19 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
-        Ref:  Control/Map/Go_Back
+        Ref:  Control/Map/Centre_Me
      */
-    public static View get_Control_Map_GoBack(Solo solo) {
-        String ref = "Control/Map/Go_Back";
+    public static View get_Control_Map_CentreMe(Solo solo) {
+        String ref = "Control/Map/Centre_Me";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: button
+        Ref:  Control/Map/Create_Shape
+     */
+    public static View get_Control_Map_CreateShape(Solo solo) {
+        String ref = "Control/Map/Create_Shape";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -694,6 +721,24 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static EditText get_Control_Table_Table(Solo solo) {
         String ref = "Control/Table/Table";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Shape/Shape_Note/Label
+     */
+    public static EditText get_Shape_ShapeNote_Label(Solo solo) {
+        String ref = "Shape/Shape_Note/Label";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Shape/Shape_Note/Note
+     */
+    public static EditText get_Shape_ShapeNote_Note(Solo solo) {
+        String ref = "Shape/Shape_Note/Note";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
