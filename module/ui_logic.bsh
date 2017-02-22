@@ -225,6 +225,7 @@ List getTabGroups() {
   tabGroups.add("User");
   tabGroups.add("Control");
   tabGroups.add("Burial_Mound");
+  tabGroups.add("Shape");
   return tabGroups;
 }
 
@@ -557,6 +558,7 @@ String getDropdownItemValue() {
 }
 
 addOnEvent("User/User/User", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"User/User/User\")");
+addOnEvent("Control/Search/Entity_Types", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Control/Search/Entity_Types\")");
 addOnEvent("Burial_Mound/General/Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Burial_Mound/General/Type\")");
 addOnEvent("Burial_Mound/General/Source", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Burial_Mound/General/Source\")");
 addOnEvent("Burial_Mound/General/Surrounding_Landuse", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Burial_Mound/General/Surrounding_Landuse\")");
@@ -1174,7 +1176,12 @@ void onShowBurialMound () {
   saveTabGroup("Burial_Mound");
 }
 
+void onShowShape () {
+  saveTabGroup("Shape");
+}
+
 addOnEvent("Burial_Mound", "show", "onShowBurialMound()");
+addOnEvent("Shape", "show", "onShowShape()");
 
 void onClickBurialMoundGeneralCreateShapefile () {
   newTab("Control/Map", true);
@@ -1185,9 +1192,15 @@ void onClickControlMainTakeFeature () {
   newBurialMound();
 }
 
+void onClickControlMapCreateShape () {
+  parentTabgroup__ = "Control";
+  newShape();
+}
+
 
 addOnEvent("Burial_Mound/General/Create_Shapefile", "click", "onClickBurialMoundGeneralCreateShapefile()");
 addOnEvent("Control/Main/Take_Feature", "click", "onClickControlMainTakeFeature()");
+addOnEvent("Control/Map/Create_Shape", "click", "onClickControlMapCreateShape()");
 
 /******************************************************************************/
 /*                   AUDIO, CAMERA, FILE AND VIDEO BINDINGS                   */
@@ -1461,8 +1474,26 @@ void newBurialMound (){
 
   onCreateBurialMound__();
 }
+void newShape (){
+  String tabgroup = "Shape";
+  
+
+  setUuid(tabgroup, null);
+  newTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+
+  onCreateShape__();
+}
 void onCreateBurialMound__(){
   String ref      = "Burial_Mound";
+  String event    = "create";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCreateShape__(){
+  String ref      = "Shape";
   String event    = "create";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
@@ -1473,8 +1504,20 @@ void onFetchBurialMound__(){
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
+void onFetchShape__(){
+  String ref      = "Shape";
+  String event    = "fetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
 void onSaveBurialMound__(){
   String ref      = "Burial_Mound";
+  String event    = "save";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onSaveShape__(){
+  String ref      = "Shape";
   String event    = "save";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
@@ -1485,8 +1528,20 @@ void onCopyBurialMound__(){
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
+void onCopyShape__(){
+  String ref      = "Shape";
+  String event    = "copy";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
 void onDeleteBurialMound__(){
   String ref      = "Burial_Mound";
+  String event    = "delete";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onDeleteShape__(){
+  String ref      = "Shape";
   String event    = "delete";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
@@ -1546,12 +1601,67 @@ void duplicateBurialMound(){
     }
   });
 }
+void duplicateShape(){
+  String tabgroup = "Shape";
+  String uuidOld = getUuid(tabgroup);
+  setUuid(tabgroup, "");
+  disableAutoSave(tabgroup);
+  
+  clearGpsInTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+  onCopyShape__();
+
+  saveCallback = new SaveCallback() {
+    onSave(uuid, newRecord) {
+      setUuid(tabgroup, uuid);
+
+      fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
+        onFetch(result) {
+          Log.e("Module", result.toString());
+
+          if (result != null && result.size() >= 1) {
+            parentTabgroup__ = result.get(0).get(4);
+            parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+          }
+
+          makeDuplicateRelationships(result, getUuid(tabgroup));
+
+          showToast("{Duplicated_record}");
+          dialog.dismiss();
+        }
+      });
+
+      saveTabGroup(tabgroup);
+    }
+  };
+
+  String extraDupeAttributes = "";
+  fetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
+    onFetch(result) {
+      excludeAttributes = new ArrayList();
+
+      
+
+      duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
+    }
+  });
+}
 void deleteBurialMound(){
   String tabgroup = "Burial_Mound";
   if (isNull(getUuid(tabgroup))) {
     cancelTabGroup(tabgroup, true);
   } else {
     showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteBurialMound()", "doNotDelete()");
+  }
+}
+void deleteShape(){
+  String tabgroup = "Shape";
+  if (isNull(getUuid(tabgroup))) {
+    cancelTabGroup(tabgroup, true);
+  } else {
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteShape()", "doNotDelete()");
   }
 }
 void reallyDeleteBurialMound (){
@@ -1562,7 +1672,16 @@ void reallyDeleteBurialMound (){
   populateEntityListsOfArchEnt(tabgroup);
   onDeleteBurialMound__();
 }
+void reallyDeleteShape (){
+  String tabgroup = "Shape";
+
+  deleteArchEnt(getUuid(tabgroup));
+  cancelTabGroup(tabgroup, false);
+  populateEntityListsOfArchEnt(tabgroup);
+  onDeleteShape__();
+}
 addOnEvent("Burial_Mound", "save", "populateEntityListsOfArchEnt(\"Burial_Mound\")");
+addOnEvent("Shape", "save", "populateEntityListsOfArchEnt(\"Shape\")");
 
 void doNotDelete(){
   showToast("{Delete_Cancelled}");
@@ -1570,6 +1689,8 @@ void doNotDelete(){
 
 addOnEvent("Burial_Mound", "show", "removeNavigationButtons()");
 addOnEvent("Burial_Mound", "show", "addNavigationButtons(\"Burial_Mound\")");
+addOnEvent("Shape", "show", "removeNavigationButtons()");
+addOnEvent("Shape", "show", "addNavigationButtons(\"Shape\")");
 
 /******************************************************************************/
 /*                                   SEARCH                                   */
@@ -1579,7 +1700,12 @@ addOnEvent("Control/Search/Entity_List"   , "click" , "loadEntity();");
 addOnEvent("Control/Search/Search_Button" , "click" , "search()");
 addOnEvent("Control/Search/Search_Term"   , "click" , "clearSearch()");
 
-
+addOnEvent("Control/Search/Entity_Types"  , "click" , "search()");
+entityTypes = new ArrayList();
+entityTypes.add(new NameValuePair("{All}", ""));
+entityTypes.add(new NameValuePair("{8b15552ce5}", "Burial Mound"));
+entityTypes.add(new NameValuePair("{e0e492707f}", "Shape"));
+populateDropDown("Control/Search/Entity_Types", entityTypes);
 
 void clearSearch(){
   setFieldValue("Control/Search/Search_Term","");
@@ -1590,7 +1716,7 @@ void search(){
   String refSearchTerm  = "Control/Search/Search_Term";
   String refEntityTypes = "Control/Search/Entity_Types";
 
-  String type = "";
+  String type = getFieldValue(refEntityTypes);
   String term = getFieldValue(refSearchTerm);
   String searchQuery = "SELECT uuid, response "+
                        "  FROM latestNonDeletedArchEntFormattedIdentifiers  "+
@@ -1618,6 +1744,20 @@ void loadBurialMoundFrom(String uuid) {
     onFetch(result) {
       populateEntityListsInTabGroup(tabgroup);
       onFetchBurialMound__();
+    }
+  };
+
+  showTabGroup(tabgroup, uuid, cb);
+}
+void loadShapeFrom(String uuid) {
+  String tabgroup = "Shape";
+  setUuid(tabgroup, uuid);
+  if (isNull(uuid)) return;
+
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      populateEntityListsInTabGroup(tabgroup);
+      onFetchShape__();
     }
   };
 
@@ -1936,85 +2076,148 @@ for (m : ENTITY_MENUS) {
 /*                             HANDWRITTEN LOGIC                              */
 /******************************************************************************/
 
-/******************************* SHAPE FILE/MAP *******************************/
-
-HAS_UNSAVED_GEOMETRY = false;
-DATA_ENTRY_LAYER     = "Data Entry Layer";
-DATA_ENTRY_LAYER_ID  = 0;
+/************************************ MAP *************************************/
+DATA_ENTRY_LAYER    = "Data Entry Layer";
+DATA_ENTRY_LAYER_ID = 0;
 
 void initMap() {
   String refMap = "Control/Map/Map";
 
   setMapZoom(refMap, 15.0f);
 
-  // Burial Mound
+  // Shape
   isEntity = true;
-  queryName = "Burial Mound";
-  querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Burial Mound'";
+  queryName = "Shape";
+  querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Shape'";
   ps = createPointStyle(10, Color.YELLOW, 0.2f, 0.5f);
   ls = createLineStyle(10, Color.YELLOW, 0.05f, 0.3f, null);
   pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
   ts = createTextStyle(10, Color.YELLOW, 30, Typeface.SANS_SERIF);
-  showDatabaseLayer(refMap, "Burial Mound Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
+  showDatabaseLayer(refMap, "Shape Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
 
   // Data entry layer
   DATA_ENTRY_LAYER_ID = createCanvasLayer(refMap, DATA_ENTRY_LAYER);
   setSelectedLayer(refMap, DATA_ENTRY_LAYER);
 }
 
-boolean hasUnsavedGeometry() {
-  return HAS_UNSAVED_GEOMETRY;
-}
+// Copy/pasted from autogenerator's definition of saveTabGroup
+void saveShape() {
+  String  tabgroup            = "Shape";
+  Boolean enableAutosave      = true;
+  String  id                  = getUuid(tabgroup);
+  String  mapRef              = "Control/Map/Map";
+  List    geometry            = getGeometryList(mapRef, DATA_ENTRY_LAYER_ID);
+  List    attributes          = null;
+  String  parentTabgroup_     = parentTabgroup;
+  String  parentTabgroupUuid_ = getUuid(parentTabgroup_);
+  Boolean userWasSet          = !username.equals("");
 
-void setHasUnsavedGeometry() {
-  setHasUnsavedGeometry(true);
-}
+  String callback = "";
+  callback += "; clearGeometry()";
+  callback += "; onSave" + getArchEntTypePascalCased(tabgroup) + "__()";
 
-void setHasUnsavedGeometry(boolean hasUnsavedGeometry) {
-  HAS_UNSAVED_GEOMETRY = hasUnsavedGeometry;
-}
+  parentTabgroup = null;
 
-void saveGeometry() {
-  String refMap      = "Control/Map/Map";
-  String tabGroup    = "Burial_Mound";
-  String uuid        = getUuid(tabGroup);
-  String archEntType = getArchEntType(tabGroup);
-  List   geometry    = getGeometryList(refMap, DATA_ENTRY_LAYER_ID);
-
-  SaveCallback clearGeometry = new SaveCallback() {
+  SaveCallback saveCallback  = new SaveCallback() {
     onSave(uuid, newRecord) {
-      clearGeometry(refMap, geometry);
-      setHasUnsavedGeometry(false);
-      refreshMap(refMap);
+      setUuid(tabgroup, uuid);
+      // Make a child-parent relationship if need be.
+      if (
+          newRecord &&
+          !isNull(parentTabgroup_) &&
+          !isNull(parentTabgroupUuid_)
+      ) {
+        String rel = "";
+        rel += parentTabgroup_.replaceAll("_", " ");
+        rel += " - ";
+        rel += tabgroup.replaceAll("_", " ");
+        saveEntitiesToHierRel(
+          rel,
+          parentTabgroupUuid_,
+          uuid,
+          "Parent Of",
+          "Child Of",
+          callback
+        );
+      } else {
+        execute(callback);
+      }
+
+      // This fixes an interesting bug. Without this, if a user was not set
+      // (by calling `setUser`) at the time `saveShape` was first called, but
+      // set by the time `onSave` was called, the tab group is saved correctly
+      // the first time only.
+      //
+      // Adding this allows subsequent saves to succeed. Presumably it plays
+      // some role in helping FAIMS associate the correct user with a record.
+      if (!userWasSet) {
+        saveShape();
+      }
+
     }
     onError(message) {
-      String head = "Geometry Could Not Be Saved";
-      String body = message;
-      showWarning(head, body);
+      showToast(message);
     }
   };
 
-  saveArchEnt(uuid, archEntType, geometry, (List) null, clearGeometry);
+  saveTabGroup(tabgroup, id, geometry, attributes, saveCallback, enableAutosave);
 }
 
-void clearGeometry(String refMap, Object geoList) {
-  if (geoList == null)     return;
-  if (geoList.size() == 0) return;
+void clearGeometry() {
+  String  mapRef   = "Control/Map/Map";
+  List    geometry = getGeometryList(mapRef, DATA_ENTRY_LAYER_ID);
 
-  for (geom : geoList) {
+  if (geometry == null)     return;
+  if (geometry.size() == 0) return;
+
+  for (geom : geometry) {
     print("Geometry cleared:" + geom.userData.geomId);
-    clearGeometry(refMap, geom.userData.geomId);
+    clearGeometry(mapRef, geom.userData.geomId);
+  }
+
+  refreshMap(mapRef);
+}
+
+boolean checkForGeometry() {
+  String mapRef = "Control/Map/Map";
+
+  List geometry = getGeometryList(mapRef, DATA_ENTRY_LAYER_ID);
+  if (geometry == null || geometry.size() == 0) {
+    String head = "Cannot Create Shape";
+    String body = "At least one shape must be present on the data entry layer.";
+    showWarning(head, body);
+
+    return false;
+  } else {
+    return true;
   }
 }
 
-void trySaveGeometry() {
-  if (hasUnsavedGeometry()) saveGeometry();
+void centreMe() {
+  String mapRef = "Control/Map/Map";
+
+  if(!isExternalGPSOn() && !isInternalGPSOn()) {
+    showToast("{GPS_Not_Initialised}");
+  } else {
+    centerOnCurrentPosition(mapRef);
+  }
+}
+
+// Overrides autogenerated definition
+void onClickControlMapCreateShape () {
+  if (checkForGeometry()) {
+    parentTabgroup__ = "Control";
+    newShape();
+  }
+}
+
+// Overrides autogenerated definition
+void onShowShape () {
+  saveShape();
 }
 
 initMap();
-addOnEvent("Burial_Mound/General/Create_Shapefile", "click", "setHasUnsavedGeometry()");
-addOnEvent("Control/Map/Go_Back",                   "click", "trySaveGeometry()");
-addOnEvent("Control/Map/Go_Back",                   "click", "goBack()");
+addOnEvent("Control/Map/Centre_Me", "click", "centreMe()");
 
 /****************************** DATE POPULATION *******************************/
   void setDayMonth() {
@@ -2033,6 +2236,7 @@ addOnEvent("Control/Map/Go_Back",                   "click", "goBack()");
 /********************************* TABLE VIEW *********************************/
   query  = "select uuid, 'identifier' as attributename, response, -1 as aentcountorder ";
   query += " from latestNonDeletedArchEntFormattedIdentifiers ";
+  query += "where aenttypename='Burial Mound'";
   query += " union ";
   query += "select uuid, attributename, group_concat(format(formatstring, vocabname, measure, freetext, certainty), appendcharacterstring) as response, aentcountorder ";
   query += "  from ( ";
@@ -2052,8 +2256,6 @@ addOnEvent("Control/Map/Go_Back",                   "click", "goBack()");
   query += "  order by uuid, aentcountorder; ";
 
   tableRef       = "Control/Table/Table";
-  // query          = "SELECT uuid, response ";
-  // query         += "FROM latestNonDeletedArchEntFormattedIdentifiers ";
   headers        = new ArrayList();
   actionName     = "Load";
   actionIdx      = 0;

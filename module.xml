@@ -26,7 +26,10 @@
   </Table>
   <Map f="noscroll">
     <Map t="map"/>
-    <Go_Back t="button"/>
+    <cols>
+      <Centre_Me t="button"/>
+      <Create_Shape t="button" l="Shape"/>
+    </cols>
   </Map>
 </Control>
 
@@ -277,86 +280,156 @@
   </CRM>
 </Burial_Mound>
 
-<logic><![CDATA[
-/******************************* SHAPE FILE/MAP *******************************/
+<Shape>
+  <Shape_Note>
+    <Label f="id"/>
+    <Note/>
+  </Shape_Note>
+</Shape>
 
-HAS_UNSAVED_GEOMETRY = false;
-DATA_ENTRY_LAYER     = "Data Entry Layer";
-DATA_ENTRY_LAYER_ID  = 0;
+<logic><![CDATA[
+/************************************ MAP *************************************/
+DATA_ENTRY_LAYER    = "Data Entry Layer";
+DATA_ENTRY_LAYER_ID = 0;
 
 void initMap() {
   String refMap = "Control/Map/Map";
 
   setMapZoom(refMap, 15.0f);
 
-  // Burial Mound
+  // Shape
   isEntity = true;
-  queryName = "Burial Mound";
-  querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Burial Mound'";
+  queryName = "Shape";
+  querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Shape'";
   ps = createPointStyle(10, Color.YELLOW, 0.2f, 0.5f);
   ls = createLineStyle(10, Color.YELLOW, 0.05f, 0.3f, null);
   pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
   ts = createTextStyle(10, Color.YELLOW, 30, Typeface.SANS_SERIF);
-  showDatabaseLayer(refMap, "Burial Mound Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
+  showDatabaseLayer(refMap, "Shape Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
 
   // Data entry layer
   DATA_ENTRY_LAYER_ID = createCanvasLayer(refMap, DATA_ENTRY_LAYER);
   setSelectedLayer(refMap, DATA_ENTRY_LAYER);
 }
 
-boolean hasUnsavedGeometry() {
-  return HAS_UNSAVED_GEOMETRY;
-}
+// Copy/pasted from autogenerator's definition of saveTabGroup
+void saveShape() {
+  String  tabgroup            = "Shape";
+  Boolean enableAutosave      = true;
+  String  id                  = getUuid(tabgroup);
+  String  mapRef              = "Control/Map/Map";
+  List    geometry            = getGeometryList(mapRef, DATA_ENTRY_LAYER_ID);
+  List    attributes          = null;
+  String  parentTabgroup_     = parentTabgroup;
+  String  parentTabgroupUuid_ = getUuid(parentTabgroup_);
+  Boolean userWasSet          = !username.equals("");
 
-void setHasUnsavedGeometry() {
-  setHasUnsavedGeometry(true);
-}
+  String callback = "";
+  callback += "; clearGeometry()";
+  callback += "; onSave" + getArchEntTypePascalCased(tabgroup) + "__()";
 
-void setHasUnsavedGeometry(boolean hasUnsavedGeometry) {
-  HAS_UNSAVED_GEOMETRY = hasUnsavedGeometry;
-}
+  parentTabgroup = null;
 
-void saveGeometry() {
-  String refMap      = "Control/Map/Map";
-  String tabGroup    = "Burial_Mound";
-  String uuid        = getUuid(tabGroup);
-  String archEntType = getArchEntType(tabGroup);
-  List   geometry    = getGeometryList(refMap, DATA_ENTRY_LAYER_ID);
-
-  SaveCallback clearGeometry = new SaveCallback() {
+  SaveCallback saveCallback  = new SaveCallback() {
     onSave(uuid, newRecord) {
-      clearGeometry(refMap, geometry);
-      setHasUnsavedGeometry(false);
-      refreshMap(refMap);
+      setUuid(tabgroup, uuid);
+      // Make a child-parent relationship if need be.
+      if (
+          newRecord &&
+          !isNull(parentTabgroup_) &&
+          !isNull(parentTabgroupUuid_)
+      ) {
+        String rel = "";
+        rel += parentTabgroup_.replaceAll("_", " ");
+        rel += " - ";
+        rel += tabgroup.replaceAll("_", " ");
+        saveEntitiesToHierRel(
+          rel,
+          parentTabgroupUuid_,
+          uuid,
+          "Parent Of",
+          "Child Of",
+          callback
+        );
+      } else {
+        execute(callback);
+      }
+
+      // This fixes an interesting bug. Without this, if a user was not set
+      // (by calling `setUser`) at the time `saveShape` was first called, but
+      // set by the time `onSave` was called, the tab group is saved correctly
+      // the first time only.
+      //
+      // Adding this allows subsequent saves to succeed. Presumably it plays
+      // some role in helping FAIMS associate the correct user with a record.
+      if (!userWasSet) {
+        saveShape();
+      }
+
     }
     onError(message) {
-      String head = "Geometry Could Not Be Saved";
-      String body = message;
-      showWarning(head, body);
+      showToast(message);
     }
   };
 
-  saveArchEnt(uuid, archEntType, geometry, (List) null, clearGeometry);
+  saveTabGroup(tabgroup, id, geometry, attributes, saveCallback, enableAutosave);
 }
 
-void clearGeometry(String refMap, Object geoList) {
-  if (geoList == null)     return;
-  if (geoList.size() == 0) return;
+void clearGeometry() {
+  String  mapRef   = "Control/Map/Map";
+  List    geometry = getGeometryList(mapRef, DATA_ENTRY_LAYER_ID);
 
-  for (geom : geoList) {
+  if (geometry == null)     return;
+  if (geometry.size() == 0) return;
+
+  for (geom : geometry) {
     print("Geometry cleared:" + geom.userData.geomId);
-    clearGeometry(refMap, geom.userData.geomId);
+    clearGeometry(mapRef, geom.userData.geomId);
+  }
+
+  refreshMap(mapRef);
+}
+
+boolean checkForGeometry() {
+  String mapRef = "Control/Map/Map";
+
+  List geometry = getGeometryList(mapRef, DATA_ENTRY_LAYER_ID);
+  if (geometry == null || geometry.size() == 0) {
+    String head = "Cannot Create Shape";
+    String body = "At least one shape must be present on the data entry layer.";
+    showWarning(head, body);
+
+    return false;
+  } else {
+    return true;
   }
 }
 
-void trySaveGeometry() {
-  if (hasUnsavedGeometry()) saveGeometry();
+void centreMe() {
+  String mapRef = "Control/Map/Map";
+
+  if(!isExternalGPSOn() && !isInternalGPSOn()) {
+    showToast("{GPS_Not_Initialised}");
+  } else {
+    centerOnCurrentPosition(mapRef);
+  }
+}
+
+// Overrides autogenerated definition
+void onClickControlMapCreateShape () {
+  if (checkForGeometry()) {
+    parentTabgroup__ = "Control";
+    newShape();
+  }
+}
+
+// Overrides autogenerated definition
+void onShowShape () {
+  saveShape();
 }
 
 initMap();
-addOnEvent("Burial_Mound/General/Create_Shapefile", "click", "setHasUnsavedGeometry()");
-addOnEvent("Control/Map/Go_Back",                   "click", "trySaveGeometry()");
-addOnEvent("Control/Map/Go_Back",                   "click", "goBack()");
+addOnEvent("Control/Map/Centre_Me", "click", "centreMe()");
 
 /****************************** DATE POPULATION *******************************/
   void setDayMonth() {
@@ -375,6 +448,7 @@ addOnEvent("Control/Map/Go_Back",                   "click", "goBack()");
 /********************************* TABLE VIEW *********************************/
   query  = "select uuid, 'identifier' as attributename, response, -1 as aentcountorder ";
   query += " from latestNonDeletedArchEntFormattedIdentifiers ";
+  query += "where aenttypename='Burial Mound'";
   query += " union ";
   query += "select uuid, attributename, group_concat(format(formatstring, vocabname, measure, freetext, certainty), appendcharacterstring) as response, aentcountorder ";
   query += "  from ( ";
@@ -394,8 +468,6 @@ addOnEvent("Control/Map/Go_Back",                   "click", "goBack()");
   query += "  order by uuid, aentcountorder; ";
 
   tableRef       = "Control/Table/Table";
-  // query          = "SELECT uuid, response ";
-  // query         += "FROM latestNonDeletedArchEntFormattedIdentifiers ";
   headers        = new ArrayList();
   actionName     = "Load";
   actionIdx      = 0;
