@@ -6,5 +6,15 @@
         <param type="field" value="measure"/>
       </validator>
     </property>
+    <property name="Affect">
+      <validator type="blankchecker">
+        <param type="field" value="vocab"/>
+      </validator>
+    </property>
+    <property name="Impact">
+      <validator type="blankchecker">
+        <param type="field" value="vocab"/>
+      </validator>
+    </property>
   </ArchaeologicalElement>
 </ValidationSchema>

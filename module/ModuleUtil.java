@@ -168,10 +168,10 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
-        Ref:  Burial_Mound/General/Create_Shapefile
+        Ref:  Burial_Mound/General/Go_to_Map
      */
-    public static View get_BurialMound_General_CreateShapefile(Solo solo) {
-        String ref = "Burial_Mound/General/Create_Shapefile";
+    public static View get_BurialMound_General_GotoMap(Solo solo) {
+        String ref = "Burial_Mound/General/Go_to_Map";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -343,6 +343,15 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_BurialMound_Dimensions_SketchPhoto(Solo solo) {
         String ref = "Burial_Mound/Dimensions/Sketch_Photo";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
+        Ref:  Burial_Mound/General/Facing_Direction
+     */
+    public static View get_BurialMound_General_FacingDirection(Solo solo) {
+        String ref = "Burial_Mound/General/Facing_Direction";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -604,15 +613,6 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static EditText get_BurialMound_General_Elevation(Solo solo) {
         String ref = "Burial_Mound/General/Elevation";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Burial_Mound/General/Facing_Direction
-     */
-    public static EditText get_BurialMound_General_FacingDirection(Solo solo) {
-        String ref = "Burial_Mound/General/Facing_Direction";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 

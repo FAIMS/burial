@@ -92,7 +92,7 @@
               <Take_From_GPS_1/>
               <Elevation/>
               <General_Notes/>
-              <Create_Shapefile/>
+              <Go_to_Map/>
               <Facing_Direction/>
               <Mound_Overview_Photo/>
               <Mound_Overview_Photo_Button_1/>
@@ -130,10 +130,10 @@
             </Material>
             <CRM>
               <Condition/>
+              <Disturbance_Description/>
               <Principal_Factors/>
               <Other_Sources_of_Impact/>
               <Age_of_Damage/>
-              <Disturbance_Description/>
               <RT_Number/>
               <RT_Kind/>
               <RT_Method/>
@@ -156,6 +156,14 @@
       </instance>
       <bind nodeset="/faims/Control/Main/Next_Object_ID" type="decimal"/>
       <bind nodeset="/faims/Burial_Mound/General/Elevation" type="decimal"/>
+      <bind nodeset="/faims/Burial_Mound/Dimensions/Colgroup_1/Col_1/Length_Max" type="decimal"/>
+      <bind nodeset="/faims/Burial_Mound/Dimensions/Colgroup_1/Col_1/Width_Max" type="decimal"/>
+      <bind nodeset="/faims/Burial_Mound/Dimensions/Colgroup_1/Col_1/Height_Max" type="decimal"/>
+      <bind nodeset="/faims/Burial_Mound/Dimensions/Colgroup_1/Col_1/Area_Max" type="decimal"/>
+      <bind nodeset="/faims/Burial_Mound/Dimensions/Colgroup_1/Col_2/Length_Min" type="decimal"/>
+      <bind nodeset="/faims/Burial_Mound/Dimensions/Colgroup_1/Col_2/Width_Min" type="decimal"/>
+      <bind nodeset="/faims/Burial_Mound/Dimensions/Colgroup_1/Col_2/Height_Min" type="decimal"/>
+      <bind nodeset="/faims/Burial_Mound/Dimensions/Colgroup_1/Col_2/Area_Min" type="decimal"/>
       <bind nodeset="/faims/Burial_Mound/CRM/RT_Number" type="decimal"/>
     </model>
   </h:head>
@@ -375,12 +383,16 @@
         <input faims_attribute_name="General Notes" faims_attribute_type="measure" ref="General_Notes">
           <label>{832292fc9e}</label>
         </input>
-        <trigger ref="Create_Shapefile">
-          <label>{373560e125}</label>
+        <trigger ref="Go_to_Map">
+          <label>{658e216c24}</label>
         </trigger>
-        <input faims_attribute_name="Facing Direction" faims_attribute_type="measure" ref="Facing_Direction">
+        <select1 faims_attribute_name="Facing Direction" faims_attribute_type="vocab" ref="Facing_Direction">
           <label>{33154462f7}</label>
-        </input>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
         <select faims_sync="true" type="camera" faims_attribute_name="Mound Overview Photo" faims_attribute_type="measure" ref="Mound_Overview_Photo">
           <label>{d09fa08515}</label>
           <item>
@@ -503,6 +515,9 @@
             <value>0</value>
           </item>
         </select1>
+        <input faims_attribute_name="Disturbance Description" faims_attribute_type="measure" ref="Disturbance_Description">
+          <label>{e88c78d6e4}</label>
+        </input>
         <select1 faims_attribute_name="Principal Factors" faims_attribute_type="vocab" ref="Principal_Factors">
           <label>{85809d8afd}</label>
           <item>
@@ -524,9 +539,6 @@
             <value>0</value>
           </item>
         </select>
-        <input faims_attribute_name="Disturbance Description" faims_attribute_type="measure" ref="Disturbance_Description">
-          <label>{e88c78d6e4}</label>
-        </input>
         <input faims_attribute_name="RT Number" faims_attribute_type="measure" ref="RT_Number">
           <label>{6228148b9b}</label>
         </input>
@@ -554,14 +566,14 @@
             <value>0</value>
           </item>
         </select1>
-        <select1 faims_attribute_name="Affect" faims_attribute_type="vocab" ref="Affect">
+        <select1 faims_attribute_name="Affect" faims_attribute_type="vocab" ref="Affect" faims_style_class="required">
           <label>{9ec6165935}</label>
           <item>
             <label>Options not loaded</label>
             <value>0</value>
           </item>
         </select1>
-        <select1 faims_attribute_name="Impact" faims_attribute_type="vocab" ref="Impact">
+        <select1 faims_attribute_name="Impact" faims_attribute_type="vocab" ref="Impact" faims_style_class="required">
           <label>{6a0cb0169b}</label>
           <item>
             <label>Options not loaded</label>

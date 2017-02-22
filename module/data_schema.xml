@@ -169,10 +169,32 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Facing Direction" type="measure">
+    <property name="Facing Direction" type="vocab">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{f83da7a367}
+<description></description></term>
+        <term>{519df1ae7c}
+<description></description></term>
+        <term>{16b3db70c5}
+<description></description></term>
+        <term>{0cdb056c25}
+<description></description></term>
+        <term>{8bbaf3ddb3}
+<description></description></term>
+        <term>{35d2a389de}
+<description></description></term>
+        <term>{1741bccfd8}
+<description></description></term>
+        <term>{fc5fd65fc9}
+<description></description></term>
+        <term>{897aa27324}
+<description></description></term>
+        <term>{11d69fce95}
+<description></description></term>
+      </lookup>
     </property>
     <property name="Mound Overview Photo" type="file" file="true" thumbnail="true">
       <description>Take 1 general overview shot that includes the complete feature profile, and a scale. Include direction in the Annotation (from which direction was the image taken)</description>
@@ -296,23 +318,32 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{32aaa9ae50}
+        <term>{3257cf5fc3}
 <description></description></term>
-        <term>{81907c52df}
+        <term>{622e9867aa}
 <description></description></term>
-        <term>{63ee79a036}
+        <term>{a18957cd3c}
 <description></description></term>
-        <term>{1e0d1ae53a}
+        <term>{70ea2927d1}
 <description></description></term>
-        <term>{71415151c7}
+        <term>{4587c9e39e}
+<description></description></term>
+        <term>{51758667b5}
 <description></description></term>
       </lookup>
+    </property>
+    <property name="Disturbance Description" type="measure">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Principal Factors" type="vocab">
       <description>Select one factor that contributes to most visible damage</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
+        <term>{c9d3346c29}
+<description></description></term>
         <term>{8d2817ae0f}
 <description></description><term>{32939a445c}
 <description></description></term><term>{19de6488d6}
@@ -365,11 +396,6 @@
         <term>{a4a20848e9}
 <description></description></term>
       </lookup>
-    </property>
-    <property name="Disturbance Description" type="measure">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="RT Number" type="measure">
       <description></description>
