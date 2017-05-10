@@ -1,8 +1,11 @@
 import android.util.Log;
 
+// Beanshell won't let me write "\0".
+final String SEP = Character.toString ((char) 0);
+
 Object dialog;          // Used to help coordinate the display of a "busy..." dialog
 String parentTabgroup;  // Used to allow entities to be saved as children
-String parentTabgroup__;// Used to allow entities to be saved as children
+String parentTabgroup__;// The tab group which was previously displayed
 String redirectTab;     // makes newTab work as expected
 String username = "";
 String userid   = "";
@@ -13,7 +16,7 @@ setSyncEnabled(true);
 setSyncMaxInterval(600.0f);
 setSyncMinInterval(5.0f);
 
-/*********************** REGEX-FREE STRING REPLACEMENT ************************/
+/******************************** STRING UTILS ********************************/
 String replaceFirst(String haystack, String needle, String replacement) {
   i = haystack.indexOf(needle);
   if (i == -1)           return haystack;
@@ -27,198 +30,213 @@ String replaceFirst(String haystack, String replacement) {
   return replaceFirst(haystack, "%s", replacement);
 }
 
-/******************************* LOCALSETTINGS ********************************/
-void makeLocalID(){
-  fetchOne("CREATE TABLE IF NOT EXISTS localSettings (key text primary key, value text);", null);
-  fetchOne("DROP VIEW IF EXISTS parentchild;", null);
-  fetchOne("CREATE VIEW parentchild AS "+
-           "SELECT parent.uuid as parentuuid, child.uuid as childuuid, parent.participatesverb as parentparticipatesverb, parent.relationshipid, parent.aenttypename as parentaenttypename, child.participatesverb as childparticipatesverb, child.aenttypename as childaenttypename "+
-           "  FROM (SELECT uuid, participatesverb, aenttypename, relationshipid"+
-           "          FROM latestnondeletedaentreln "+
-           "          JOIN relationship USING (relationshipid) "+
-           "          JOIN latestnondeletedarchent USING (uuid) "+
-           "          JOIN aenttype USING (aenttypeid)) parent "+
-           "  JOIN (SELECT uuid, relationshipid, participatesverb, aenttypename "+
-           "          FROM latestnondeletedaentreln "+
-           "          JOIN relationship USING (relationshipid) "+
-           "          JOIN latestnondeletedarchent USING (uuid) "+
-           "          JOIN aenttype USING (aenttypeid)) child "+
-           "    ON (parent.relationshipid = child.relationshipid AND parent.uuid != child.uuid);", null);
-}
-makeLocalID();
+String translate(String s, Map m) {
+  String out = "";
 
-void insertIntoLocalSettings(String ref) {
-  String val = getFieldValue(ref);
-  insertIntoLocalSettings(ref, val);
-}
+  for (char c : s) {
+    String translation = m.get(c);
 
-void insertIntoLocalSettings(String key, String val) {
-  fetchOne("REPLACE INTO localSettings(key, value) VALUES('" + key + "', '" + val + "');");
-}
-
-void insertIntoLocalSettings(String key, Integer val) {
-  insertIntoLocalSettings(key, Integer.toString(val));
-}
-
-void insertIntoLocalSettingsOnChange(String ref) {
-  String val = getFieldValue(ref);
-
-  String insertCallback  = "";
-  insertCallback += "insertIntoLocalSettings(\"{key}\")";
-  insertCallback  = replaceFirst(insertCallback, "{key}", ref);
-
-  addOnEvent(ref, "blur",  insertCallback);
-  addOnEvent(ref, "click", insertCallback);
-}
-
-void setFieldValueFromLocalSettings(String key, String ref, boolean doOverwrite) {
-  String val = getFieldValue(ref);
-  if (!isNull(val) && !doOverwrite) {
-    return;
+    if (isNull(translation)) out += c;
+    else                     out += translation;
   }
 
-  String q = "SELECT value FROM localSettings WHERE key = '" + key + "';";
-  fetchOne(q, new FetchCallback() {
-    onFetch(result) {
-      if (!isNull(result)) {
-        setFieldValue(ref, result.get(0));
-      }
-    }
-  });
+  return out;
 }
 
-void setFieldValueFromLocalSettings(String key, String ref) {
-  boolean doOverwrite = false;
-  setFieldValueFromLocalSettings(key, ref);
+String escape(String s) {
+  Map dict = new HashMap();
+  dict.put('\"', "\\\"");
+  dict.put('\\', "\\\\");
+  dict.put('\b', "\\b" );
+  dict.put('\f', "\\f" );
+  dict.put('\n', "\\n" );
+  dict.put('\r', "\\r" );
+
+  return translate(s, dict);
 }
 
-void setFieldValueFromLocalSettings(String ref, boolean doOverwrite) {
-  setFieldValueFromLocalSettings(ref, ref, doOverwrite);
-}
+String args2str(Object[] args) {
+  String str = "";
+  String sep = ", ";
 
-void setFieldValueFromLocalSettings(String ref) {
-  setFieldValueFromLocalSettings(ref, false);
-}
-
-void setFieldValueFromLocalSettingsOnShow(String ref, boolean doOverwrite) {
-  String cb = "setFieldValueFromLocalSettings(\"%s\", %s)";
-  cb = replaceFirst(cb, ref);
-  cb = replaceFirst(cb, doOverwrite + "");
-
-  addOnEvent(ref, "show", cb);
-}
-
-void setFieldValueFromLocalSettingsOnShow(String ref) {
-  boolean doOverwrite = false;
-  setFieldValueFromLocalSettingsOnShow(ref, doOverwrite);
-}
-
-/* Causes the value of the field given by `ref` to be saved each time it is
- * modified (on blur). The value of the field is restored when the tab group
- * containing the field is displayed.
- *
- * This function depends on `addOnEvent`. Therefore this function must be called
- * after `addOnEvent` is defined, but before `bindOnEvents` is called. This will
- * be so if the call is made in the autogenerator's `logic` tags.
- */
-void persistOverSessions(String ref) {
-  setFieldValueFromLocalSettingsOnShow(ref);
-  insertIntoLocalSettingsOnChange     (ref);
-}
-
-/*************************** FIELD COPYING HELPERS ****************************/
-/* Provides an easy way to copy field values, even between vocabs.            */
-/******************************************************************************/
-void copyFieldValue(String src, String dst) {
-  Boolean doFindVocabId = true;
-  copyFieldValue(src, dst, doFindVocabId);
-}
-
-/* `src`           The ref of the source field.
- * `dst`           The ref of the destination field.
- * `doFindVocabId` If this is true, and the properties/attributes of `src` and
- *                 `dst` are different, `copyFieldValue` treats `src` and `dst`
- *                 as if they were menus. Therefore, to copy the value seen by
- *                 the user (i.e. the vocabName of `src`), a database query is
- *                 performed. The query determines the which vocabId of `dst`
- *                 will make it display the same vocabName as `src`.
- *
- *                 If `doFindVocabId` is false, the value returned by
- *                 `getFieldValue` is copied, without any database accesses.
- */
-void copyFieldValue(String src, String dst, Boolean doFindVocabId) {
-  String vocabIdSrc   = getFieldValue(src);
-  String vocabNameSrc = getFieldValue(src, true);
-
-  String attrNameSrc = getAttributeName(src);
-  String attrNameDst = getAttributeName(dst);
-
-  if (attrNameSrc.equals(attrNameDst) || !doFindVocabId) {
-    setFieldValue(dst, vocabIdSrc);
-    return;
+  for (Object o : args) {
+    if (o instanceof String) str += "\"" + escape(o) + "\"" + sep;
+    else                     str +=               o         + sep;
   }
 
-  String q = "";
-  q += "    SELECT vocabid";
-  q += "      FROM vocabulary";
-  q += " LEFT JOIN attributekey";
-  q += "     USING (attributeid)";
-  q += "     WHERE attributename = '{attrNameDst}'";
-  q += "       AND vocabname     = '{vocabNameSrc}'";
-  q  = replaceFirst(q, "{attrNameDst}",  attrNameDst);
-  q  = replaceFirst(q, "{vocabNameSrc}", vocabNameSrc);
+  // The loop adds a superfluous trailing separator. This removes it.
+  str = str.substring(0, str.length() - sep.length());
 
-
-  FetchCallback populate = new FetchCallback() {
-    onFetch(result) {
-      if (result == null) {
-        // Fall back to dumb field copying
-        copyFieldValue(src, dst, false);
-      }
-
-      String vocabIdDst = result.get(0);
-      setFieldValue(dst, vocabIdDst);
-    }
-  };
-
-  fetchOne(q, populate);
+  return str;
 }
 
-void inheritFieldValue(
-    String src,
-    String dst,
-    boolean doCheckParent,
-    boolean doFindVocabId
-) {
-  String fun = "";
-  fun += "if (!{check} || getDisplayedTabGroup().equals(\"{parent}\"))";
-  fun += "  copyFieldValue(\"{src}\", \"{dst}\", {find})";
+// "Function to string". Makes it very slightly less painful to write callback
+// functions as strings.
+String fun2str(String funName, Object[] args) {
+  String argsStr = args2str(args);
 
-  fun = replaceFirst(fun, "{check}",  doCheckParent + "");
-  fun = replaceFirst(fun, "{parent}", getTabGroupRef(src));
-  fun = replaceFirst(fun, "{src}",    src);
-  fun = replaceFirst(fun, "{dst}",    dst);
-  fun = replaceFirst(fun, "{find}",   doFindVocabId + "");
+  String str = "{funName}({argsStr})";
+  str = replaceFirst(str, "{funName}", funName);
+  str = replaceFirst(str, "{argsStr}", argsStr);
 
-  addOnEvent(getTabGroupRef(dst), "create", fun);
+  return str;
 }
 
-/* If `doCheckParent`, then the value at `src` will only be inherited to `dst`
- * if `getTabGroupRef(src)` was the previously displayed tab group.
- */
-void inheritFieldValue(String src, String dst, boolean doCheckParent) {
-  inheritFieldValue(src, dst, doCheckParent, false);
-}
-
-void inheritFieldValue(String src, String dst) {
-  inheritFieldValue(src, dst, true);
+String fun2str(String funName, Object args) {
+  return fun2str(funName, new Object[]{args});
 }
 
 /******************************************************************************/
 /*                           DOCUMENT OBJECT MODEL                            */
 /******************************************************************************/
-String PREVIOUSLY_DISPLAYED_TAB_GROUP = "";
-String CURRENTLY_DISPLAYED_TAB_GROUP  = "";
+String  PREVIOUSLY_DISPLAYED_TAB_GROUP = "";
+String  CURRENTLY_DISPLAYED_TAB_GROUP  = "";
+Map     REF_TO_TYPE                    = new HashMap();
+HashSet DATA_REFS                      = new HashSet();
+
+REF_TO_TYPE.put("User/User/User", "dropdown");
+REF_TO_TYPE.put("User/User/Log_in", "button");
+REF_TO_TYPE.put("User/User/Sign_up", "button");
+REF_TO_TYPE.put("Control/Main/Take_Feature", "button");
+REF_TO_TYPE.put("Control/Main/Next_Object_ID", "input");
+REF_TO_TYPE.put("Control/Main/GPS_Diagnostics", "gpsdiag");
+REF_TO_TYPE.put("Control/Search", "group");
+REF_TO_TYPE.put("Control/Search/Search_Term", "input");
+REF_TO_TYPE.put("Control/Search/Search_Button", "button");
+REF_TO_TYPE.put("Control/Search/Entity_Types", "dropdown");
+REF_TO_TYPE.put("Control/Search/Entity_List", "list");
+REF_TO_TYPE.put("Control/Table/Table", "input");
+REF_TO_TYPE.put("Control/Map/Map", "map");
+REF_TO_TYPE.put("Control/Map", "group");
+REF_TO_TYPE.put("Control/Map/Centre_Me", "button");
+REF_TO_TYPE.put("Control/Map/Create_Shape", "button");
+REF_TO_TYPE.put("Burial_Mound/General/Object_ID", "input");
+REF_TO_TYPE.put("Burial_Mound/General/Date", "input");
+REF_TO_TYPE.put("Burial_Mound/General/Burial_Mound_author", "input");
+REF_TO_TYPE.put("Burial_Mound/General/Type", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/General/Name_or_Other_ID", "input");
+REF_TO_TYPE.put("Burial_Mound/General/Source", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/General/Description", "input");
+REF_TO_TYPE.put("Burial_Mound/General/Surrounding_Landuse", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/General/Surface_Landuse", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/General/Prominence", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/General", "group");
+REF_TO_TYPE.put("Burial_Mound/General/Latitude", "input");
+REF_TO_TYPE.put("Burial_Mound/General/Longitude", "input");
+REF_TO_TYPE.put("Burial_Mound/General", "group");
+REF_TO_TYPE.put("Burial_Mound/General/Northing", "input");
+REF_TO_TYPE.put("Burial_Mound/General/Easting", "input");
+REF_TO_TYPE.put("Burial_Mound/General/Accuracy", "input");
+REF_TO_TYPE.put("Burial_Mound/General/Take_From_GPS_1", "button");
+REF_TO_TYPE.put("Burial_Mound/General/Elevation", "input");
+REF_TO_TYPE.put("Burial_Mound/General/General_Notes", "input");
+REF_TO_TYPE.put("Burial_Mound/General/Go_to_Map", "button");
+REF_TO_TYPE.put("Burial_Mound/General/Facing_Direction", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/General/Mound_Overview_Photo", "camera");
+REF_TO_TYPE.put("Burial_Mound/General/Mound_Overview_Photo_Button_1", "button");
+REF_TO_TYPE.put("Burial_Mound/Dimensions", "group");
+REF_TO_TYPE.put("Burial_Mound/Dimensions/Length_Max", "input");
+REF_TO_TYPE.put("Burial_Mound/Dimensions/Width_Max", "input");
+REF_TO_TYPE.put("Burial_Mound/Dimensions/Height_Max", "input");
+REF_TO_TYPE.put("Burial_Mound/Dimensions/Area_Max", "input");
+REF_TO_TYPE.put("Burial_Mound/Dimensions/Length_Min", "input");
+REF_TO_TYPE.put("Burial_Mound/Dimensions/Width_Min", "input");
+REF_TO_TYPE.put("Burial_Mound/Dimensions/Height_Min", "input");
+REF_TO_TYPE.put("Burial_Mound/Dimensions/Area_Min", "input");
+REF_TO_TYPE.put("Burial_Mound/Dimensions/Other_Dimension", "input");
+REF_TO_TYPE.put("Burial_Mound/Dimensions/Shape_Notes", "input");
+REF_TO_TYPE.put("Burial_Mound/Dimensions/Attach_a_Sketch", "file");
+REF_TO_TYPE.put("Burial_Mound/Dimensions/Attach_a_Sketch_Button_1", "button");
+REF_TO_TYPE.put("Burial_Mound/Dimensions/Sketch_Photo", "camera");
+REF_TO_TYPE.put("Burial_Mound/Dimensions/Sketch_Photo_Button_1", "button");
+REF_TO_TYPE.put("Burial_Mound/Material/Surface_Material_Description", "input");
+REF_TO_TYPE.put("Burial_Mound/Material/Surface_Material_Density", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/Material/Sample_Collected", "radio");
+REF_TO_TYPE.put("Burial_Mound/Material/Stone_Feature_Present_And_Visible", "radio");
+REF_TO_TYPE.put("Burial_Mound/Material/Stone_Feature_Description", "input");
+REF_TO_TYPE.put("Burial_Mound/Material/Material_Photo", "camera");
+REF_TO_TYPE.put("Burial_Mound/Material/Material_Photo_Button_1", "button");
+REF_TO_TYPE.put("Burial_Mound/CRM/Condition", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/CRM/Disturbance_Description", "input");
+REF_TO_TYPE.put("Burial_Mound/CRM/Principal_Factors", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/CRM/Other_Sources_of_Impact", "checkbox");
+REF_TO_TYPE.put("Burial_Mound/CRM/Age_of_Damage", "checkbox");
+REF_TO_TYPE.put("Burial_Mound/CRM/RT_Number", "input");
+REF_TO_TYPE.put("Burial_Mound/CRM/RT_Kind", "checkbox");
+REF_TO_TYPE.put("Burial_Mound/CRM/RT_Method", "checkbox");
+REF_TO_TYPE.put("Burial_Mound/CRM/RT_Description", "input");
+REF_TO_TYPE.put("Burial_Mound/CRM/Volume_of_Soil_Removed_via_RT", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/CRM/Affect", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/CRM/Impact", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/CRM/Comments_and_Recommendations", "input");
+REF_TO_TYPE.put("Burial_Mound/CRM/CRM_Photo", "camera");
+REF_TO_TYPE.put("Burial_Mound/CRM/CRM_Photo_Button_1", "button");
+REF_TO_TYPE.put("Shape/Shape_Note/Label", "input");
+REF_TO_TYPE.put("Shape/Shape_Note/Note", "input");
+
+DATA_REFS.add("Burial_Mound/General/Object_ID");
+DATA_REFS.add("Burial_Mound/General/Date");
+DATA_REFS.add("Burial_Mound/General/Burial_Mound_author");
+DATA_REFS.add("Burial_Mound/General/Type");
+DATA_REFS.add("Burial_Mound/General/Name_or_Other_ID");
+DATA_REFS.add("Burial_Mound/General/Source");
+DATA_REFS.add("Burial_Mound/General/Description");
+DATA_REFS.add("Burial_Mound/General/Surrounding_Landuse");
+DATA_REFS.add("Burial_Mound/General/Surface_Landuse");
+DATA_REFS.add("Burial_Mound/General/Prominence");
+DATA_REFS.add("Burial_Mound/General/Latitude");
+DATA_REFS.add("Burial_Mound/General/Longitude");
+DATA_REFS.add("Burial_Mound/General/Northing");
+DATA_REFS.add("Burial_Mound/General/Easting");
+DATA_REFS.add("Burial_Mound/General/Accuracy");
+DATA_REFS.add("Burial_Mound/General/Elevation");
+DATA_REFS.add("Burial_Mound/General/General_Notes");
+DATA_REFS.add("Burial_Mound/General/Facing_Direction");
+DATA_REFS.add("Burial_Mound/General/Mound_Overview_Photo");
+DATA_REFS.add("Burial_Mound/Dimensions/Length_Max");
+DATA_REFS.add("Burial_Mound/Dimensions/Width_Max");
+DATA_REFS.add("Burial_Mound/Dimensions/Height_Max");
+DATA_REFS.add("Burial_Mound/Dimensions/Area_Max");
+DATA_REFS.add("Burial_Mound/Dimensions/Length_Min");
+DATA_REFS.add("Burial_Mound/Dimensions/Width_Min");
+DATA_REFS.add("Burial_Mound/Dimensions/Height_Min");
+DATA_REFS.add("Burial_Mound/Dimensions/Area_Min");
+DATA_REFS.add("Burial_Mound/Dimensions/Other_Dimension");
+DATA_REFS.add("Burial_Mound/Dimensions/Shape_Notes");
+DATA_REFS.add("Burial_Mound/Dimensions/Attach_a_Sketch");
+DATA_REFS.add("Burial_Mound/Dimensions/Sketch_Photo");
+DATA_REFS.add("Burial_Mound/Material/Surface_Material_Description");
+DATA_REFS.add("Burial_Mound/Material/Surface_Material_Density");
+DATA_REFS.add("Burial_Mound/Material/Sample_Collected");
+DATA_REFS.add("Burial_Mound/Material/Stone_Feature_Present_And_Visible");
+DATA_REFS.add("Burial_Mound/Material/Stone_Feature_Description");
+DATA_REFS.add("Burial_Mound/Material/Material_Photo");
+DATA_REFS.add("Burial_Mound/CRM/Condition");
+DATA_REFS.add("Burial_Mound/CRM/Disturbance_Description");
+DATA_REFS.add("Burial_Mound/CRM/Principal_Factors");
+DATA_REFS.add("Burial_Mound/CRM/Other_Sources_of_Impact");
+DATA_REFS.add("Burial_Mound/CRM/Age_of_Damage");
+DATA_REFS.add("Burial_Mound/CRM/RT_Number");
+DATA_REFS.add("Burial_Mound/CRM/RT_Kind");
+DATA_REFS.add("Burial_Mound/CRM/RT_Method");
+DATA_REFS.add("Burial_Mound/CRM/RT_Description");
+DATA_REFS.add("Burial_Mound/CRM/Volume_of_Soil_Removed_via_RT");
+DATA_REFS.add("Burial_Mound/CRM/Affect");
+DATA_REFS.add("Burial_Mound/CRM/Impact");
+DATA_REFS.add("Burial_Mound/CRM/Comments_and_Recommendations");
+DATA_REFS.add("Burial_Mound/CRM/CRM_Photo");
+DATA_REFS.add("Shape/Shape_Note/Label");
+DATA_REFS.add("Shape/Shape_Note/Note");
+
+String getType(String ref) {
+  String type = REF_TO_TYPE.get(ref);
+  if (type == null) return "";
+  else              return type;
+}
+
+boolean hasData(String ref) {
+  return DATA_REFS.contains(ref);
+}
 
 List getTabGroups() {
   List tabGroups = new ArrayList();
@@ -227,6 +245,50 @@ List getTabGroups() {
   tabGroups.add("Burial_Mound");
   tabGroups.add("Shape");
   return tabGroups;
+}
+
+List getMenuTypes() {
+  List menuTypes = new ArrayList();
+  menuTypes.add("checkbox");
+  menuTypes.add("dropdown");
+  menuTypes.add("list");
+  menuTypes.add("picture");
+  menuTypes.add("radio");
+  return menuTypes;
+}
+
+List getMediaTypes() {
+  List mediaTypes = new ArrayList();
+  mediaTypes.add("audio");
+  mediaTypes.add("camera");
+  mediaTypes.add("file");
+  mediaTypes.add("video");
+  return mediaTypes;
+}
+
+boolean isMenuType(String type) {
+  return getMenuTypes().contains(type);
+}
+
+boolean isMediaType(String type) {
+  return getMediaTypes().contains(type);
+}
+
+boolean hasMenuType(String ref) {
+  String refType = getType(ref);
+  return isMenuType(refType);
+}
+
+boolean hasMediaType(String ref) {
+  String type = getType(ref);
+  return isMediaType(type);
+}
+
+boolean isFlaggedNodata(String tabGroup) {
+  List flaggedTabGroups = new ArrayList();
+  flaggedTabGroups.add("User");
+  flaggedTabGroups.add("Control");
+  return flaggedTabGroups.contains(tabGroup);
 }
 
 void updateDisplayedTabGroup(String tabGroup) {
@@ -369,6 +431,9 @@ String getArchEntTypePascalCased(String ref) {
 /*         is first saved.                                                    */
 /*   - "create" --- Triggered after a record is first created.                */
 /*   - "delete" --- Triggered after a record is deleted.                      */
+/*   - "prefetch" --- Triggered before the "fetch" event. More specifically,  */
+/*         this event is triggered before a tab group is fetched and          */
+/*         displayed.                                                         */
 /*   - "fetch" --- Triggered after a record is fetched and displayed in a     */
 /*         given tab group.                                                   */
 /*   - "focus" --- This is merely an interface to make code for adding        */
@@ -384,7 +449,6 @@ String getArchEntTypePascalCased(String ref) {
 /* `delOnEvents` calls. Calling `bindOnEvents` is what actually establishes   */
 /* the bindings once they have been added to the accumulator.                 */
 /******************************************************************************/
-String SEP = Character.toString ((char) 0); // Beanshell won't let me write "\0"
 Map    EVENTS        = new HashMap(); // (ref, event type) -> callback statement
 Set    CUSTOM_EVENTS = new HashSet(); // Events not handled by `onEvent`
 CUSTOM_EVENTS.add("blur");
@@ -394,6 +458,7 @@ CUSTOM_EVENTS.add("delete");
 CUSTOM_EVENTS.add("fetch");
 CUSTOM_EVENTS.add("focus");
 CUSTOM_EVENTS.add("leave");
+CUSTOM_EVENTS.add("prefetch");
 CUSTOM_EVENTS.add("save");
 
 String getKey(String ref, String event) {
@@ -497,54 +562,237 @@ for (tg : getTabGroups()) {
   String callback;
 
   // Update (previously) displayed tab group
-  callback = "updateDisplayedTabGroup(\"%s\")";
-  callback = replaceFirst(callback, tg);
-  addOnEvent(tg, event, callback);
+  callback = fun2str("updateDisplayedTabGroup", ref);
+  addOnEvent(ref, event, callback);
 
   // Trigger on leave tab group event
   callback = "onLeaveTabGroup()";
-  addOnEvent(tg, event, callback);
+  addOnEvent(ref, event, callback);
 }
+
+/******************************* LOCALSETTINGS ********************************/
+void makeLocalID(){
+  fetchOne("CREATE TABLE IF NOT EXISTS localSettings (key text primary key, value text);", null);
+  fetchOne("DROP VIEW IF EXISTS parentchild;", null);
+  fetchOne("CREATE VIEW parentchild AS "+
+           "           SELECT parent.uuid as parentuuid, child.uuid as childuuid, parent.participatesverb as parentparticipatesverb, parent.relationshipid, parent.aenttypename as parentaenttypename, child.participatesverb as childparticipatesverb, child.aenttypename as childaenttypename, createdat"+
+           "             FROM (SELECT uuid, participatesverb, aenttypename, relationshipid, relntimestamp as createdat"+
+           "                     FROM latestnondeletedaentreln "+
+           "                     JOIN relationship USING (relationshipid) "+
+           "                     JOIN latestnondeletedarchent USING (uuid) "+
+           "                     JOIN aenttype USING (aenttypeid)) parent "+
+           "             JOIN (SELECT uuid, relationshipid, participatesverb, aenttypename "+
+           "                     FROM latestnondeletedaentreln "+
+           "                     JOIN relationship USING (relationshipid) "+
+           "                     JOIN latestnondeletedarchent USING (uuid) "+
+           "                     JOIN aenttype USING (aenttypeid)) child "+
+           "               ON (parent.relationshipid = child.relationshipid AND parent.uuid != child.uuid)");
+}
+makeLocalID();
+
+void insertIntoLocalSettings(String ref) {
+  String val = getFieldValue(ref);
+  insertIntoLocalSettings(ref, val);
+}
+
+void insertIntoLocalSettings(String key, String val) {
+  fetchOne("REPLACE INTO localSettings(key, value) VALUES('" + key + "', '" + val + "');");
+}
+
+void insertIntoLocalSettings(String key, Integer val) {
+  insertIntoLocalSettings(key, Integer.toString(val));
+}
+
+void insertIntoLocalSettingsOnChange(String ref) {
+  String val = getFieldValue(ref);
+
+  String insertCallback = fun2str("insertIntoLocalSettings", ref);
+
+  addOnEvent(ref, "blur",  insertCallback);
+  addOnEvent(ref, "click", insertCallback);
+}
+
+void setFieldValueFromLocalSettings(String key, String ref, boolean doOverwrite) {
+  String val = getFieldValue(ref);
+  if (!isNull(val) && !doOverwrite) {
+    return;
+  }
+
+  String q = "SELECT value FROM localSettings WHERE key = '" + key + "';";
+  fetchOne(q, new FetchCallback() {
+    onFetch(result) {
+      if (!isNull(result)) {
+        setFieldValue(ref, result.get(0));
+      }
+    }
+  });
+}
+
+void setFieldValueFromLocalSettings(String key, String ref) {
+  boolean doOverwrite = false;
+  setFieldValueFromLocalSettings(key, ref);
+}
+
+void setFieldValueFromLocalSettings(String ref, boolean doOverwrite) {
+  setFieldValueFromLocalSettings(ref, ref, doOverwrite);
+}
+
+void setFieldValueFromLocalSettings(String ref) {
+  setFieldValueFromLocalSettings(ref, false);
+}
+
+void setFieldValueFromLocalSettingsOnShow(String ref, boolean doOverwrite) {
+  String cb = fun2str(
+      "setFieldValueFromLocalSettings",
+      new Object[]{ref, doOverwrite}
+  );
+
+  addOnEvent(getTabGroupRef(ref), "show", cb);
+}
+
+void setFieldValueFromLocalSettingsOnShow(String ref) {
+  boolean doOverwrite = false;
+  setFieldValueFromLocalSettingsOnShow(ref, doOverwrite);
+}
+
+/* Causes the value of the field given by `ref` to be saved each time it is
+ * modified (on blur). The value of the field is restored when the tab group
+ * containing the field is displayed.
+ *
+ * This function depends on `addOnEvent`. Therefore this function must be called
+ * after `addOnEvent` is defined, but before `bindOnEvents` is called. This will
+ * be so if the call is made in the autogenerator's `logic` tags.
+ */
+void persistOverSessions(String ref) {
+  setFieldValueFromLocalSettingsOnShow(ref);
+  insertIntoLocalSettingsOnChange     (ref);
+}
+
+void persistOverSessions(String ref, boolean doOverwrite) {
+  setFieldValueFromLocalSettingsOnShow(ref, doOverwrite);
+  insertIntoLocalSettingsOnChange     (ref);
+}
+
+
+
+/*************************** FIELD COPYING HELPERS ****************************/
+/* Provides an easy way to copy field values, even between vocabs.            */
+/******************************************************************************/
+boolean setMenuValue(String ref, String vocabName) {
+  String attrName = getAttributeName(ref);
+  String vocabId = getVocabId(attrName, vocabName);
+
+  if (isNull(vocabId))
+    return false;
+  else {
+    setFieldValue(ref, vocabId);
+    return true;
+  }
+}
+
+void copyFieldValue(String src, String dst) {
+  Boolean doFindVocabId = true;
+  copyFieldValue(src, dst, doFindVocabId);
+}
+
+/* `src`           The ref of the source field.
+ * `dst`           The ref of the destination field.
+ * `doFindVocabId` If this is true, and the properties/attributes of `src` and
+ *                 `dst` are different, `copyFieldValue` treats `src` and `dst`
+ *                 as if they were menus. Therefore, to copy the value seen by
+ *                 the user (i.e. the vocabName of `src`), a database query is
+ *                 performed. The query determines the which vocabId of `dst`
+ *                 will make it display the same vocabName as `src`.
+ *
+ *                 If `doFindVocabId` is false, the value returned by
+ *                 `getFieldValue` is copied, without any database accesses.
+ */
+void copyFieldValue(String src, String dst, Boolean doFindVocabId) {
+  String vocabIdSrc   = getFieldValue(src);
+  String vocabNameSrc = getFieldValue(src, true);
+
+  String attrNameSrc = getAttributeName(src);
+  String attrNameDst = getAttributeName(dst);
+
+  if (attrNameSrc.equals(attrNameDst) || !doFindVocabId) {
+    setFieldValue(dst, vocabIdSrc);
+    return;
+  }
+
+  if (!setMenuValue(dst, vocabNameSrc)) {
+    // Fall back to dumb field copying
+    copyFieldValue(src, dst, false);
+  }
+}
+
+boolean isSelected(String ref, String vocabName) {
+  String vocabNameActual = getMenuValue(ref);
+
+  if (vocabNameActual == null)
+    return vocabNameActual == vocabName;
+  else
+    return vocabNameActual.equals(vocabName);
+}
+
+void clearField(String ref) {
+  switch(getType(ref)) {
+    case "dropdown": setFieldValue(ref, null); break;
+    case "list":     return;
+    default:         setFieldValue(ref, "");
+  }
+}
+
+void inheritFieldValue(
+    String src,
+    String dst,
+    boolean doCheckParent,
+    boolean doFindVocabId
+) {
+  String fun = "";
+  fun += "if (!{check} || getDisplayedTabGroup().equals(\"{parent}\"))";
+  fun += "  copyFieldValue(\"{src}\", \"{dst}\", {find})";
+
+  fun = replaceFirst(fun, "{check}",  doCheckParent + "");
+  fun = replaceFirst(fun, "{parent}", getTabGroupRef(src));
+  fun = replaceFirst(fun, "{src}",    src);
+  fun = replaceFirst(fun, "{dst}",    dst);
+  fun = replaceFirst(fun, "{find}",   doFindVocabId + "");
+
+
+  String dstParent = getTabGroupRef(dst);
+  if (isFlaggedNodata(dstParent)) addOnEvent(dstParent, "show",   fun);
+  else                            addOnEvent(dstParent, "create", fun);
+}
+
+/* If `doCheckParent`, then the value at `src` will only be inherited to `dst`
+ * if `getTabGroupRef(src)` was the previously displayed tab group.
+ */
+void inheritFieldValue(String src, String dst, boolean doCheckParent) {
+  inheritFieldValue(src, dst, doCheckParent, false);
+}
+
+void inheritFieldValue(String src, String dst) {
+  inheritFieldValue(src, dst, true);
+}
+
+
 
 /**************************** NEW TAB REDIRECTION *****************************/
 /* Causes a call to `newTab("tab/path")` to take the user to the specified    */
 /* tab.                                                                       */
 /******************************************************************************/
 
-void tryRedirect() {
-  if (isNull(redirectTab)) return;
-
-  newTab(redirectTab);
-  redirectTab = "";
-}
-
 void newTab(String tab, Boolean resolveTabGroups) {
   if (!resolveTabGroups) {
     return newTab(tab);
   }
 
-  tab = tab.replaceAll("/$", "");
-  tab = tab.replaceAll("^/", "");
+  String tabGroupRef = getTabGroupRef(tab);
+  String tabRef      = getTabRef     (tab);
 
-  path = tab.split("/");
-  switch (path.length) {
-    case 0:
-      break;
-    case 1:
-      newTabGroup(path[0]);
-      break;
-    case 2:
-      String tabgroupString = path[0];
-      String tabString      = path[0] + "/" + path[1];
-
-      redirectTab = tabString;
-      newTabGroup(tabgroupString);
-      break;
-    default:
-  }
+  if (!isDisplayed(tabGroupRef)) newTabGroup(tabGroupRef);
+  if (!isNull     (tabRef     )) newTab     (tabRef);
 }
-
-addOnEvent("Control", "show", "tryRedirect()");
 
 /******************************************************************************/
 /*                           DROPDOWN VALUE GETTER                            */
@@ -579,25 +827,74 @@ addOnEvent("Burial_Mound/CRM/Impact", "click", "DROPDOWN_ITEM_VALUE = getFieldVa
 /* default, which is the vocabid.                                             */
 /******************************************************************************/
 // Map from vocabid to vocabname. Populated by `fetchMenuValues()`.
-Map MENU_VALUES = null;
+Map VOCABID_TO_VOCABNAME    = null;
+Map VOCABNAME_TO_VOCABID    = null;
+Map ATTRIB_NAME_TO_VOCABIDS = null;
+
+void setVocabId(String attrName, String vocabName, String vocabId) {
+  String key = attrName + SEP + vocabName;
+  String val = vocabId;
+
+  VOCABNAME_TO_VOCABID.put(key, val);
+}
+
+String getVocabId(String attrName, String vocabName) {
+  return VOCABNAME_TO_VOCABID.get(attrName + SEP + vocabName);
+}
+
+void addVocabId(String attrName, String vocabId) {
+  if (ATTRIB_NAME_TO_VOCABIDS == null)
+    ATTRIB_NAME_TO_VOCABIDS = new HashMap();
+
+  List vocabIds = ATTRIB_NAME_TO_VOCABIDS.get(attrName);
+  if (vocabIds == null) {
+    vocabIds = new ArrayList();
+    ATTRIB_NAME_TO_VOCABIDS.put(attrName, vocabIds);
+  }
+
+  vocabIds.add(vocabId);
+}
+
+List getVocabIdsFromAttribName(String attribName) {
+  List vocabIds = ATTRIB_NAME_TO_VOCABIDS.get(attribName);
+  if (vocabIds == null) return new ArrayList();
+  else                  return vocabIds;
+}
+
+List getVocabIdsFromRef(String ref) {
+  String attribName = getAttributeName(ref);
+  return getVocabIdsFromAttribName(attribName);
+}
 
 /*
- * Initialises `MENU_VALUES` with the (vocabid -> vocabname) mapping of every
- * menu.
+ * Initialises `VOCABID_TO_VOCABNAME` with the (vocabid -> vocabname) mapping of
+ * every menu.
  */
 void fetchMenuValues() {
-  MENU_VALUES = new HashMap();
+  VOCABID_TO_VOCABNAME = new HashMap();
+  VOCABNAME_TO_VOCABID = new HashMap();
 
   String q = "";
-  q += " SELECT vocabid, vocabname";
-  q += " FROM   vocabulary";
+  q += "    SELECT vocabid, vocabname, attributename";
+  q += "      FROM vocabulary";
+  q += " LEFT JOIN attributekey";
+  q += "     USING (attributeid)";
 
-  populateHashMap = new FetchCallback() {
+  FetchCallback populateHashMap = new FetchCallback() {
     onFetch(result) {
       for (row : result) {
-        vocabId   = row.get(0);
-        vocabName = row.get(1);
-        MENU_VALUES.put(vocabId, vocabName);
+        String vocabId   = row.get(0);
+        String vocabName = row.get(1);
+        String attrName  = row.get(2);
+
+        // Populate VOCABID_TO_VOCABNAME
+        VOCABID_TO_VOCABNAME.put(vocabId, vocabName);
+
+        // Populate VOCABNAME_TO_VOCABID
+        setVocabId(attrName, vocabName, vocabId);
+
+        // Populate ATTRIB_NAME_TO_VOCABIDS
+        addVocabId(attrName, vocabId);
       }
     }
   };
@@ -615,7 +912,7 @@ String getFieldValue(String ref, Boolean doConvertVocabIds) {
   }
 
   String val       = getFieldValue(ref);
-  String vocabName = MENU_VALUES.get(val);
+  String vocabName = VOCABID_TO_VOCABNAME.get(val);
 
   if (val       == null) return "";
   if (vocabName == null) return "";
@@ -793,12 +1090,15 @@ void updateGPSDiagnostics() {
 /******************************************************************************/
 /*                                 USER LOGIN                                 */
 /******************************************************************************/
-String userId    = "1";
-String nameFirst = "";
-String nameLast  = "";
-String email     = "";
-User   user      = new User(userId, nameFirst, nameLast, email);
-setUser(user);
+{
+  userId           = "1";
+  String nameFirst = "";
+  String nameLast  = "";
+  String email     = "";
+
+  User user = new User(userId, nameFirst, nameLast, email);
+  setUser(user);
+}
 
 String userMenuPath = "User/User/User";
 
@@ -818,26 +1118,31 @@ void selectUser() {
   String userVocabId = getFieldValue(userMenuPath);
   if (isNull(userVocabId)) {
     username = "";
-    userid = "";
+    userid   = "";
     return;
   }
-  String userQ        = "SELECT userid,fname,lname,email FROM user " +
-                        "WHERE  userid='" + userVocabId + "';";
+
+  String q = "";
+  q += "SELECT userid, fname, lname, email, password";
+  q += "  FROM user ";
+  q += " WHERE userid = '{userId}'";
+  q  = replaceFirst(q, "{userId}", userId);
+
   FetchCallback callback = new FetchCallback() {
     onFetch(result) {
-      user = new User(
-            result.get(0),
-            result.get(1),
-            result.get(2),
-            result.get(3)
-      );
+      userId           = result.get(0);
+      String nameFirst = result.get(1);
+      String nameLast  = result.get(2);
+      String email     = result.get(3);
+      String password  = result.get(4);
+      username         = nameFirst + " " + nameLast;
+
+      User user = new User(userId, nameFirst, nameLast, email, password);
       setUser(user);
-      username = result.get(1) + " " + result.get(2);
-      userid   = result.get(0);
     }
   };
 
-  fetchOne(userQ, callback);
+  fetchOne(q, callback);
 }
 
 addOnEvent(userMenuPath, "show",  "populateListForUsers()");
@@ -977,6 +1282,7 @@ makeVocab("DropDown", "Burial_Mound/CRM/Volume_of_Soil_Removed_via_RT", "Volume 
 makeVocab("DropDown", "Burial_Mound/CRM/Affect", "Affect");
 makeVocab("DropDown", "Burial_Mound/CRM/Impact", "Impact");
 
+
 /******************************************************************************/
 /*                                 VALIDATION                                 */
 /******************************************************************************/
@@ -1012,7 +1318,7 @@ String validateFields(List fields, String format) {
   Integer numInvalid = 0;
 
   /* Build validation message string (and count how many invalid fields exist) */
-  String out = "Please fill out the following fields:\n";
+  String out = "{please_fill_out_the_following_fields}";
   for(f : fields) {
     String ref  = f.get(0); // Reference to field
     String name = f.get(1); // Human-readable name
@@ -1031,7 +1337,7 @@ String validateFields(List fields, String format) {
   }
   // All the fields are valid; just overwrite `out` with a cheery message
   if (numInvalid == 0)
-    out = "All fields contain valid data!";
+    out = "{all_fields_contain_valid_data}";
 
   /* Format the output as dictated by `format` */
   if (format == "HTML") {
@@ -1045,19 +1351,19 @@ String validateFields(List fields, String format) {
 
 void validateControl() {
   List f = new ArrayList(); // Fields to be validated
-  f.add(fieldPair("Control/Main/Next_Object_ID", "{5efe0585f1}"));
+  f.add(fieldPair("Control/Main/Next_Object_ID", "{Next_Object_ID}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
-  showWarning("Validation Results", validationMessage);
+  showWarning("{validation_results}", validationMessage);
 }
 void validateBurialMound() {
   List f = new ArrayList(); // Fields to be validated
-  f.add(fieldPair("Burial_Mound/General/Object_ID", "{58e19ee23b}"));
-  f.add(fieldPair("Burial_Mound/CRM/Affect", "{9ec6165935}"));
-  f.add(fieldPair("Burial_Mound/CRM/Impact", "{6a0cb0169b}"));
+  f.add(fieldPair("Burial_Mound/General/Object_ID", "{Object_ID}"));
+  f.add(fieldPair("Burial_Mound/CRM/Affect", "{Affect}"));
+  f.add(fieldPair("Burial_Mound/CRM/Impact", "{Impact}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
-  showWarning("Validation Results", validationMessage);
+  showWarning("{validation_results}", validationMessage);
 }
 
 
@@ -1243,7 +1549,12 @@ void addNavigationButtons(String tabgroup) {
     }
     actionOn() {
       if(isNull(getUuid(tabgroup))) {
-        showAlert("{Warning}", "{The_current_record_has_not_been_saved_yet}", "newRecord(\""+tabgroup+"\", true)", "");
+        showAlert(
+            "{Warning}",
+            "{The_current_record_has_not_been_saved_yet}",
+            fun2str("newRecord", new Object[]{tabgroup, true}),
+            ""
+        );
       } else {
         newRecord(tabgroup, true);
         showToast("{New_record_created}");
@@ -1445,7 +1756,6 @@ void loadEntity(Boolean isDropdown) {
 
 void loadEntityFrom(String entityID) {
   if (isNull(entityID)) {
-    Log.e("Module", "Cannot load an entity with a null ID.");
     return;
   }
 
@@ -1456,8 +1766,19 @@ void loadEntityFrom(String entityID) {
                            " WHERE uuid = '" + entityID + "'";
   fetchAll(getEntTypeNameQ, new FetchCallback() {
     onFetch(result) {
-      String archEntName = result.get(0).get(0);
-      String loadFunction = "load" + archEntName.replaceAll(" ", "") + "From(entityID)"; // Typical value: loadContextFrom(entityID)
+      if (
+          result               == null ||
+          result       .size() == 0    ||
+          result.get(0).size() == 0
+      ) {
+        String head  = "{err_load_entity_head}";
+        String body  = "{err_load_entity_body}";
+        showWarning(head, body);
+        return;
+      }
+
+      String archEntName = result.get(0).get(0).replaceAll(" ", "");
+      String loadFunction = "load" + archEntName + "From(entityID)"; // Typical value: loadContextFrom(entityID)
       eval(loadFunction);
     }
   });
@@ -1499,6 +1820,18 @@ void onCreateBurialMound__(){
 void onCreateShape__(){
   String ref      = "Shape";
   String event    = "create";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onPrefetchBurialMound__(){
+  String ref      = "Burial_Mound";
+  String event    = "prefetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onPrefetchShape__(){
+  String ref      = "Shape";
+  String event    = "prefetch";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
@@ -1691,9 +2024,11 @@ void doNotDelete(){
   showToast("{Delete_Cancelled}");
 }
 
+addOnEvent("User", "show", "removeNavigationButtons()");
+addOnEvent("Control", "show", "removeNavigationButtons()");
 addOnEvent("Burial_Mound", "show", "removeNavigationButtons()");
-addOnEvent("Burial_Mound", "show", "addNavigationButtons(\"Burial_Mound\")");
 addOnEvent("Shape", "show", "removeNavigationButtons()");
+addOnEvent("Burial_Mound", "show", "addNavigationButtons(\"Burial_Mound\")");
 addOnEvent("Shape", "show", "addNavigationButtons(\"Shape\")");
 
 /******************************************************************************/
@@ -1707,8 +2042,8 @@ addOnEvent("Control/Search/Search_Term"   , "click" , "clearSearch()");
 addOnEvent("Control/Search/Entity_Types"  , "click" , "search()");
 entityTypes = new ArrayList();
 entityTypes.add(new NameValuePair("{All}", ""));
-entityTypes.add(new NameValuePair("{8b15552ce5}", "Burial Mound"));
-entityTypes.add(new NameValuePair("{e0e492707f}", "Shape"));
+entityTypes.add(new NameValuePair("{Burial_Mound}", "Burial Mound"));
+entityTypes.add(new NameValuePair("{Shape}", "Shape"));
 populateDropDown("Control/Search/Entity_Types", entityTypes);
 
 void clearSearch(){
@@ -1727,7 +2062,7 @@ void search(){
                        " WHERE uuid in (SELECT uuid "+
                        "                  FROM latestNonDeletedArchEntIdentifiers "+
                        "                 WHERE measure LIKE '"+term+"'||'%'  "+
-                       "                   AND ( aenttypename LIKE '"+type+"' OR '' = '"+type+"' ) "+
+                       "                   AND ( aenttypename = '"+type+"' OR '' = '"+type+"' ) "+
                        "                )  "+
                        " ORDER BY response "+
                        " LIMIT ? "+
@@ -1751,6 +2086,7 @@ void loadBurialMoundFrom(String uuid) {
     }
   };
 
+  onPrefetchBurialMound__();
   showTabGroup(tabgroup, uuid, cb);
 }
 void loadShapeFrom(String uuid) {
@@ -1765,6 +2101,7 @@ void loadShapeFrom(String uuid) {
     }
   };
 
+  onPrefetchShape__();
   showTabGroup(tabgroup, uuid, cb);
 }
 
@@ -1786,7 +2123,7 @@ void takePoint(String tabgroup) {
   String archEntType = tabgroup.replaceAll("_", " ");
   String currentUuid = getUuid(tabgroup);
   if (isNull(currentUuid)){
-    showToast("Please enter data first and let a save occur.");
+    showToast("{Please_enter_data_first}");
     return;
   }
 
@@ -1862,6 +2199,65 @@ void clearGpsInTab(String tabRef) {
   setFieldValue(tabRef + "/Northing"  , "");
 }
 
+/*************** LOADING AND CREATION OF RECORDS FROM QR CODES ****************/
+void bindQrScanning(String refButton, String refField) {
+  String event = "click";
+
+  String stmt = fun2str("scanRecordFromQrCode", refField);
+
+  addOnEvent(refButton, event, stmt);
+}
+
+void scanRecordFromQrCode(String ref) {
+  String callback = fun2str("loadOrCreateEntityFromScannedAttrib", ref);
+  scanCode(callback);
+}
+
+void loadOrCreateEntityFromScannedAttrib(String ref) {
+  String attrName = getAttributeName(ref);
+  String attribVal  = getLastScanContents();
+
+  String q = "";
+  q += "SELECT uuid ";
+  q += "  FROM latestnondeletedaentvalue ";
+  q += "  JOIN latestnondeletedarchent USING (uuid) ";
+  q += "  JOIN attributekey            USING (attributeid) ";
+  q += " WHERE attributename = '{attrName}' ";
+  q += "   AND measure       = '{attribVal}' ";
+  q  = replaceFirst(q, "{attrName}",  attrName);
+  q  = replaceFirst(q, "{attribVal}", attribVal );
+
+  FetchCallback loadOrCreateEntity = new FetchCallback() {
+    onFetch(result) {
+      if (isNull(result) || result.size() == 0) {
+        createRecordFromScannedAttrib(ref);
+      } else {
+        String uuid = result.get(0).get(0);
+        loadEntityFrom(uuid);
+      }
+    }
+  };
+
+  fetchAll(q, loadOrCreateEntity);
+}
+
+void initScannedAttrib(String ref) {
+  String oldCode = getFieldValue(ref);
+  String newCode = getLastScanContents();
+
+  if (isNull(oldCode))
+    setFieldValue(ref, newCode);
+}
+
+void createRecordFromScannedAttrib(String ref) {
+  String tabGroup = getTabGroupRef(ref);
+  newRecord(tabGroup);
+
+  initScannedAttrib(ref);
+}
+
+
+
 /******************************************************************************/
 /*                       AUTONUMBERING HELPER FUNCTIONS                       */
 /******************************************************************************/
@@ -1925,7 +2321,7 @@ loadStartingIds() {
   }
 }
 
-addOnEvent("Control/Main", "show", "loadStartingIds()");
+addOnEvent("Control", "show", "loadStartingIds()");
 
 /*
  * Sets bindings to save autonum'd fields whenever they're blurred.
@@ -1963,16 +2359,34 @@ void populateMenuWithEntities (
   String entType,
   String relType
 ) {
+  if (!"DropDown".equals(viewType) && !"List".equals(viewType)) {
+    Log.e("populateMenuWithEntities ", "Unexpected type '" + viewType + "'");
+    return;
+  }
+
+  String limit;
+  switch (viewType) {
+    case "DropDown": limit = "";                   break;
+    case "List":     limit = " LIMIT ? OFFSET ? "; break;
+  }
+
   String getChildEntitiesQ = "" +
-    "SELECT childuuid, response "+
-    "  FROM parentchild JOIN latestNonDeletedArchEntFormattedIdentifiers ON (childuuid = uuid) " +
-    "  JOIN createdmodifiedatby USING (uuid) " +
-    " WHERE relationshipid IN (SELECT relationshipid  " +
-    "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid) " +
-    "                           WHERE relntypename = '"+relType+"') " +
-    "   AND parentuuid = '" + parentUuid + "' " +
-    "   AND (childaenttypename = '"+entType+"' OR '"+entType+"' = '') " +
-    " ORDER BY createdat DESC ";
+    "SELECT childuuid, response " +
+    "  FROM (select childuuid, createdat" +
+    "          from (select childuuid, createdat, relationshipid" +
+    "                    from parentchild" +
+    "                   where parentuuid = '" + parentUuid + "' " +
+    "                   and (childaenttypename = '"+entType+"')" +
+    "                   order by createdat           " +
+    "                   )" +
+    "          JOIN (SELECT relationshipid   " +
+    "                  FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)  " +
+    "                 WHERE relntypename = '"+relType+"') USING (relationshipid)" +
+    "          order by createdat desc" +
+    limit +
+    "        )  " +
+    "  JOIN latestNonDeletedArchEntFormattedIdentifiers ON (childuuid = uuid)   " +
+    "  order by createdat desc";
 
   String getEntitiesQ = "" +
     "SELECT uuid, response "+
@@ -1981,14 +2395,8 @@ void populateMenuWithEntities (
     "                  FROM latestNonDeletedArchEntIdentifiers "+
     "                 WHERE aenttypename = '"+entType+"' OR '"+entType+"' = '' " +
     "               )  "+
-    " ORDER BY response ";
-
-  String q = null;
-  if (relType.equals("")) {
-    q = getEntitiesQ;
-  } else {
-    q = getChildEntitiesQ;
-  }
+    " ORDER BY response " +
+    limit;
 
   FetchCallback cbPopulateDropDown = new FetchCallback() {
     onFetch(result) {
@@ -1996,16 +2404,13 @@ void populateMenuWithEntities (
     }
   };
 
+  String q;
+  if (relType.equals("")) q = getEntitiesQ;
+  else                    q = getChildEntitiesQ;
+
   switch (viewType) {
-    case "DropDown":
-      fetchAll(q, cbPopulateDropDown);
-      break;
-    case "List":
-      q += " LIMIT ? OFFSET ? ";
-      populateCursorList(path, q, 25);
-      break;
-    default:
-      Log.e("populateMenuWithEntities ", "Unexpected type '" + viewType + "'");
+    case "DropDown": fetchAll(q, cbPopulateDropDown); break;
+    case "List":     populateCursorList(path, q, 25); break;
   }
 }
 
@@ -2069,10 +2474,18 @@ String getEntityMenuPopulationFunction(String[] menuDescriptor) {
 ENTITY_MENUS = new ArrayList();
 
 for (m : ENTITY_MENUS) {
-  String path         = m[1];
   String functionCall = getEntityMenuPopulationFunction(m);
-
   execute(functionCall);
+}
+for (m : ENTITY_MENUS) {
+  String menuRef = m[1];
+
+  String ref = getTabRef(menuRef);
+  String evt = "show";
+  String cmd = "clearField(\"{menuRef}\")";
+  cmd = replaceFirst(cmd, "{menuRef}", menuRef);
+
+  addOnEvent(ref, evt, cmd);
 }
 
 

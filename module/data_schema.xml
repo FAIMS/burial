@@ -22,17 +22,17 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{3b33a4d7b6}
+        <term>{Burial_Mound}
 <description></description></term>
-        <term>{16fb28fdc1}
+        <term>{Extinct_Burial_Mound}
 <description></description></term>
-        <term>{f75da08ff4}
+        <term>{Uncertain_Feature}
 <description></description></term>
-        <term>{526c95ef7e}
+        <term>{Natural_Feature}
 <description></description></term>
-        <term>{a29245bb77}
+        <term>{Unknown}
 <description></description></term>
-        <term>{887e938b19}
+        <term>{Other}
 <description></description></term>
       </lookup>
     </property>
@@ -46,17 +46,17 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{a50bfdcf7f}
+        <term>{Survey}
 <description></description></term>
-        <term>{2a48585256}
+        <term>{Remote_sensing}
 <description></description></term>
-        <term>{df16684468}
+        <term>{Informant}
 <description></description></term>
-        <term>{c1a3080b3f}
+        <term>{Legacy_verification}
 <description></description></term>
-        <term>{371beee519}
+        <term>{Bibliography}
 <description></description></term>
-        <term>{3ba878fdaf}
+        <term>{Other}
 <description></description></term>
       </lookup>
     </property>
@@ -70,24 +70,24 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{7912dfaade}
-<description></description><term>{1658500471}
-<description></description></term><term>{3ad878d1f9}
-<description></description></term><term>{9193af0369}
-<description></description></term><term>{2781fe3678}
-<description></description></term><term>{d80242676d}
+        <term>{Annual_agriculture}
+<description></description><term>{Ploughed}
+<description></description></term><term>{Harrowed}
+<description></description></term><term>{Seedlings}
+<description></description></term><term>{Mature_crop}
+<description></description></term><term>{Harvested}
 <description></description></term></term>
-        <term>{4e6de2e6f2}
-<description></description><term>{a3a7464789}
-<description></description></term><term>{bd2a2f1174}
-<description></description></term><term>{a7078fbe39}
+        <term>{Perennial}
+<description></description><term>{Orchard}
+<description></description></term><term>{Lavender}
+<description></description></term><term>{Vineyard}
 <description></description></term></term>
-        <term>{a5313def05}
-<description></description><term>{37a8a946c1}
-<description></description></term><term>{0396a64d64}
-<description></description></term><term>{98b2409e23}
-<description></description></term><term>{b11731d0ba}
-<description></description></term><term>{9a47324f7c}
+        <term>{Other}
+<description></description><term>{Meadow}
+<description></description></term><term>{Beach}
+<description></description></term><term>{Scrub}
+<description></description></term><term>{Forest}
+<description></description></term><term>{Other}
 <description></description></term></term>
       </lookup>
     </property>
@@ -96,24 +96,24 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{761a085f3b}
-<description></description><term>{8c85d1c890}
-<description></description></term><term>{11a500505b}
-<description></description></term><term>{da495437b8}
-<description></description></term><term>{95c32fb856}
-<description></description></term><term>{262e965d5a}
+        <term>{Annual_agriculture}
+<description></description><term>{Ploughed}
+<description></description></term><term>{Harrowed}
+<description></description></term><term>{Seedlings}
+<description></description></term><term>{Mature_crop}
+<description></description></term><term>{Harvested}
 <description></description></term></term>
-        <term>{32e09c083f}
-<description></description><term>{b06b990312}
-<description></description></term><term>{5bd7cec6f6}
-<description></description></term><term>{7de9a919cc}
+        <term>{Perennial}
+<description></description><term>{Orchard}
+<description></description></term><term>{Lavender}
+<description></description></term><term>{Vineyard}
 <description></description></term></term>
-        <term>{406750e818}
-<description></description><term>{936d9ca8ae}
-<description></description></term><term>{8c819c6ccf}
-<description></description></term><term>{e2306e42c0}
-<description></description></term><term>{840480eb88}
-<description></description></term><term>{91ebc81172}
+        <term>{Other}
+<description></description><term>{Meadow}
+<description></description></term><term>{Beach}
+<description></description></term><term>{Scrub}
+<description></description></term><term>{Forest}
+<description></description></term><term>{Other}
 <description></description></term></term>
       </lookup>
     </property>
@@ -122,15 +122,15 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{db281e7c68}
+        <term>{Valley_Bottom_or_Plain}
 <description></description></term>
-        <term>{76027336ab}
+        <term>{Foothill}
 <description></description></term>
-        <term>{1cb030b385}
+        <term>{Hilltop}
 <description></description></term>
-        <term>{3b279f2661}
+        <term>{Ridge}
 <description></description></term>
-        <term>{5d2249ebd1}
+        <term>{Other}
 <description></description></term>
       </lookup>
     </property>
@@ -174,25 +174,25 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{f83da7a367}
+        <term>{No_Observation}
 <description></description></term>
-        <term>{519df1ae7c}
+        <term>{North}
 <description></description></term>
-        <term>{16b3db70c5}
+        <term>{Northeast}
 <description></description></term>
-        <term>{0cdb056c25}
+        <term>{East}
 <description></description></term>
-        <term>{8bbaf3ddb3}
+        <term>{Southeast}
 <description></description></term>
-        <term>{35d2a389de}
+        <term>{South}
 <description></description></term>
-        <term>{1741bccfd8}
+        <term>{Southwest}
 <description></description></term>
-        <term>{fc5fd65fc9}
+        <term>{West}
 <description></description></term>
-        <term>{897aa27324}
+        <term>{Northwest}
 <description></description></term>
-        <term>{11d69fce95}
+        <term>{Other}
 <description></description></term>
       </lookup>
     </property>
@@ -271,13 +271,13 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{a7257c6feb}
+        <term>{zero}
 <description></description></term>
-        <term>{9af2b7d244}
+        <term>{scarce}
 <description></description></term>
-        <term>{0a84ccf14d}
+        <term>{medium}
 <description></description></term>
-        <term>{db93de568f}
+        <term>{high}
 <description></description></term>
       </lookup>
     </property>
@@ -286,9 +286,9 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{e7ffa4fb24}
+        <term>{Yes}
 <description></description></term>
-        <term>{86f0cb3ef1}
+        <term>{No}
 <description></description></term>
       </lookup>
     </property>
@@ -297,9 +297,9 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{3c33367162}
+        <term>{Yes}
 <description></description></term>
-        <term>{6f1aa479a3}
+        <term>{No}
 <description></description></term>
       </lookup>
     </property>
@@ -318,17 +318,17 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{3257cf5fc3}
+        <term>{No_Observation}
 <description></description></term>
-        <term>{622e9867aa}
+        <term>{Undisturbed}
 <description></description></term>
-        <term>{a18957cd3c}
+        <term>{Surface_Sediment_Disturbed}
 <description></description></term>
-        <term>{70ea2927d1}
+        <term>{Subsurface_Disturbed}
 <description></description></term>
-        <term>{4587c9e39e}
+        <term>{Totally_Disturbed}
 <description></description></term>
-        <term>{51758667b5}
+        <term>{Unknown}
 <description></description></term>
       </lookup>
     </property>
@@ -342,30 +342,30 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{c9d3346c29}
+        <term>{No_Observation}
 <description></description></term>
-        <term>{8d2817ae0f}
-<description></description><term>{32939a445c}
-<description></description></term><term>{19de6488d6}
-<description></description></term><term>{cc15d8e0d6}
-<description></description></term><term>{eccd8433ed}
+        <term>{Anthropic}
+<description></description><term>{Agricultural}
+<description></description></term><term>{Looting}
+<description></description></term><term>{Development}
+<description></description></term><term>{Other}
 <description></description></term></term>
-        <term>{6543e504fd}
-<description></description><term>{18f9bda205}
-<description></description></term><term>{576ec9105e}
-<description></description></term><term>{b7ef1150e8}
-<description></description></term><term>{37970dc932}
-<description></description></term><term>{c549688ba7}
-<description></description></term><term>{eccd8433ed}
+        <term>{Post_depositional}
+<description></description><term>{Mound_geomorphology}
+<description></description></term><term>{Erosion}
+<description></description></term><term>{Wind_damage}
+<description></description></term><term>{Water_damage}
+<description></description></term><term>{Age}
+<description></description></term><term>{Other}
 <description></description></term></term>
-        <term>{534aefbb7d}
-<description></description><term>{9efbd74795}
-<description></description></term><term>{12f9b48fb8}
-<description></description></term><term>{5d384215fc}
-<description></description></term><term>{20e2d60c07}
-<description></description></term><term>{eccd8433ed}
+        <term>{Topographic}
+<description></description><term>{Aspect}
+<description></description></term><term>{Slope}
+<description></description></term><term>{Exposure}
+<description></description></term><term>{Hydrology}
+<description></description></term><term>{Other}
 <description></description></term></term>
-        <term>{9141366571}
+        <term>{Other}
 <description></description></term>
       </lookup>
     </property>
@@ -374,13 +374,13 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{c8d9f695de}
+        <term>{anthropic}
 <description></description></term>
-        <term>{55b573a67f}
+        <term>{animal_activity}
 <description></description></term>
-        <term>{520091902a}
+        <term>{post_depositional}
 <description></description></term>
-        <term>{6901ec189e}
+        <term>{topographic}
 <description></description></term>
       </lookup>
     </property>
@@ -389,11 +389,11 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{ab581b3508}
+        <term>{Remote}
 <description></description></term>
-        <term>{fd07e0c193}
+        <term>{Recent}
 <description></description></term>
-        <term>{a4a20848e9}
+        <term>{Fresh}
 <description></description></term>
       </lookup>
     </property>
@@ -407,11 +407,11 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{921aaa005e}
+        <term>{Basic_pit}
 <description></description></term>
-        <term>{fdcd3a9cd4}
+        <term>{Trench}
 <description></description></term>
-        <term>{f94b1d64bc}
+        <term>{Tunnel}
 <description></description></term>
       </lookup>
     </property>
@@ -420,9 +420,9 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{f2a3881732}
+        <term>{Manual}
 <description></description></term>
-        <term>{43e6d1c5a9}
+        <term>{Mechanized}
 <description></description></term>
       </lookup>
     </property>
@@ -436,25 +436,25 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{752a79fa65}
+        <term>{_10_}
 <description></description></term>
-        <term>{7fc59cbb51}
+        <term>{10_20_}
 <description></description></term>
-        <term>{fd7fb516a5}
+        <term>{20_30_}
 <description></description></term>
-        <term>{f4fa9fe090}
+        <term>{30_40_}
 <description></description></term>
-        <term>{e824df15e0}
+        <term>{40_40_}
 <description></description></term>
-        <term>{680dbf095a}
+        <term>{50_40_}
 <description></description></term>
-        <term>{22d46a126b}
+        <term>{60_40_}
 <description></description></term>
-        <term>{709e85f559}
+        <term>{70_40_}
 <description></description></term>
-        <term>{91146ec7fb}
+        <term>{80_40_}
 <description></description></term>
-        <term>{12924c55db}
+        <term>{90_100_}
 <description></description></term>
       </lookup>
     </property>
@@ -463,15 +463,15 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{2f3dc62580}
+        <term>{1}
 <description></description></term>
-        <term>{86af2666ec}
+        <term>{2}
 <description></description></term>
-        <term>{1389e445b4}
+        <term>{3}
 <description></description></term>
-        <term>{6277e14f46}
+        <term>{4}
 <description></description></term>
-        <term>{f82f89b756}
+        <term>{5}
 <description></description></term>
       </lookup>
     </property>
@@ -480,15 +480,15 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{a2b5d5bbed}
+        <term>{1}
 <description></description></term>
-        <term>{9baab22855}
+        <term>{2}
 <description></description></term>
-        <term>{a1a20bc13b}
+        <term>{3}
 <description></description></term>
-        <term>{321db2b902}
+        <term>{4}
 <description></description></term>
-        <term>{6578522323}
+        <term>{5}
 <description></description></term>
       </lookup>
     </property>
