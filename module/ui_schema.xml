@@ -269,7 +269,7 @@
       <label>{Burial_Mound}</label>
       <group ref="General">
         <label>{General}</label>
-        <input faims_attribute_name="Object ID" faims_attribute_type="measure" ref="Object_ID" faims_style_class="required">
+        <input faims_attribute_name="Object ID" faims_attribute_type="measure" ref="Object_ID" faims_style_class="objectid">
           <label>{Object_ID}</label>
         </input>
         <input faims_attribute_name="Date" faims_attribute_type="measure" ref="Date" faims_read_only="true">
