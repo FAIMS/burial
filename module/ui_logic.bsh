@@ -3784,19 +3784,11 @@ addOnEvent("Start/Map",           "show",  "refreshMap()");
   }
   void initMap() {
     // showBaseMap(MAP_REF, "Base Map", "files/data/R1980_YambolElhovoExt.tif");
-    //showDatabaseLayerByVocabName("{1___pristine}",   Color.GREEN;
+    showDatabaseLayerByVocabName("{1___pristine}",   Color.GREEN);
     showDatabaseLayerByVocabName("{2___minor_damage}", Color.BLUE);
     showDatabaseLayerByVocabName("{3___damaged}",  Color.YELLOW);
-    //showDatabaseLayerByVocabName("{4___seriously_damaged}",   Color.ORANGE);
-    //showDatabaseLayerByVocabName("{5___extinct_or_near_extinct}", Color.parseColor(#FF0000));
-/*
-
-
-
-
-
-
-    */
+    showDatabaseLayerByVocabName("{4___seriously_damaged}", Color.parseColor("#FFA500"));//FFA500 is orange in hex
+    showDatabaseLayerByVocabName("{5___extinct_or_near_extinct}", Color.RED);
     showDatabaseLayerByVocabName("{NA}",  Color.BLACK);
     setMapZoom(MAP_REF, 13.0f);
   }
@@ -3846,11 +3838,16 @@ addOnEvent("Start/Map",           "show",  "refreshMap()");
   searchQuery = dbReplaceFirst(searchQuery, "{type}", type);
   searchQuery = dbReplaceFirst(searchQuery, "{type}", type);
   searchQuery = replaceFirst(searchQuery, "{user}", user);
+  searchQuery = replaceFirst(searchQuery, "{user}", user);
   populateCursorList(refEntityList, searchQuery, 25);
   refreshTabgroupCSS("Start");
 
   Log.d("Module", "Search query: " + searchQuery);
   }
+
+  /*************************** Retain field Source value **********************/
+  insertIntoLocalSettingsOnChange("Burial_Mound/General/Source");
+  addOnEvent("Burial_Mound", "create", "setFieldValueFromLocalSettings(\"Burial_Mound/General/Source\")");
 
 
 /******************************************************************************/
