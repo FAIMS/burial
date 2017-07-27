@@ -53,8 +53,14 @@ replacement="
               <\/Colgroup_1>"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_schema.xml
 
+string="<input faims_attribute_name=\"Object ID\" faims_attribute_type=\"measure\" ref=\"Object_ID\" faims_style_class=\"required\">"
+
+#replacement="<input faims_attribute_name=\"Object ID\" faims_attribute_type=\"measure\" ref=\"Object_ID\" faims_style_class=\"object-id\">"
+#perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_schema.xml
+
 cat << EOF >> english.0.properties
 Select_Author=Select Author
 EOF
+
 
 rm ui_schema.xml.original
