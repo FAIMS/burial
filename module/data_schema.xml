@@ -28,6 +28,8 @@
 <description></description></term>
         <term>{Uncertain_Feature}
 <description></description></term>
+        <term>{Surface_concentration}
+<description></description></term>
         <term>{Natural_Feature}
 <description></description></term>
         <term>{Unknown}
@@ -36,85 +38,70 @@
 <description></description></term>
       </lookup>
     </property>
-    <property name="Name or Other ID" type="measure">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
     <property name="Source" type="vocab">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{Survey}
-<description></description></term>
-        <term>{Remote_sensing}
-<description></description></term>
-        <term>{Informant}
-<description></description></term>
         <term>{Legacy_verification}
 <description></description></term>
-        <term>{Bibliography}
+        <term>{Survey}
+<description></description></term>
+        <term>{Local_informant}
+<description></description></term>
+        <term>{Serendipity}
 <description></description></term>
         <term>{Other}
 <description></description></term>
       </lookup>
     </property>
-    <property name="Description" type="measure">
-      <description></description>
+    <property name="Description of Mound or Locale" type="measure">
+      <description>
+        Describe the location in relation to local topography and relief (optional)
+      </description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Surrounding Landuse" type="vocab">
-      <description></description>
+    <property name="Landuse around Mound" type="vocab">
+      <description>Landuse around the mound. Choose the majority landuse.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Annual_agriculture}
-<description></description><term>{Ploughed}
-<description></description></term><term>{Harrowed}
-<description></description></term><term>{Seedlings}
-<description></description></term><term>{Mature_crop}
-<description></description></term><term>{Harvested}
-<description></description></term></term>
-        <term>{Perennial}
-<description></description><term>{Orchard}
-<description></description></term><term>{Lavender}
-<description></description></term><term>{Vineyard}
-<description></description></term></term>
-        <term>{Other}
-<description></description><term>{Meadow}
-<description></description></term><term>{Beach}
-<description></description></term><term>{Scrub}
-<description></description></term><term>{Forest}
-<description></description></term><term>{Other}
-<description></description></term></term>
+<description></description></term>
+        <term>{Perennial_agriculture__e_g_orchard_or_vineyard_}
+<description></description></term>
+        <term>{Pasture__grassland_}
+<description></description></term>
+        <term>{Scrub}
+<description></description></term>
+        <term>{Forest}
+<description></description></term>
+        <term>{Urban__in_a_settlement_or_surrounded_by_infrastructure_}
+<description></description></term>
+        <term>{Other__explain_in_notes_}
+<description></description></term>
       </lookup>
     </property>
-    <property name="Surface Landuse" type="vocab">
-      <description></description>
+    <property name="Landuse on top of Mound" type="vocab">
+      <description>Landuse on top of mound. Choose majority.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Annual_agriculture}
-<description></description><term>{Ploughed}
-<description></description></term><term>{Harrowed}
-<description></description></term><term>{Seedlings}
-<description></description></term><term>{Mature_crop}
-<description></description></term><term>{Harvested}
-<description></description></term></term>
-        <term>{Perennial}
-<description></description><term>{Orchard}
-<description></description></term><term>{Lavender}
-<description></description></term><term>{Vineyard}
-<description></description></term></term>
-        <term>{Other}
-<description></description><term>{Meadow}
-<description></description></term><term>{Beach}
-<description></description></term><term>{Scrub}
-<description></description></term><term>{Forest}
-<description></description></term><term>{Other}
-<description></description></term></term>
+<description></description></term>
+        <term>{Perennial_agriculture__e_g_orchard_or_vineyard_}
+<description></description></term>
+        <term>{Pasture__grassland_}
+<description></description></term>
+        <term>{Scrub}
+<description></description></term>
+        <term>{Forest}
+<description></description></term>
+        <term>{Urban__in_a_settlement_or_surrounded_by_infrastructure_}
+<description></description></term>
+        <term>{Other__explain_in_notes_}
+<description></description></term>
       </lookup>
     </property>
     <property name="Prominence" type="vocab">
@@ -124,13 +111,11 @@
       <lookup>
         <term>{Valley_Bottom_or_Plain}
 <description></description></term>
-        <term>{Foothill}
+        <term>{Upper_slope}
+<description>Upper and lower slope - mentally divide the slope in half and poinpoint your position within upper or lower part.</description></term>
+        <term>{Lower_slope}
 <description></description></term>
         <term>{Hilltop}
-<description></description></term>
-        <term>{Ridge}
-<description></description></term>
-        <term>{Other}
 <description></description></term>
       </lookup>
     </property>
@@ -160,16 +145,13 @@
       <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Elevation" type="measure">
-      <description></description>
+      <description>
+        Only enter value if present in the map. List source in Annotation
+      </description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="General Notes" type="measure">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="Facing Direction" type="vocab">
+    <property name="Facing Direction For Photo" type="vocab">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -201,33 +183,15 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Length Max" type="measure">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="Width Max" type="measure">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
     <property name="Height Max" type="measure">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Area Max" type="measure">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="Length Min" type="measure">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="Width Min" type="measure">
-      <description></description>
+    <property name="Diameter Max" type="measure">
+      <description>
+            The longest axis in the diameter
+          </description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
@@ -236,8 +200,10 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Area Min" type="measure">
-      <description></description>
+    <property name="Diameter Min" type="measure">
+      <description>
+            The shorter axis in diameter, if mound ellipsoid
+          </description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
@@ -251,35 +217,47 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Attach a Sketch" type="file" file="true" thumbnail="true">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="Sketch Photo" type="file" file="true" thumbnail="true">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="Surface Material Description" type="measure">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="Surface Material Density" type="vocab">
+    <property name="Associated Feature or Material" type="vocab">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{zero}
-<description></description></term>
-        <term>{scarce}
-<description></description></term>
-        <term>{medium}
-<description></description></term>
-        <term>{high}
-<description></description></term>
+        <term>{Stone_wall__krepis_}
+<description>
+            Stone wall (krepis) is found either at the foot of the mound, or inside it (upon excavation).
+          </description></term>
+        <term>{Enclosure}
+<description>
+            Enclosure is a fence or a circle of variable material either around or some distance outside of the mound.
+          </description></term>
+        <term>{Standing_features_in_vicinity}
+<description>
+            Standing features in the vicinity comprise other standing stone or architectural features associated with the mound.
+          </description></term>
+        <term>{Artefact_scatter}
+<description>
+            Artefact scatter indicates a discreet and bounded concentration of manmade objects on the surface.
+          </description></term>
+        <term>{Loose_artefacts}
+<description>
+            Loose artefacts indicates one or two artefacts dispersed on or around mound.
+          </description></term>
+        <term>{Bones}
+<description>
+            Bones denote bioarchaeological remains, human or animal.
+          </description></term>
+        <term>{Other}
+<description>
+            Other - please use the annotation to describe.
+          </description></term>
       </lookup>
+    </property>
+    <property name="Surface Material Description" type="measure">
+      <description>
+        Please comment on the density, dimensions, boundedness, and other characteristics of the associated surface materials.
+      </description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Sample Collected" type="vocab">
       <description></description>
@@ -292,23 +270,12 @@
 <description></description></term>
       </lookup>
     </property>
-    <property name="Stone Feature Present And Visible" type="vocab">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-      <lookup>
-        <term>{Yes}
-<description></description></term>
-        <term>{No}
-<description></description></term>
-      </lookup>
-    </property>
-    <property name="Stone Feature Description" type="measure">
+    <property name="Chronology Estimate" type="measure">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Material Photo" type="file" file="true" thumbnail="true">
+    <property name="Associated Feature or Material Photo" type="file" file="true" thumbnail="true">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -318,111 +285,97 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{No_Observation}
+        <term>{0___No_observation}
 <description></description></term>
-        <term>{Undisturbed}
+        <term>{1___pristine}
+<description>
+            1 - only superficial or minor damage, 10% of mound volume missing.
+          </description></term>
+        <term>{2___minor_damage}
+<description>
+            2- minor damage, 10-25% of mound volume missing, archaeological potential not seriously compromised.
+          </description></term>
+        <term>{3___damaged}
+<description>
+            3 - up to 50% of mound volume missing, archaeological potential compromised.
+          </description></term>
+        <term>{4___seriously_damaged}
+<description>
+            4 - either 50% of mound missing or archaeological potential seriously compromised.
+          </description></term>
+        <term>{5___extinct_or_near_extinct}
+<description>
+            5 - nearly nothing remains of the mound, archaeological potential nil or nearly nil.
+          </description></term>
+        <term>{NA}
 <description></description></term>
-        <term>{Surface_Sediment_Disturbed}
+      </lookup>
+    </property>
+    <property name="Principal Source of Impact" type="vocab">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{Not_available}
 <description></description></term>
-        <term>{Subsurface_Disturbed}
+        <term>{Agriculture}
 <description></description></term>
-        <term>{Totally_Disturbed}
+        <term>{Looting}
+<description></description></term>
+        <term>{Infrastructure}
+<description></description></term>
+        <term>{Urban_development}
+<description></description></term>
+        <term>{Animal_activity}
+<description></description></term>
+        <term>{Topographic_or_post_depositional}
+<description></description></term>
+        <term>{Other__specify_in_Annotation_}
+<description></description></term>
+      </lookup>
+    </property>
+    <property name="Other Sources of Impact" type="measure">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Most recent damage what" type="vocab">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{Not_available}
+<description></description></term>
+        <term>{Agriculture}
+<description></description></term>
+        <term>{Looting}
+<description></description></term>
+        <term>{Infrastructure}
+<description></description></term>
+        <term>{Urban_development}
+<description></description></term>
+        <term>{Animal_activity}
+<description></description></term>
+        <term>{Topographic_or_post_depositional}
+<description></description></term>
+        <term>{Other__specify_in_Annotation_}
+<description></description></term>
+      </lookup>
+    </property>
+    <property name="Most recent damage within" type="vocab">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{Last_week}
+<description></description></term>
+        <term>{Last_month}
+<description></description></term>
+        <term>{Last_year}
 <description></description></term>
         <term>{Unknown}
 <description></description></term>
-      </lookup>
-    </property>
-    <property name="Disturbance Description" type="measure">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="Principal Factors" type="vocab">
-      <description>Select one factor that contributes to most visible damage</description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-      <lookup>
-        <term>{No_Observation}
-<description></description></term>
-        <term>{Anthropic}
-<description></description><term>{Agricultural}
-<description></description></term><term>{Looting}
-<description></description></term><term>{Development}
-<description></description></term><term>{Other}
-<description></description></term></term>
-        <term>{Post_depositional}
-<description></description><term>{Mound_geomorphology}
-<description></description></term><term>{Erosion}
-<description></description></term><term>{Wind_damage}
-<description></description></term><term>{Water_damage}
-<description></description></term><term>{Age}
-<description></description></term><term>{Other}
-<description></description></term></term>
-        <term>{Topographic}
-<description></description><term>{Aspect}
-<description></description></term><term>{Slope}
-<description></description></term><term>{Exposure}
-<description></description></term><term>{Hydrology}
-<description></description></term><term>{Other}
-<description></description></term></term>
         <term>{Other}
-<description></description></term>
-      </lookup>
-    </property>
-    <property name="Other Sources of Impact" type="vocab">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-      <lookup>
-        <term>{anthropic}
-<description></description></term>
-        <term>{animal_activity}
-<description></description></term>
-        <term>{post_depositional}
-<description></description></term>
-        <term>{topographic}
-<description></description></term>
-      </lookup>
-    </property>
-    <property name="Age of Damage" type="vocab">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-      <lookup>
-        <term>{Remote}
-<description></description></term>
-        <term>{Recent}
-<description></description></term>
-        <term>{Fresh}
-<description></description></term>
-      </lookup>
-    </property>
-    <property name="RT Number" type="measure">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="RT Kind" type="vocab">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-      <lookup>
-        <term>{Basic_pit}
-<description></description></term>
-        <term>{Trench}
-<description></description></term>
-        <term>{Tunnel}
-<description></description></term>
-      </lookup>
-    </property>
-    <property name="RT Method" type="vocab">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-      <lookup>
-        <term>{Manual}
-<description></description></term>
-        <term>{Mechanized}
 <description></description></term>
       </lookup>
     </property>
@@ -430,67 +383,6 @@
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="Volume of Soil Removed via RT" type="vocab">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-      <lookup>
-        <term>{_10_}
-<description></description></term>
-        <term>{10_20_}
-<description></description></term>
-        <term>{20_30_}
-<description></description></term>
-        <term>{30_40_}
-<description></description></term>
-        <term>{40_40_}
-<description></description></term>
-        <term>{50_40_}
-<description></description></term>
-        <term>{60_40_}
-<description></description></term>
-        <term>{70_40_}
-<description></description></term>
-        <term>{80_40_}
-<description></description></term>
-        <term>{90_100_}
-<description></description></term>
-      </lookup>
-    </property>
-    <property name="Affect" type="vocab">
-      <description>1=0-20% of the entire feature is missing or disrupted, 5= 80-100% of the feature's surface is missing or disrupted</description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-      <lookup>
-        <term>{1}
-<description></description></term>
-        <term>{2}
-<description></description></term>
-        <term>{3}
-<description></description></term>
-        <term>{4}
-<description></description></term>
-        <term>{5}
-<description></description></term>
-      </lookup>
-    </property>
-    <property name="Impact" type="vocab">
-      <description>1 = context is nearly intact; 5 = original context of the feature is nearly all destroyed</description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-      <lookup>
-        <term>{1}
-<description></description></term>
-        <term>{2}
-<description></description></term>
-        <term>{3}
-<description></description></term>
-        <term>{4}
-<description></description></term>
-        <term>{5}
-<description></description></term>
-      </lookup>
     </property>
     <property name="Comments and Recommendations" type="measure">
       <description></description>

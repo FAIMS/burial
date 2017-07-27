@@ -5,7 +5,7 @@
 <User f="nodata">
   <User f="noscroll">
     <User    t="dropdown" f="user"/>
-    <Log_in  t="button"/>
+    <Log_in t="button" ll="Start"/>
   </User>
 </User>
 
@@ -25,10 +25,7 @@
   </Table>
   <Map f="noscroll">
     <Map t="map"/>
-    <cols>
-      <Centre_Me t="button"/>
-      <Create_Shape t="button" l="Shape"/>
-    </cols>
+    <Create_Shape t="button" l="Shape"/>
   </Map>
 </Start>
 
@@ -37,90 +34,102 @@
     <Object_ID f="id notnull autonum"/>
     <Date f="readonly"/>
     <author/>
-    <Type>
+    <Type f="notnull">
       <opts>
         <opt>Burial Mound</opt>
         <opt>Extinct Burial Mound</opt>
         <opt>Uncertain Feature</opt>
+        <opt>Surface concentration</opt>
         <opt>Natural Feature</opt>
         <opt>Unknown</opt>
         <opt>Other</opt>
       </opts>
     </Type>
-    <Name_or_Other_ID/>
     <Source>
       <opts>
-        <opt>Survey</opt>
-        <opt>Remote sensing</opt>
-        <opt>Informant</opt>
         <opt>Legacy verification</opt>
-        <opt>Bibliography</opt>
+        <opt>Survey</opt>
+        <opt>Local informant</opt>
+        <opt>Serendipity</opt>
         <opt>Other</opt>
       </opts>
     </Source>
-    <Description/>
-    <Surrounding_Landuse>
+    <Description_of_Mound_or_Locale>
+      <desc>
+        Describe the location in relation to local topography and relief (optional)
+      </desc>
+    </Description_of_Mound_or_Locale>
+    <Landuse_around_Mound>
+      <desc>Landuse around the mound. Choose the majority landuse.</desc>
       <opts>
-        <opt>Annual agriculture
-          <opt>Ploughed</opt>
-          <opt>Harrowed</opt>
-          <opt>Seedlings</opt>
-          <opt>Mature crop</opt>
-          <opt>Harvested</opt>
+        <opt>
+          Annual agriculture
         </opt>
-        <opt>Perennial
-          <opt>Orchard</opt>
-          <opt>Lavender</opt>
-          <opt>Vineyard</opt>
+        <opt>
+          Perennial agriculture (e.g orchard or vineyard)
         </opt>
-        <opt>Other
-          <opt>Meadow</opt>
-          <opt>Beach</opt>
-          <opt>Scrub</opt>
-          <opt>Forest</opt>
-          <opt>Other</opt>
+        <opt>
+          Pasture (grassland)
+        </opt>
+        <opt>
+          Scrub
+        </opt>
+        <opt>
+          Forest
+        </opt>
+        <opt>
+          Urban (in a settlement or surrounded by infrastructure)
+        </opt>
+        <opt>
+          Other (explain in notes)
         </opt>
       </opts>
-    </Surrounding_Landuse>
-    <Surface_Landuse>
+    </Landuse_around_Mound>
+    <Landuse_on_top_of_Mound>
+      <desc>Landuse on top of mound. Choose majority.</desc>
       <opts>
-        <opt>Annual agriculture
-          <opt>Ploughed</opt>
-          <opt>Harrowed</opt>
-          <opt>Seedlings</opt>
-          <opt>Mature crop</opt>
-          <opt>Harvested</opt>
+        <opt>
+          Annual agriculture
         </opt>
-        <opt>Perennial
-          <opt>Orchard</opt>
-          <opt>Lavender</opt>
-          <opt>Vineyard</opt>
+        <opt>
+          Perennial agriculture (e.g orchard or vineyard)
         </opt>
-        <opt>Other
-          <opt>Meadow</opt>
-          <opt>Beach</opt>
-          <opt>Scrub</opt>
-          <opt>Forest</opt>
-          <opt>Other</opt>
+        <opt>
+          Pasture (grassland)
+        </opt>
+        <opt>
+          Scrub
+        </opt>
+        <opt>
+          Forest
+        </opt>
+        <opt>
+          Urban (in a settlement or surrounded by infrastructure)
+        </opt>
+        <opt>
+          Other (explain in notes)
         </opt>
       </opts>
-    </Surface_Landuse>
+    </Landuse_on_top_of_Mound>
     <Prominence>
       <opts>
         <opt>Valley Bottom or Plain</opt>
-        <opt>Foothill</opt>
+        <opt>
+          Upper slope
+          <desc>Upper and lower slope - mentally divide the slope in half and poinpoint your position within upper or lower part.</desc>
+        </opt>
+        <opt>Lower slope</opt>
         <opt>Hilltop</opt>
-        <opt>Ridge</opt>
-        <opt>Other</opt>
       </opts>
     </Prominence>
     <gps/>
     <Elevation b="decimal">
       Elevation (MASL)
+      <desc>
+        Only enter value if present in the map. List source in Annotation
+      </desc>
     </Elevation>
-    <General_Notes/>
-    <Go_to_Map t="button" l="Start/Map"/>
-    <Facing_Direction>
+    <Facing_Direction_For_Photo>
       <opts>
         <opt>No Observation</opt>
         <opt>North</opt>
@@ -133,7 +142,7 @@
         <opt>Northwest</opt>
         <opt>Other</opt>
       </opts>
-    </Facing_Direction>
+    </Facing_Direction_For_Photo>
     <Mound_Overview_Photo t="camera">
       <desc>Take 1 general overview shot that includes the complete feature profile, and a scale. Include direction in the Annotation (from which direction was the image taken)</desc>
     </Mound_Overview_Photo>
@@ -141,33 +150,83 @@
   <Dimensions>
     <cols>
       <col>
-        <Length_Max b="decimal"/>
-        <Width_Max  b="decimal"/>
-        <Height_Max b="decimal"/>
-        <Area_Max   b="decimal"/>
+        <Height_Max b="decimal" f="notnull">
+          Height Max (m)
+        </Height_Max>
+        <Diameter_Max   b="decimal" f="notnull">
+          Diameter Max (m)
+          <desc>
+            The longest axis in the diameter
+          </desc>
+        </Diameter_Max>
       </col>
       <col>
-        <Length_Min b="decimal"/>
-        <Width_Min  b="decimal"/>
-        <Height_Min b="decimal"/>
-        <Area_Min   b="decimal"/>
+        <Height_Min b="decimal">
+          Height Min (m)
+        </Height_Min>
+        <Diameter_Min   b="decimal">
+          Diameter Min (m)
+          <desc>
+            The shorter axis in diameter, if mound ellipsoid
+          </desc>
+        </Diameter_Min>
       </col>
     </cols>
     <Other_Dimension/>
     <Shape_Notes/>
-    <Attach_a_Sketch t="file"/>
-    <Sketch_Photo t="camera"/>
   </Dimensions>
   <Material>
-    <Surface_Material_Description/>
-    <Surface_Material_Density>
+    <Associated_Feature_or_Material t="checkbox">
       <opts>
-        <opt>zero</opt>
-        <opt>scarce</opt>
-        <opt>medium</opt>
-        <opt>high</opt>
+        <opt>
+          Stone wall (krepis)
+          <desc>
+            Stone wall (krepis) is found either at the foot of the mound, or inside it (upon excavation).
+          </desc>
+        </opt>
+        <opt>
+          Enclosure
+          <desc>
+            Enclosure is a fence or a circle of variable material either around or some distance outside of the mound.
+          </desc>
+        </opt>
+        <opt>
+          Standing features in vicinity
+          <desc>
+            Standing features in the vicinity comprise other standing stone or architectural features associated with the mound.
+          </desc>
+        </opt>
+        <opt>
+          Artefact scatter
+          <desc>
+            Artefact scatter indicates a discreet and bounded concentration of manmade objects on the surface.
+          </desc>
+        </opt>
+        <opt>
+          Loose artefacts
+          <desc>
+            Loose artefacts indicates one or two artefacts dispersed on or around mound.
+          </desc>
+        </opt>
+        <opt>
+          Bones
+          <desc>
+            Bones denote bioarchaeological remains, human or animal.
+          </desc>
+        </opt>
+        <opt>
+          Other
+          <desc>
+            Other - please use the annotation to describe.
+          </desc>
+        </opt>
       </opts>
-    </Surface_Material_Density>
+    </Associated_Feature_or_Material>
+    <Surface_Material_Description>
+      <desc>
+        Please comment on the density, dimensions, boundedness, and other characteristics of the associated surface materials.
+      </desc>
+    </Surface_Material_Description>
     <Sample_Collected t="radio">
       Sample Collected?
       <opts>
@@ -175,120 +234,87 @@
         <opt>No</opt>
       </opts>
     </Sample_Collected>
-    <Stone_Feature_Present_And_Visible t="radio">
-      Stone Feature Present And Visible?
-      <opts>
-        <opt>Yes</opt>
-        <opt>No</opt>
-      </opts>
-    </Stone_Feature_Present_And_Visible>
-    <Stone_Feature_Description/>
-    <Material_Photo t="camera"/>
+    <Chronology_Estimate/>
+    <Associated_Feature_or_Material_Photo t="camera"/>
   </Material>
   <CRM>
     <Condition>
       <opts>
-        <opt>No Observation</opt>
-        <opt>Undisturbed</opt>
-        <opt>Surface Sediment Disturbed</opt>
-        <opt>Subsurface Disturbed</opt>
-        <opt>Totally Disturbed</opt>
-        <opt>Unknown</opt>
+        <opt>
+          0 - No observation
+        </opt>
+        <opt>
+          1 - pristine
+          <desc>
+            1 - only superficial or minor damage, 10% of mound volume missing.
+          </desc>
+        </opt>
+        <opt>
+          2 - minor damage
+          <desc>
+            2- minor damage, 10-25% of mound volume missing, archaeological potential not seriously compromised.
+          </desc>
+        </opt>
+        <opt>
+          3 - damaged
+          <desc>
+            3 - up to 50% of mound volume missing, archaeological potential compromised.
+          </desc>
+        </opt>
+        <opt>
+          4 - seriously damaged
+          <desc>
+            4 - either 50% of mound missing or archaeological potential seriously compromised.
+          </desc>
+        </opt>
+        <opt>
+          5 - extinct or near extinct
+          <desc>
+            5 - nearly nothing remains of the mound, archaeological potential nil or nearly nil.
+          </desc>
+        </opt>
+        <opt>
+          NA
+        </opt>
       </opts>
     </Condition>
-    <Disturbance_Description/>
-    <Principal_Factors>
-      <desc>Select one factor that contributes to most visible damage</desc>
+    <Principal_Source_of_Impact>
       <opts>
-        <opt>No Observation</opt>
-        <opt>Anthropic
-          <opt>Agricultural</opt>
-          <opt>Looting</opt>
-          <opt>Development</opt>
-          <opt>Other</opt>
-        </opt>
-        <opt>Post-depositional
-          <opt>Mound geomorphology</opt>
-          <opt>Erosion</opt>
-          <opt>Wind damage</opt>
-          <opt>Water damage</opt>
-          <opt>Age</opt>
-          <opt>Other</opt>
-        </opt>
-        <opt>Topographic
-          <opt>Aspect</opt>
-          <opt>Slope</opt>
-          <opt>Exposure</opt>
-          <opt>Hydrology</opt>
-          <opt>Other</opt>
-        </opt>
+        <opt>Not available</opt>
+        <opt>Agriculture</opt>
+        <opt>Looting</opt>
+        <opt>Infrastructure</opt>
+        <opt>Urban development</opt>
+        <opt>Animal activity</opt>
+        <opt>Topographic or post-depositional</opt>
+        <opt> Other (specify in Annotation)</opt>
+      </opts>
+    </Principal_Source_of_Impact>
+    <Other_Sources_of_Impact/>
+    <Most_recent_damage_what>
+      Most recent damage (what)
+      <opts>
+        <opt>Not available</opt>
+        <opt>Agriculture</opt>
+        <opt>Looting</opt>
+        <opt>Infrastructure</opt>
+        <opt>Urban development</opt>
+        <opt>Animal activity</opt>
+        <opt>Topographic or post-depositional</opt>
+        <opt> Other (specify in Annotation)</opt>
+      </opts>
+    </Most_recent_damage_what>
+    <Most_recent_damage_within>
+      Most recent damage (within)
+      <opts>
+        <opt>Last week</opt>
+        <opt>Last month</opt>
+        <opt>Last year</opt>
+        <opt>Unknown</opt>
         <opt>Other</opt>
       </opts>
-    </Principal_Factors>
-    <Other_Sources_of_Impact t="checkbox">
-      <opts>
-        <opt>anthropic</opt>
-        <opt>animal activity</opt>
-        <opt>post depositional</opt>
-        <opt>topographic</opt>
-      </opts>
-    </Other_Sources_of_Impact>
-    <Age_of_Damage t="checkbox">
-      <opts>
-        <opt>Remote</opt>
-        <opt>Recent</opt>
-        <opt>Fresh</opt>
-      </opts>
-    </Age_of_Damage>
-    <RT_Number b="decimal"/>
-    <RT_Kind t="checkbox">
-      <opts>
-        <opt>Basic pit</opt>
-        <opt>Trench</opt>
-        <opt>Tunnel</opt>
-      </opts>
-    </RT_Kind>
-    <RT_Method t="checkbox">
-      <opts>
-        <opt>Manual</opt>
-        <opt>Mechanized</opt>
-      </opts>
-    </RT_Method>
+    </Most_recent_damage_within>
     <RT_Description/>
-    <Volume_of_Soil_Removed_via_RT>
-      <opts>
-        <opt>&lt;10%</opt>
-        <opt>10-20%</opt>
-        <opt>20-30%</opt>
-        <opt>30-40%</opt>
-        <opt>40-40%</opt>
-        <opt>50-40%</opt>
-        <opt>60-40%</opt>
-        <opt>70-40%</opt>
-        <opt>80-40%</opt>
-        <opt>90-100%</opt>
-      </opts>
-    </Volume_of_Soil_Removed_via_RT>
-    <Affect f="notnull">
-      <desc>1=0-20% of the entire feature is missing or disrupted, 5= 80-100% of the feature's surface is missing or disrupted</desc>
-      <opts>
-        <opt>1</opt>
-        <opt>2</opt>
-        <opt>3</opt>
-        <opt>4</opt>
-        <opt>5</opt>
-      </opts>
-    </Affect>
-    <Impact f="notnull">
-      <desc>1 = context is nearly intact; 5 = original context of the feature is nearly all destroyed</desc>
-      <opts>
-        <opt>1</opt>
-        <opt>2</opt>
-        <opt>3</opt>
-        <opt>4</opt>
-        <opt>5</opt>
-      </opts>
-    </Impact>
     <Comments_and_Recommendations/>
     <CRM_Photo t="camera"/>
   </CRM>
@@ -446,7 +472,7 @@ void onShowShape () {
 }
 
 initMap();
-addOnEvent("Start/Map/Centre_Me", "click", "centreMe()");
+//addOnEvent("Start/Map/Centre_Me", "click", "centreMe()");
 addOnEvent("Start/Map",           "show",  "refreshMap()");
 
 /****************************** DATE POPULATION *******************************/
@@ -511,56 +537,137 @@ addOnEvent("Start/Map",           "show",  "refreshMap()");
 
   addOnEvent(tableRef, "show", "populateTable()");
 
-/*********************************** LOGIN ************************************/
-  // Overrides autogenerated definition
-  selectUser () {
-    String userVocabId  = getFieldValue(userMenuPath);
-    if (isNull(userVocabId))
-      return;
+  /****************************** GIS POINT STYLES ******************************/
+  final String MAP_REF = "Start/Map/Map";
+  /* Displays the geometry of each entity whose menu, by the name of `attribName`,
+   * has `vocabName` saved in it. The geometry is displayed in whatever colour is
+   * given by `geoColor`.
+   *
+   * The geometry is displayed in a layer called `layerName`. This is a
+   * human-readable name that the user can use to toggle the visibility of the
+   * geometry in the UI.
+   */
+  void showDatabaseLayerByVocabName(
+      String attribName,
+      String vocabName,
+      int    geoColor, /* Example argument: Color.BLACK */
+      String layerName
+  ) {
+    int transBlk = Color.parseColor("#AA000000");
+    GeometryStyle sln_ = createLineStyle(10, transBlk, 0.01f, 0.3f, null);
+    // Define arguments to `showDatabaseLayer`
+    String q;
+    q  = "SELECT uuid, aenttimestamp";
+    q += "  FROM latestNonDeletedArchEnt";
+    q += "  JOIN latestnondeletedaentvalue USING (uuid)";
+    q += "  JOIN attributekey              USING (attributeid)";
+    q += "  JOIN vocabulary                USING (vocabid)";
+    q += " WHERE {vocabName}  IN ('', vocabname)";
+    q += "   AND {attribName} IN ('', attributename)";
+    q  = dbReplaceFirst(q, "{vocabName}",  vocabName);
+    q  = dbReplaceFirst(q, "{attribName}", attribName);
+    boolean isEntity = true;
+    GeometryStyle spt = createPointStyle(10, geoColor, 0.2f, 0.5f);
+    GeometryStyle sln = createLineStyle(10, geoColor, 0.05f, 0.3f, null);
+    GeometryStyle spg = createPolygonStyle(10, geoColor, sln_);
+    GeometryTextStyle stx = createTextStyle(
+        10,
+        Color.BLACK,
+        40,
+        Typeface.SANS_SERIF
+    );
+    showDatabaseLayer(
+        MAP_REF,
+        layerName,
+        isEntity,
+        layerName,
+        q,
+        spt,
+        sln,
+        spg,
+        stx
+    );
+  }
+  void showDatabaseLayerByVocabName(
+      String vocabName,
+      int    geoColor,
+      String layerName
+  ) {
+    showDatabaseLayerByVocabName("", vocabName, geoColor, layerName);
+  }
+  void showDatabaseLayerByVocabName(String vocabName, int geoColor) {
+    String layerName = guessArch16nValFromKey(vocabName);
+    showDatabaseLayerByVocabName(vocabName, geoColor, layerName);
+  }
+  void initMap() {
+    // showBaseMap(MAP_REF, "Base Map", "files/data/R1980_YambolElhovoExt.tif");
+    //showDatabaseLayerByVocabName("{1___pristine}",   Color.GREEN;
+    showDatabaseLayerByVocabName("{2___minor_damage}", Color.BLUE);
+    showDatabaseLayerByVocabName("{3___damaged}",  Color.YELLOW);
+    //showDatabaseLayerByVocabName("{4___seriously_damaged}",   Color.ORANGE);
+    //showDatabaseLayerByVocabName("{5___extinct_or_near_extinct}", Color.parseColor(#FF0000));
+/*
 
-    String userQ = "SELECT userid,fname,lname,email,password FROM user " +
-                   "WHERE  userid='" + userVocabId + "';";
-    FetchCallback callback = new FetchCallback() {
-      onFetch(result) {
-        user = new User(
-              result.get(0),
-              result.get(1),
-              result.get(2),
-              result.get(3),
-              result.get(4)
-        );
-        setUser(user);
-        username = result.get(1) + " " + result.get(2);
-      }
-    };
 
-    fetchOne(userQ, callback);
+
+
+
+
+    */
+    showDatabaseLayerByVocabName("{NA}",  Color.BLACK);
+    setMapZoom(MAP_REF, 13.0f);
+  }
+  initMap();
+
+  /********************************* CUSTOM SEARCH ******************************/
+  addOnEvent("Start/Search", "show", "populateSelectAuthor()");
+  addOnEvent("Start/Search/Select_Author", "click", "search()");
+  void populateSelectAuthor(){
+  String refSearchUsers = "Start/Search/Select_Author";
+  String getNonDeletedUsersQuery = "SELECT userid, fname || ' ' || lname "+
+                                   "  FROM user "+
+                                   " WHERE userdeleted is null "+
+                                   " UNION " +
+                                   "SELECT -1, '{All}'";
+
+  fetchAll(getNonDeletedUsersQuery, new FetchCallback() {
+    onFetch(result) {
+      populateDropDown(refSearchUsers, result, false);
+      search();
+    }
+  });
   }
 
-  onClickLogin () {
-    showVerifyUserDialog("doUserLogin()");
+  // Overrides auto-generated definition
+  void search(){
+  String refEntityList    = "Start/Search/Entity_List";
+  String refSearchTerm    = "Start/Search/Search_Term";
+  String refEntityTypes   = "Start/Search/Entity_Types";
+  String refSelectAuthor  = "Start/Search/Select_Author";
+  String type = getFieldValue(refEntityTypes);
+  String term = getFieldValue(refSearchTerm);
+
+  String user = getFieldValue(refSelectAuthor);
+  String searchQuery = "SELECT uuid, response "+
+                       "  FROM latestNonDeletedArchEntFormattedIdentifiers  "+
+                       " WHERE uuid in (SELECT uuid "+
+                       "                  FROM latestNonDeletedArchEntIdentifiers "+
+                       "                 WHERE measure LIKE {term}||'%'  "+
+                       "                   AND ( aenttypename = {type} OR '' = {type} ) "+
+                       " AND ( userid = {user} OR -1 = {user}) " +
+                       "                )  "+
+                       " ORDER BY response "+
+                       " LIMIT ? "+
+                       "OFFSET ? ";
+  searchQuery = dbReplaceFirst(searchQuery, "{term}", term);
+  searchQuery = dbReplaceFirst(searchQuery, "{type}", type);
+  searchQuery = dbReplaceFirst(searchQuery, "{type}", type);
+  searchQuery = replaceFirst(searchQuery, "{user}", user);
+  populateCursorList(refEntityList, searchQuery, 25);
+  refreshTabgroupCSS("Start");
+
+  Log.d("Module", "Search query: " + searchQuery);
   }
-
-  onClickSignup () {
-    setSyncEnabled(true);
-    showCreateUserDialog("signupSuccessful()");
-  }
-
-  signupSuccessful() {
-    String head  = "Signup Successful";
-    String body  = "You have successfuly signed up. You may now log in as the ";
-           body += "newly created user.";
-
-    showWarning(head, body);
-    populateListForUsers();
-  }
-
-  doUserLogin () {
-    newTab("Start", true);
-  }
-
-  addOnEvent("User/User/Log_in",  "click", "onClickLogin()");
-  addOnEvent("User/User/Sign_up", "click", "onClickSignup()");
 ]]></logic>
 
 </module>
