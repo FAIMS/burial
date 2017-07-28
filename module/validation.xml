@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <ValidationSchema>
   <ArchaeologicalElement name="Burial Mound">
-    <property name="Object ID">
+    <property name="Mound ID">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>

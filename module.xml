@@ -11,7 +11,7 @@
 
 <Start f="nodata">
   <Main>
-    <Take_Feature t="button" l="Burial_Mound"/>
+    <Create_new_Record t="button" l="Burial_Mound"/>
     <autonum/>
     <GPS_Diagnostics t="gpsdiag"/>
   </Main>
@@ -31,7 +31,7 @@
 
 <Burial_Mound>
   <General>
-    <Object_ID f="id notnull autonum"/>
+    <Mound_ID f="id notnull autonum" b="decimal"/>
     <Date f="readonly"/>
     <author/>
     <Type f="notnull">
@@ -143,9 +143,9 @@
         <opt>Other</opt>
       </opts>
     </Facing_Direction_For_Photo>
-    <Mound_Overview_Photo t="camera">
+    <Photo t="camera">
       <desc>Take 1 general overview shot that includes the complete feature profile, and a scale. Include direction in the Annotation (from which direction was the image taken)</desc>
-    </Mound_Overview_Photo>
+    </Photo>
   </General>
   <Dimensions>
     <cols>
@@ -316,7 +316,7 @@
     </Most_recent_damage_within>
     <RT_Description/>
     <Comments_and_Recommendations/>
-    <CRM_Photo t="camera"/>
+    <CRM_Photos t="camera"/>
   </CRM>
 </Burial_Mound>
 
@@ -506,7 +506,7 @@ addOnEvent("Start/Map",           "show",  "refreshMap()");
   query += "    order by uuid, aentcountorder, vocabcountorder ";
   query += "  ) ";
   query += "  where aenttypename='Burial Mound' ";
-  query += "  and attributename in ('Object ID', 'Type', 'Date', 'Surrounding Landuse', 'Surface Landuse', 'Height Max', 'Length Max') ";
+  query += "  and attributename in ('Mound ID', 'Type', 'Date', 'Landuse around Mound', 'Landuse on top of Mound', 'Height Max', 'Diameter Max') ";
   query += "  group by uuid, attributeid ";
   query += "  having response is not null ";
   query += "  order by uuid, aentcountorder; ";
@@ -518,13 +518,13 @@ addOnEvent("Start/Map",           "show",  "refreshMap()");
   actionCallback = "loadEntityFromTable()";
 
   headers.add("");
-  headers.add("Object ID");
+  headers.add("Mound ID");
   headers.add("Type");
   headers.add("Date");
-  headers.add("Surrounding Landuse");
-  headers.add("Surface Landuse");
+  headers.add("Landuse around Mound");
+  headers.add("Landuse on top of Mound");
   headers.add("Height Max");
-  headers.add("Length Max");
+  headers.add("Diameter Max");
 
   populateTable() {
     populateTablePivot(tableRef, query, headers, actionName, actionIdx, actionCallback);

@@ -4,8 +4,9 @@
 .required-label {
   color: red;
 }
-.objectid {
+.moundID {
+  color: #B2B2B2;
 }
-.objectid-label {
+.moundID-label {
   color: red;
 }

@@ -53,9 +53,9 @@ replacement="
               <\/Colgroup_1>"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_schema.xml
 
-string="<input faims_attribute_name=\"Object ID\" faims_attribute_type=\"measure\" ref=\"Object_ID\" faims_style_class=\"required\">"
+string="<input faims_attribute_name=\"Mound ID\" faims_attribute_type=\"measure\" ref=\"Mound_ID\" faims_style_class=\"required\">"
 
-replacement="<input faims_attribute_name=\"Object ID\" faims_attribute_type=\"measure\" ref=\"Object_ID\" faims_style_class=\"objectid\">"
+replacement="<input faims_attribute_name=\"Mound ID\" faims_attribute_type=\"measure\" ref=\"Mound_ID\" faims_style_class=\"moundID\">"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_schema.xml
 
 cat << EOF >> english.0.properties
@@ -63,9 +63,10 @@ Select_Author=Select Author
 EOF
 
 cat << EOF >> ui_styling.css
-.objectid {
+.moundID {
+  color: #B2B2B2;
 }
-.objectid-label {
+.moundID-label {
   color: red;
 }
 EOF

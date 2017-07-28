@@ -26,8 +26,8 @@
           </User>
           <Start>
             <Main>
-              <Take_Feature/>
-              <Next_Object_ID/>
+              <Create_new_Record/>
+              <Next_Mound_ID/>
               <GPS_Diagnostics/>
             </Main>
             <Search>
@@ -60,7 +60,7 @@
           </Start>
           <Burial_Mound>
             <General>
-              <Object_ID/>
+              <Mound_ID/>
               <Date/>
               <Burial_Mound_author/>
               <Type/>
@@ -91,8 +91,8 @@
               <Take_From_GPS_1/>
               <Elevation/>
               <Facing_Direction_For_Photo/>
-              <Mound_Overview_Photo/>
-              <Mound_Overview_Photo_Button_1/>
+              <Photo/>
+              <Photo_Button_1/>
             </General>
             <Dimensions>
               <Colgroup_1>
@@ -124,8 +124,8 @@
               <Most_recent_damage_within/>
               <RT_Description/>
               <Comments_and_Recommendations/>
-              <CRM_Photo/>
-              <CRM_Photo_Button_1/>
+              <CRM_Photos/>
+              <CRM_Photos_Button_1/>
             </CRM>
           </Burial_Mound>
           <Shape>
@@ -136,7 +136,8 @@
           </Shape>
         </faims>
       </instance>
-      <bind nodeset="/faims/Start/Main/Next_Object_ID" type="decimal"/>
+      <bind nodeset="/faims/Start/Main/Next_Mound_ID" type="decimal"/>
+      <bind nodeset="/faims/Burial_Mound/General/Mound_ID" type="decimal"/>
       <bind nodeset="/faims/Burial_Mound/General/Elevation" type="decimal"/>
       <bind nodeset="/faims/Burial_Mound/Dimensions/Colgroup_1/Col_1/Height_Max" type="decimal"/>
       <bind nodeset="/faims/Burial_Mound/Dimensions/Colgroup_1/Col_1/Diameter_Max" type="decimal"/>
@@ -188,11 +189,11 @@
       <label>{Start}</label>
       <group ref="Main">
         <label>{Main}</label>
-        <trigger ref="Take_Feature">
-          <label>{Take_Feature}</label>
+        <trigger ref="Create_new_Record">
+          <label>{Create_new_Record}</label>
         </trigger>
-        <input ref="Next_Object_ID" faims_style_class="required">
-          <label>{Next_Object_ID}</label>
+        <input ref="Next_Mound_ID" faims_style_class="required">
+          <label>{Next_Mound_ID}</label>
         </input>
         <input faims_read_only="true" ref="GPS_Diagnostics">
           <label>{GPS_Diagnostics}</label>
@@ -269,8 +270,8 @@
       <label>{Burial_Mound}</label>
       <group ref="General">
         <label>{General}</label>
-        <input faims_attribute_name="Object ID" faims_attribute_type="measure" ref="Object_ID" faims_style_class="objectid">
-          <label>{Object_ID}</label>
+        <input faims_attribute_name="Mound ID" faims_attribute_type="measure" ref="Mound_ID" faims_style_class="moundID">
+          <label>{Mound_ID}</label>
         </input>
         <input faims_attribute_name="Date" faims_attribute_type="measure" ref="Date" faims_read_only="true">
           <label>{Date}</label>
@@ -365,15 +366,15 @@
             <value>Options not loaded</value>
           </item>
         </select1>
-        <select faims_sync="true" type="camera" faims_attribute_name="Mound Overview Photo" faims_attribute_type="measure" ref="Mound_Overview_Photo">
-          <label>{Mound_Overview_Photo}</label>
+        <select faims_sync="true" type="camera" faims_attribute_name="Photo" faims_attribute_type="measure" ref="Photo">
+          <label>{Photo}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
           </item>
         </select>
-        <trigger ref="Mound_Overview_Photo_Button_1">
-          <label>{Mound_Overview_Photo}</label>
+        <trigger ref="Photo_Button_1">
+          <label>{Photo}</label>
         </trigger>
       </group>
       <group ref="Dimensions">
@@ -478,15 +479,15 @@
         <input faims_attribute_name="Comments and Recommendations" faims_attribute_type="measure" ref="Comments_and_Recommendations">
           <label>{Comments_and_Recommendations}</label>
         </input>
-        <select faims_sync="true" type="camera" faims_attribute_name="CRM Photo" faims_attribute_type="measure" ref="CRM_Photo">
-          <label>{CRM_Photo}</label>
+        <select faims_sync="true" type="camera" faims_attribute_name="CRM Photos" faims_attribute_type="measure" ref="CRM_Photos">
+          <label>{CRM_Photos}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
           </item>
         </select>
-        <trigger ref="CRM_Photo_Button_1">
-          <label>{CRM_Photo}</label>
+        <trigger ref="CRM_Photos_Button_1">
+          <label>{CRM_Photos}</label>
         </trigger>
       </group>
     </group>

@@ -149,8 +149,8 @@ HashMap ATTRIB_NAMES_NON_STANDARD      = new HashMap();
 
 REF_TO_TYPE.put("User/User/User", "dropdown");
 REF_TO_TYPE.put("User/User/Log_in", "button");
-REF_TO_TYPE.put("Start/Main/Take_Feature", "button");
-REF_TO_TYPE.put("Start/Main/Next_Object_ID", "input");
+REF_TO_TYPE.put("Start/Main/Create_new_Record", "button");
+REF_TO_TYPE.put("Start/Main/Next_Mound_ID", "input");
 REF_TO_TYPE.put("Start/Main/GPS_Diagnostics", "gpsdiag");
 REF_TO_TYPE.put("Start/Search/Search_Term", "input");
 REF_TO_TYPE.put("Start/Search/Search_Button", "button");
@@ -160,7 +160,7 @@ REF_TO_TYPE.put("Start/Table/Table", "input");
 REF_TO_TYPE.put("Start/Map/Map", "map");
 REF_TO_TYPE.put("Start/Map/Center_Me_1", "button");
 REF_TO_TYPE.put("Start/Map/Create_Shape", "button");
-REF_TO_TYPE.put("Burial_Mound/General/Object_ID", "input");
+REF_TO_TYPE.put("Burial_Mound/General/Mound_ID", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Date", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Burial_Mound_author", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Type", "dropdown");
@@ -177,8 +177,8 @@ REF_TO_TYPE.put("Burial_Mound/General/Accuracy", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Take_From_GPS_1", "button");
 REF_TO_TYPE.put("Burial_Mound/General/Elevation", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Facing_Direction_For_Photo", "dropdown");
-REF_TO_TYPE.put("Burial_Mound/General/Mound_Overview_Photo", "camera");
-REF_TO_TYPE.put("Burial_Mound/General/Mound_Overview_Photo_Button_1", "button");
+REF_TO_TYPE.put("Burial_Mound/General/Photo", "camera");
+REF_TO_TYPE.put("Burial_Mound/General/Photo_Button_1", "button");
 REF_TO_TYPE.put("Burial_Mound/Dimensions/Height_Max", "input");
 REF_TO_TYPE.put("Burial_Mound/Dimensions/Diameter_Max", "input");
 REF_TO_TYPE.put("Burial_Mound/Dimensions/Height_Min", "input");
@@ -198,8 +198,8 @@ REF_TO_TYPE.put("Burial_Mound/CRM/Most_recent_damage_what", "dropdown");
 REF_TO_TYPE.put("Burial_Mound/CRM/Most_recent_damage_within", "dropdown");
 REF_TO_TYPE.put("Burial_Mound/CRM/RT_Description", "input");
 REF_TO_TYPE.put("Burial_Mound/CRM/Comments_and_Recommendations", "input");
-REF_TO_TYPE.put("Burial_Mound/CRM/CRM_Photo", "camera");
-REF_TO_TYPE.put("Burial_Mound/CRM/CRM_Photo_Button_1", "button");
+REF_TO_TYPE.put("Burial_Mound/CRM/CRM_Photos", "camera");
+REF_TO_TYPE.put("Burial_Mound/CRM/CRM_Photos_Button_1", "button");
 REF_TO_TYPE.put("Shape/Shape_Note/Label", "input");
 REF_TO_TYPE.put("Shape/Shape_Note/Note", "input");
 REF_TO_TYPE.put("User/User", "tab");
@@ -213,7 +213,7 @@ REF_TO_TYPE.put("Burial_Mound/Material", "tab");
 REF_TO_TYPE.put("Burial_Mound/CRM", "tab");
 REF_TO_TYPE.put("Shape/Shape_Note", "tab");
 
-DATA_REFS.add("Burial_Mound/General/Object_ID");
+DATA_REFS.add("Burial_Mound/General/Mound_ID");
 DATA_REFS.add("Burial_Mound/General/Date");
 DATA_REFS.add("Burial_Mound/General/Burial_Mound_author");
 DATA_REFS.add("Burial_Mound/General/Type");
@@ -229,7 +229,7 @@ DATA_REFS.add("Burial_Mound/General/Easting");
 DATA_REFS.add("Burial_Mound/General/Accuracy");
 DATA_REFS.add("Burial_Mound/General/Elevation");
 DATA_REFS.add("Burial_Mound/General/Facing_Direction_For_Photo");
-DATA_REFS.add("Burial_Mound/General/Mound_Overview_Photo");
+DATA_REFS.add("Burial_Mound/General/Photo");
 DATA_REFS.add("Burial_Mound/Dimensions/Height_Max");
 DATA_REFS.add("Burial_Mound/Dimensions/Diameter_Max");
 DATA_REFS.add("Burial_Mound/Dimensions/Height_Min");
@@ -248,7 +248,7 @@ DATA_REFS.add("Burial_Mound/CRM/Most_recent_damage_what");
 DATA_REFS.add("Burial_Mound/CRM/Most_recent_damage_within");
 DATA_REFS.add("Burial_Mound/CRM/RT_Description");
 DATA_REFS.add("Burial_Mound/CRM/Comments_and_Recommendations");
-DATA_REFS.add("Burial_Mound/CRM/CRM_Photo");
+DATA_REFS.add("Burial_Mound/CRM/CRM_Photos");
 DATA_REFS.add("Shape/Shape_Note/Label");
 DATA_REFS.add("Shape/Shape_Note/Note");
 
@@ -346,7 +346,7 @@ HashSet getTabsAsHashSet() {
 
 List getStartingIdRefs() {
   List l = new ArrayList();
-  l.add("Start/Main/Next_Object_ID");
+  l.add("Start/Main/Next_Mound_ID");
   return l;
 }
 
@@ -2476,14 +2476,14 @@ String validateFields(List fields, String format) {
 
 void validateStart() {
   List f = new ArrayList(); // Fields to be validated
-  f.add(fieldPair("Start/Main/Next_Object_ID", "{Next_Object_ID}"));
+  f.add(fieldPair("Start/Main/Next_Mound_ID", "{Next_Mound_ID}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("{validation_results}", validationMessage);
 }
 void validateBurialMound() {
   List f = new ArrayList(); // Fields to be validated
-  f.add(fieldPair("Burial_Mound/General/Object_ID", "{Object_ID}"));
+  f.add(fieldPair("Burial_Mound/General/Mound_ID", "{Mound_ID}"));
   f.add(fieldPair("Burial_Mound/General/Type", "{Type}"));
   f.add(fieldPair("Burial_Mound/Dimensions/Height_Max", "{Height_Max__m_}"));
   f.add(fieldPair("Burial_Mound/Dimensions/Diameter_Max", "{Diameter_Max__m_}"));
@@ -2618,7 +2618,7 @@ addOnEvent("Shape", "show", "onShowShape()");
 
 
 
-void onClickStartTakeFeature () {
+void onClickStartCreatenewRecord () {
   parentTabgroup__ = "Start";
   newBurialMound();
 }
@@ -2639,16 +2639,16 @@ void onClickUserLogin () {
 }
 
 
-addOnEvent("Start/Main/Take_Feature", "click", "onClickStartTakeFeature()");
+addOnEvent("Start/Main/Create_new_Record", "click", "onClickStartCreatenewRecord()");
 addOnEvent("Start/Map/Create_Shape", "click", "onClickStartCreateShape()");
 addOnEvent("User/User/Log_in", "click", "onClickUserLogin()");
 
 /******************************************************************************/
 /*                   AUDIO, CAMERA, FILE AND VIDEO BINDINGS                   */
 /******************************************************************************/
-addOnEvent("Burial_Mound/General/Mound_Overview_Photo_Button_1", "click", "attachPictureTo(\"Burial_Mound/General/Mound_Overview_Photo\")");
+addOnEvent("Burial_Mound/General/Photo_Button_1", "click", "attachPictureTo(\"Burial_Mound/General/Photo\")");
 addOnEvent("Burial_Mound/Material/Associated_Feature_or_Material_Photo_Button_1", "click", "attachPictureTo(\"Burial_Mound/Material/Associated_Feature_or_Material_Photo\")");
-addOnEvent("Burial_Mound/CRM/CRM_Photo_Button_1", "click", "attachPictureTo(\"Burial_Mound/CRM/CRM_Photo\")");
+addOnEvent("Burial_Mound/CRM/CRM_Photos_Button_1", "click", "attachPictureTo(\"Burial_Mound/CRM/CRM_Photos\")");
 
 /******************************************************************************/
 /*                 BINDINGS FOR 'VIEW ATTACHED FILES' BUTTONS                 */
@@ -2945,7 +2945,7 @@ void newBurialMound(String parent){
     parentTabgroup   = parent;
     parentTabgroup__ = parent;
   }
-  if (isNull("Start/Main/Next_Object_ID")) {
+  if (isNull("Start/Main/Next_Mound_ID")) {
     showWarning("{Alert}", "{A_next_ID_has_not_been_entered_please_provide_one}");
     return;
   }
@@ -2954,7 +2954,7 @@ void newBurialMound(String parent){
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-  incAutoNum("Burial_Mound/General/Object_ID");
+  incAutoNum("Burial_Mound/General/Mound_ID");
 
   executeOnEvent(tabgroup, "create");
 }
@@ -2989,13 +2989,13 @@ void duplicateBurialMound(){
   String uuidOld = getUuid(tabgroup);
   setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
-  incAutoNum("Burial_Mound/General/Object_ID");
+  incAutoNum("Burial_Mound/General/Mound_ID");
   clearGpsInTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-  populateCameraPictureGallery("Burial_Mound/General/Mound_Overview_Photo", new ArrayList());
+  populateCameraPictureGallery("Burial_Mound/General/Photo", new ArrayList());
   populateCameraPictureGallery("Burial_Mound/Material/Associated_Feature_or_Material_Photo", new ArrayList());
-  populateCameraPictureGallery("Burial_Mound/CRM/CRM_Photo", new ArrayList());
+  populateCameraPictureGallery("Burial_Mound/CRM/CRM_Photos", new ArrayList());
   executeOnEvent(tabgroup, "copy");
 
   saveCallback = new SaveCallback() {
@@ -3027,9 +3027,9 @@ void duplicateBurialMound(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
 
-      excludeAttributes.add("Mound Overview Photo");
+      excludeAttributes.add("Photo");
       excludeAttributes.add("Associated Feature or Material Photo");
-      excludeAttributes.add("CRM Photo");
+      excludeAttributes.add("CRM Photos");
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
     }
@@ -3355,7 +3355,7 @@ for (String ref : getStartingIdRefs())
 
 void incAutoNum(String destPath) {
   Map destToSource = new HashMap();
-  destToSource.put("Burial_Mound/General/Object_ID", "Start/Main/Next_Object_ID");
+  destToSource.put("Burial_Mound/General/Mound_ID", "Start/Main/Next_Mound_ID");
 
   String sourcePath = destToSource.get(destPath);
   String destVal    = getFieldValue(sourcePath);
@@ -3689,7 +3689,7 @@ addOnEvent("Start/Map",           "show",  "refreshMap()");
   query += "    order by uuid, aentcountorder, vocabcountorder ";
   query += "  ) ";
   query += "  where aenttypename='Burial Mound' ";
-  query += "  and attributename in ('Object ID', 'Type', 'Date', 'Surrounding Landuse', 'Surface Landuse', 'Height Max', 'Length Max') ";
+  query += "  and attributename in ('Mound ID', 'Type', 'Date', 'Landuse around Mound', 'Landuse on top of Mound', 'Height Max', 'Diameter Max') ";
   query += "  group by uuid, attributeid ";
   query += "  having response is not null ";
   query += "  order by uuid, aentcountorder; ";
@@ -3701,13 +3701,13 @@ addOnEvent("Start/Map",           "show",  "refreshMap()");
   actionCallback = "loadEntityFromTable()";
 
   headers.add("");
-  headers.add("Object ID");
+  headers.add("Mound ID");
   headers.add("Type");
   headers.add("Date");
-  headers.add("Surrounding Landuse");
-  headers.add("Surface Landuse");
+  headers.add("Landuse around Mound");
+  headers.add("Landuse on top of Mound");
   headers.add("Height Max");
-  headers.add("Length Max");
+  headers.add("Diameter Max");
 
   populateTable() {
     populateTablePivot(tableRef, query, headers, actionName, actionIdx, actionCallback);
