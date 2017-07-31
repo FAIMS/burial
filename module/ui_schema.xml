@@ -296,14 +296,14 @@
         <input faims_attribute_name="Description of Mound or Locale" faims_attribute_type="measure" ref="Description_of_Mound_or_Locale">
           <label>{Description_of_Mound_or_Locale}</label>
         </input>
-        <select1 faims_attribute_name="Landuse around Mound" faims_attribute_type="vocab" ref="Landuse_around_Mound">
+        <select1 faims_attribute_name="Landuse around Mound" faims_attribute_type="vocab" ref="Landuse_around_Mound" faims_html_description="true">
           <label>{Landuse_around_Mound}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
           </item>
         </select1>
-        <select1 faims_attribute_name="Landuse on top of Mound" faims_attribute_type="vocab" ref="Landuse_on_top_of_Mound">
+        <select1 faims_attribute_name="Landuse on top of Mound" faims_attribute_type="vocab" ref="Landuse_on_top_of_Mound" faims_html_description="true">
           <label>{Landuse_on_top_of_Mound}</label>
           <item>
             <label>Options not loaded</label>

@@ -4,22 +4,12 @@
     <description></description>
     <property name="Mound ID" type="measure" isIdentifier="true">
       <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <formatString>$2 - </formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Date" type="measure">
+    <property name="Type" type="vocab" isIdentifier="true">
       <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="Burial Mound author" type="measure">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="Type" type="vocab">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <formatString>$1</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Burial_Mound}
@@ -37,6 +27,16 @@
         <term>{Other}
 <description></description></term>
       </lookup>
+    </property>
+    <property name="Date" type="measure">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Burial Mound author" type="measure">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Source" type="vocab">
       <description></description>
@@ -63,45 +63,265 @@
       <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Landuse around Mound" type="vocab">
-      <description>Landuse around the mound. Choose the majority landuse.</description>
+      <description>
+        &lt;i&gt;Description:&lt;/i&gt;
+        &lt;br&gt;
+        &lt;div&gt;
+            &lt;p&gt;Landuse around the mound. Choose the majority landuse.&lt;/p&gt;
+            &lt;hr/&gt;
+        &lt;/div&gt;
+      </description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Annual_agriculture}
-<description></description></term>
+<description>
+            &lt;div&gt;
+              &lt;div&gt;
+                &lt;p&gt;Annual agriculture&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Agr_Seedling_9063_Overview_NW01.JPG" alt="files/data/gallery/Around_Landuse/Agr_Seedling_9063_Overview_NW01.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Agr_Seedling_9078_Overview_NW01.JPG" alt="files/data/gallery/Around_Landuse/Agr_Seedling_9078_Overview_NW01.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Agr_Harrowed_9058_Overview_SE01.JPG" alt="files/data/gallery/Around_Landuse/Agr_Harrowed_9058_Overview_SE01.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Agr_Harrowed_9080_Overview_SE01.JPG" alt="files/data/gallery/Around_Landuse/Agr_Harrowed_9080_Overview_SE01.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Agr_Ploughed_9158_Overview_S.JPG" alt="files/data/gallery/Around_Landuse/Agr_Ploughed_9158_Overview_S.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;hr/&gt;
+            &lt;/div&gt;
+          </description></term>
         <term>{Perennial_agriculture__e_g_orchard_or_vineyard_}
-<description></description></term>
+<description>
+            &lt;div&gt;
+              &lt;div&gt;
+                &lt;p&gt;Perennial agriculture (e.g orchard or vineyard)&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Perennial_Roses.JPG" alt="files/data/gallery/Around_Landuse/Perennial_Roses.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Perennial_Lavender.JPG" alt="files/data/gallery/Around_Landuse/Perennial_Lavender.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;hr/&gt;
+            &lt;/div&gt;
+          </description></term>
         <term>{Pasture__grassland_}
-<description></description></term>
+<description>
+            &lt;div&gt;
+              &lt;div&gt;
+                &lt;p&gt;Pasture (grassland)&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Pasture_9138_Overview_S01.JPG" alt="files/data/gallery/Around_Landuse/Pasture_9138_Overview_S01.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Pasture_9138_Detail_E_W_Direction.JPG" alt="files/data/gallery/Around_Landuse/Pasture_9138_Detail_E_W_Direction.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Pasture_9104_Overview_S.JPG" alt="files/data/gallery/Around_Landuse/Pasture_9104_Overview_S.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Pasture_9094_Overview_S.JPG" alt="files/data/gallery/Around_Landuse/Pasture_9094_Overview_S.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Pasture_9066_Overview_W01.JPG" alt="files/data/gallery/Around_Landuse/Pasture_9066_Overview_W01.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;hr/&gt;
+            &lt;/div&gt;
+          </description></term>
         <term>{Scrub}
-<description></description></term>
+<description>
+            &lt;div&gt;
+              &lt;div&gt;
+                &lt;p&gt;Scrub&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Scrub_9155_Overview_E01.JPG" alt="files/data/gallery/Around_Landuse/Scrub_9155_Overview_E01.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;hr/&gt;
+            &lt;/div&gt;
+          </description></term>
         <term>{Forest}
-<description></description></term>
+<description>
+            &lt;div&gt;
+              &lt;div&gt;
+                &lt;p&gt;Forest&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Forest_3097_Overview_W_2.JPG" alt="files/data/gallery/Around_Landuse/Forest_3097_Overview_W_2.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Forest_3111_Overview_N_2.JPG" alt="files/data/gallery/Around_Landuse/Forest_3111_Overview_N_2.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;hr/&gt;
+            &lt;/div&gt;
+          </description></term>
         <term>{Urban__in_a_settlement_or_surrounded_by_infrastructure_}
-<description></description></term>
+<description>
+            &lt;div&gt;
+              &lt;div&gt;
+                &lt;p&gt;Urban (in a settlement or surrounded by infrastructure)&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Urban.JPG" alt="files/data/gallery/Around_Landuse/Urban.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;hr/&gt;
+            &lt;/div&gt;
+          </description></term>
         <term>{Other__explain_in_notes_}
-<description></description></term>
+<description>
+            &lt;div&gt;
+              &lt;div&gt;
+                &lt;p&gt;Other (explain in notes)&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Around_Landuse/Perennial_Roses.JPG" alt="files/data/gallery/Around_Landuse/Other_3276_Overview01_N.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;hr/&gt;
+            &lt;/div&gt;
+          </description></term>
       </lookup>
     </property>
     <property name="Landuse on top of Mound" type="vocab">
-      <description>Landuse on top of mound. Choose majority.</description>
+      <description>
+        &lt;i&gt;Description:&lt;/i&gt;
+        &lt;br&gt;
+        &lt;div&gt;
+            &lt;p&gt;Landuse on top of mound. Choose majority.&lt;/p&gt;
+            &lt;hr/&gt;
+        &lt;/div&gt;
+      </description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Annual_agriculture}
-<description></description></term>
+<description>
+            &lt;div&gt;
+              &lt;div&gt;
+                &lt;p&gt;Annual agriculture&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Agr_6015_Overview_N.jpg" alt="files/data/gallery/Top_Landuse/Agr_6015_Overview_N.jpg"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Agr_7012_Overview_1.JPG" alt="files/data/gallery/Top_Landuse/Agr_7012_Overview_1.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;hr/&gt;
+            &lt;/div&gt;
+          </description></term>
         <term>{Perennial_agriculture__e_g_orchard_or_vineyard_}
-<description></description></term>
+<description>
+            &lt;div&gt;
+              &lt;div&gt;
+                &lt;p&gt;Perennial agriculture (e.g orchard or vineyard)&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Perennial_9072_Overview_S01.JPG" alt="files/data/gallery/Top_Landuse/Perennial_9072_Overview_S01.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;hr/&gt;
+            &lt;/div&gt;
+          </description></term>
         <term>{Pasture__grassland_}
-<description></description></term>
+<description>
+            &lt;div&gt;
+              &lt;div&gt;
+                &lt;p&gt;Pasture (grassland)&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_3315_Overview_S.JPG" alt="files/data/gallery/Top_Landuse/Grassland_3315_Overview_S.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_3299_Overview_NE.dng" alt="files/data/gallery/Top_Landuse/Grassland_3299_Overview_NE.dng"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_3208_Overview_W.JPG" alt="files/data/gallery/Top_Landuse/Grassland_3208_Overview_W.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_2081_Overview.dng" alt="files/data/gallery/Top_Landuse/Grassland_2081_Overview.dng"/&gt;
+              &lt;/div&gt;
+              &lt;hr/&gt;
+            &lt;/div&gt;
+          </description></term>
         <term>{Scrub}
-<description></description></term>
+<description>
+            &lt;div&gt;
+              &lt;div&gt;
+                &lt;p&gt;Scrub&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_2099_Overview_W02.JPG" alt="files/data/gallery/Top_Landuse/Scrub_2099_Overview_W02.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_2013_Overview_E.JPG" alt="files/data/gallery/Top_Landuse/Scrub_2013_Overview_E.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_3253_Overview_S.dng" alt="files/data/gallery/Top_Landuse/Scrub_3253_Overview_S.dng"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_6019_Overview_E.jpg" alt="files/data/gallery/Top_Landuse/Scrub_6019_Overview_E.jpg"/&gt;
+              &lt;/div&gt;
+              &lt;hr/&gt;
+            &lt;/div&gt;
+          </description></term>
         <term>{Forest}
-<description></description></term>
+<description>
+            &lt;div&gt;
+              &lt;div&gt;
+                &lt;p&gt;Forest&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.dng" alt="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.dng"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3410_Overview_W.JPG" alt="files/data/gallery/Top_Landuse/Forest_3410_Overview_W.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3111_Overview_N_2.JPG" alt="files/data/gallery/Top_Landuse/Forest_3111_Overview_N_2.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3097_Overview_W_2.JPG" alt="files/data/gallery/Top_Landuse/Forest_3097_Overview_W_2.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3051_Overview_S.dng" alt="files/data/gallery/Top_Landuse/Forest_3051_Overview_S.dng"/&gt;
+              &lt;/div&gt;
+              &lt;hr/&gt;
+            &lt;/div&gt;
+          </description></term>
         <term>{Urban__in_a_settlement_or_surrounded_by_infrastructure_}
-<description></description></term>
+<description>
+            &lt;div&gt;
+              &lt;div&gt;
+                &lt;p&gt;Urban (in a settlement or surrounded by infrastructure)&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Urban.JPG" alt="files/data/gallery/Top_Landuse/Urban.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;hr/&gt;
+            &lt;/div&gt;
+          </description></term>
         <term>{Other__explain_in_notes_}
-<description></description></term>
+<description>
+            &lt;div&gt;
+              &lt;div&gt;
+                &lt;p&gt;Other (explain in notes)&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Other_3276_Overview01_N.JPG" alt="files/data/gallery/Top_Landuse/Other_3276_Overview01_N.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Other_Scrub_2102_Overview_S01.JPG" alt="files/data/gallery/Top_Landuse/Other_Scrub_2102_Overview_S01.JPG"/&gt;
+              &lt;/div&gt;
+              &lt;hr/&gt;
+            &lt;/div&gt;
+          </description></term>
       </lookup>
     </property>
     <property name="Prominence" type="vocab">

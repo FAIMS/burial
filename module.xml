@@ -31,10 +31,19 @@
 
 <Burial_Mound>
   <General>
-    <Mound_ID f="id notnull autonum" b="decimal"/>
+    <Mound_ID f="id notnull autonum" b="decimal">
+      <str>
+        <pos>1</pos>
+        <fmt>$0 - </fmt>
+      </str>
+    </Mound_ID>
     <Date f="readonly"/>
     <author/>
-    <Type f="notnull">
+    <Type f="id notnull">
+      <str>
+        <pos>2</pos>
+        <fmt>$0</fmt>
+      </str>
       <opts>
         <opt>Burial Mound</opt>
         <opt>Extinct Burial Mound</opt>
@@ -59,55 +68,289 @@
         Describe the location in relation to local topography and relief (optional)
       </desc>
     </Description_of_Mound_or_Locale>
-    <Landuse_around_Mound>
-      <desc>Landuse around the mound. Choose the majority landuse.</desc>
+    <Landuse_around_Mound f="htmldesc">
+      <desc><![CDATA[
+        <i>Description:</i>
+        <br>
+        <div>
+            <p>Landuse around the mound. Choose the majority landuse.</p>
+            <hr/>
+        </div>
+      ]]></desc>
       <opts>
         <opt>
           Annual agriculture
+          <desc><![CDATA[
+            <div>
+              <div>
+                <p>Annual agriculture</p>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Agr_Seedling_9063_Overview_NW01.JPG" alt="files/data/gallery/Around_Landuse/Agr_Seedling_9063_Overview_NW01.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Agr_Seedling_9078_Overview_NW01.JPG" alt="files/data/gallery/Around_Landuse/Agr_Seedling_9078_Overview_NW01.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Agr_Harrowed_9058_Overview_SE01.JPG" alt="files/data/gallery/Around_Landuse/Agr_Harrowed_9058_Overview_SE01.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Agr_Harrowed_9080_Overview_SE01.JPG" alt="files/data/gallery/Around_Landuse/Agr_Harrowed_9080_Overview_SE01.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Agr_Ploughed_9158_Overview_S.JPG" alt="files/data/gallery/Around_Landuse/Agr_Ploughed_9158_Overview_S.JPG"/>
+              </div>
+              <hr/>
+            </div>
+          ]]></desc>
         </opt>
         <opt>
           Perennial agriculture (e.g orchard or vineyard)
+          <desc><![CDATA[
+            <div>
+              <div>
+                <p>Perennial agriculture (e.g orchard or vineyard)</p>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Perennial_Roses.JPG" alt="files/data/gallery/Around_Landuse/Perennial_Roses.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Perennial_Lavender.JPG" alt="files/data/gallery/Around_Landuse/Perennial_Lavender.JPG"/>
+              </div>
+              <hr/>
+            </div>
+          ]]></desc>
         </opt>
         <opt>
           Pasture (grassland)
+          <desc><![CDATA[
+            <div>
+              <div>
+                <p>Pasture (grassland)</p>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Pasture_9138_Overview_S01.JPG" alt="files/data/gallery/Around_Landuse/Pasture_9138_Overview_S01.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Pasture_9138_Detail_E_W_Direction.JPG" alt="files/data/gallery/Around_Landuse/Pasture_9138_Detail_E_W_Direction.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Pasture_9104_Overview_S.JPG" alt="files/data/gallery/Around_Landuse/Pasture_9104_Overview_S.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Pasture_9094_Overview_S.JPG" alt="files/data/gallery/Around_Landuse/Pasture_9094_Overview_S.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Pasture_9066_Overview_W01.JPG" alt="files/data/gallery/Around_Landuse/Pasture_9066_Overview_W01.JPG"/>
+              </div>
+              <hr/>
+            </div>
+          ]]></desc>
         </opt>
         <opt>
           Scrub
+          <desc><![CDATA[
+            <div>
+              <div>
+                <p>Scrub</p>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Scrub_9155_Overview_E01.JPG" alt="files/data/gallery/Around_Landuse/Scrub_9155_Overview_E01.JPG"/>
+              </div>
+              <hr/>
+            </div>
+          ]]></desc>
         </opt>
         <opt>
           Forest
+          <desc><![CDATA[
+            <div>
+              <div>
+                <p>Forest</p>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Forest_3097_Overview_W_2.JPG" alt="files/data/gallery/Around_Landuse/Forest_3097_Overview_W_2.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Forest_3111_Overview_N_2.JPG" alt="files/data/gallery/Around_Landuse/Forest_3111_Overview_N_2.JPG"/>
+              </div>
+              <hr/>
+            </div>
+          ]]></desc>
         </opt>
         <opt>
           Urban (in a settlement or surrounded by infrastructure)
+          <desc><![CDATA[
+            <div>
+              <div>
+                <p>Urban (in a settlement or surrounded by infrastructure)</p>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Urban.JPG" alt="files/data/gallery/Around_Landuse/Urban.JPG"/>
+              </div>
+              <hr/>
+            </div>
+          ]]></desc>
         </opt>
         <opt>
           Other (explain in notes)
+          <desc><![CDATA[
+            <div>
+              <div>
+                <p>Other (explain in notes)</p>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Perennial_Roses.JPG" alt="files/data/gallery/Around_Landuse/Other_3276_Overview01_N.JPG"/>
+              </div>
+              <hr/>
+            </div>
+          ]]></desc>
         </opt>
       </opts>
     </Landuse_around_Mound>
-    <Landuse_on_top_of_Mound>
-      <desc>Landuse on top of mound. Choose majority.</desc>
+    <Landuse_on_top_of_Mound f="htmldesc">
+      <desc><![CDATA[
+        <i>Description:</i>
+        <br>
+        <div>
+            <p>Landuse on top of mound. Choose majority.</p>
+            <hr/>
+        </div>
+      ]]></desc>
       <opts>
         <opt>
           Annual agriculture
+          <desc><![CDATA[
+            <div>
+              <div>
+                <p>Annual agriculture</p>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Agr_6015_Overview_N.jpg" alt="files/data/gallery/Top_Landuse/Agr_6015_Overview_N.jpg"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Agr_7012_Overview_1.JPG" alt="files/data/gallery/Top_Landuse/Agr_7012_Overview_1.JPG"/>
+              </div>
+              <hr/>
+            </div>
+          ]]></desc>
         </opt>
         <opt>
           Perennial agriculture (e.g orchard or vineyard)
+          <desc><![CDATA[
+            <div>
+              <div>
+                <p>Perennial agriculture (e.g orchard or vineyard)</p>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Perennial_9072_Overview_S01.JPG" alt="files/data/gallery/Top_Landuse/Perennial_9072_Overview_S01.JPG"/>
+              </div>
+              <hr/>
+            </div>
+          ]]></desc>
         </opt>
         <opt>
           Pasture (grassland)
+          <desc><![CDATA[
+            <div>
+              <div>
+                <p>Pasture (grassland)</p>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_3315_Overview_S.JPG" alt="files/data/gallery/Top_Landuse/Grassland_3315_Overview_S.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_3299_Overview_NE.dng" alt="files/data/gallery/Top_Landuse/Grassland_3299_Overview_NE.dng"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_3208_Overview_W.JPG" alt="files/data/gallery/Top_Landuse/Grassland_3208_Overview_W.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_2081_Overview.dng" alt="files/data/gallery/Top_Landuse/Grassland_2081_Overview.dng"/>
+              </div>
+              <hr/>
+            </div>
+          ]]></desc>
         </opt>
         <opt>
           Scrub
+          <desc><![CDATA[
+            <div>
+              <div>
+                <p>Scrub</p>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_2099_Overview_W02.JPG" alt="files/data/gallery/Top_Landuse/Scrub_2099_Overview_W02.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_2013_Overview_E.JPG" alt="files/data/gallery/Top_Landuse/Scrub_2013_Overview_E.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_3253_Overview_S.dng" alt="files/data/gallery/Top_Landuse/Scrub_3253_Overview_S.dng"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_6019_Overview_E.jpg" alt="files/data/gallery/Top_Landuse/Scrub_6019_Overview_E.jpg"/>
+              </div>
+              <hr/>
+            </div>
+          ]]></desc>
         </opt>
         <opt>
           Forest
+          <desc><![CDATA[
+            <div>
+              <div>
+                <p>Forest</p>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.dng" alt="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.dng"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3410_Overview_W.JPG" alt="files/data/gallery/Top_Landuse/Forest_3410_Overview_W.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3111_Overview_N_2.JPG" alt="files/data/gallery/Top_Landuse/Forest_3111_Overview_N_2.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3097_Overview_W_2.JPG" alt="files/data/gallery/Top_Landuse/Forest_3097_Overview_W_2.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3051_Overview_S.dng" alt="files/data/gallery/Top_Landuse/Forest_3051_Overview_S.dng"/>
+              </div>
+              <hr/>
+            </div>
+          ]]></desc>
         </opt>
         <opt>
           Urban (in a settlement or surrounded by infrastructure)
+          <desc><![CDATA[
+            <div>
+              <div>
+                <p>Urban (in a settlement or surrounded by infrastructure)</p>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Urban.JPG" alt="files/data/gallery/Top_Landuse/Urban.JPG"/>
+              </div>
+              <hr/>
+            </div>
+          ]]></desc>
         </opt>
         <opt>
           Other (explain in notes)
+          <desc><![CDATA[
+            <div>
+              <div>
+                <p>Other (explain in notes)</p>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Other_3276_Overview01_N.JPG" alt="files/data/gallery/Top_Landuse/Other_3276_Overview01_N.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Other_Scrub_2102_Overview_S01.JPG" alt="files/data/gallery/Top_Landuse/Other_Scrub_2102_Overview_S01.JPG"/>
+              </div>
+              <hr/>
+            </div>
+          ]]></desc>
         </opt>
       </opts>
     </Landuse_on_top_of_Mound>
