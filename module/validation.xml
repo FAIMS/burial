@@ -1,19 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
 <ValidationSchema>
   <ArchaeologicalElement name="Burial Mound">
-    <property name="Object ID">
+    <property name="Mound ID">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Affect">
+    <property name="Type">
       <validator type="blankchecker">
         <param type="field" value="vocab"/>
       </validator>
     </property>
-    <property name="Impact">
+    <property name="Height Max">
       <validator type="blankchecker">
-        <param type="field" value="vocab"/>
+        <param type="field" value="measure"/>
+      </validator>
+    </property>
+    <property name="Diameter Max">
+      <validator type="blankchecker">
+        <param type="field" value="measure"/>
       </validator>
     </property>
   </ArchaeologicalElement>
