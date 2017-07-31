@@ -2616,7 +2616,9 @@ void onShowShape () {
 addOnEvent("Burial_Mound", "show", "onShowBurialMound()");
 addOnEvent("Shape", "show", "onShowShape()");
 
-
+void onClickUserLogin () {
+  newTab("Start", true);
+}
 
 void onClickStartCreatenewRecord () {
   parentTabgroup__ = "Start";
@@ -2628,20 +2630,16 @@ void onClickStartCreateShape () {
   newShape();
 }
 
-void onValidClickUserLogin () {
-  newTab("Start", true);
-}
 
 
 
-void onClickUserLogin () {
-  showVerifyUserDialog("onValidClickUserLogin()");
-}
 
 
+
+
+addOnEvent("User/User/Log_in", "click", "onClickUserLogin()");
 addOnEvent("Start/Main/Create_new_Record", "click", "onClickStartCreatenewRecord()");
 addOnEvent("Start/Map/Create_Shape", "click", "onClickStartCreateShape()");
-addOnEvent("User/User/Log_in", "click", "onClickUserLogin()");
 
 /******************************************************************************/
 /*                   AUDIO, CAMERA, FILE AND VIDEO BINDINGS                   */
