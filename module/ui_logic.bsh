@@ -1,5 +1,5 @@
 /*
- * GENERATED WITH FAIMS-TOOLS, SHA1: c856a7c30feaa8f5e55312ffa4b6699092de8f73
+ * GENERATED WITH FAIMS-TOOLS, SHA1: ca512b49eaf4f375812f14cde4b96c9c98693ab2
  */
 import android.util.Log;
 import android.os.Build.MODEL;
@@ -1690,17 +1690,26 @@ void setFieldValueFromLocalSettings(String ref) {
   setFieldValueFromLocalSettings(ref, false);
 }
 
-void setFieldValueFromLocalSettingsOnShow(
+void setFieldValueFromLocalSettingsOnEvent(
     String ref,
     boolean doOverwrite,
-    String defaultVal
+    String defaultVal,
+    String event
 ) {
   String cb = fun2str(
       "setFieldValueFromLocalSettings",
       new Object[]{ref, doOverwrite, defaultVal}
   );
 
-  addOnEvent(getTabGroupRef(ref), "show", cb);
+  addOnEvent(getTabGroupRef(ref), event, cb);
+}
+
+void setFieldValueFromLocalSettingsOnShow(
+    String ref,
+    boolean doOverwrite,
+    String defaultVal
+) {
+  setFieldValueFromLocalSettingsOnEvent(ref, doOverwrite, defaultVal, "show");
 }
 
 void setFieldValueFromLocalSettingsOnShow(String ref, boolean doOverwrite) {
@@ -1716,8 +1725,15 @@ void setFieldValueFromLocalSettingsOnShow(String ref, boolean doOverwrite) {
  * be so if the call is made in the autogenerator's `logic` tags.
  */
 void persistOverSessions(String ref, boolean doOverwrite, String defaultVal) {
-  setFieldValueFromLocalSettingsOnShow(ref, doOverwrite, defaultVal);
-  insertIntoLocalSettingsOnChange     (ref);
+  String tabGroupRef = getTabGroupRef(ref);
+  boolean isData = !isFlaggedNodata(tabGroupRef);
+
+  String event;
+  if (isData) event = "create";
+  else        event = "show";
+
+  setFieldValueFromLocalSettingsOnEvent(ref, doOverwrite, defaultVal, event);
+  insertIntoLocalSettingsOnChange      (ref);
 }
 
 void persistOverSessions(String ref, boolean doOverwrite) {

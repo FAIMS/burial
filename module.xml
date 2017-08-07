@@ -38,12 +38,13 @@
       </str>
     </Mound_ID>
     <Date f="readonly"/>
-    <author/>
-    <Type f="id notnull">
+    <author>
       <str>
         <pos>2</pos>
         <fmt>$0</fmt>
       </str>
+    </author>
+    <Type f="id notnull">
       <opts>
         <opt>Burial Mound</opt>
         <opt>Extinct Burial Mound</opt>

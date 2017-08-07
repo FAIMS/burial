@@ -7,9 +7,19 @@
       <formatString>$2 - </formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
+    <property name="Burial Mound author" type="measure">
+      <description></description>
+      <formatString>$2</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Date" type="measure">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
     <property name="Type" type="vocab" isIdentifier="true">
       <description></description>
-      <formatString>$1</formatString>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Burial_Mound}
@@ -27,16 +37,6 @@
         <term>{Other}
 <description></description></term>
       </lookup>
-    </property>
-    <property name="Date" type="measure">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="Burial Mound author" type="measure">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Source" type="vocab">
       <description></description>

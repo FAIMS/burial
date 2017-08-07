@@ -54,8 +54,14 @@
             </Table>
             <Map>
               <Map/>
-              <Center_Me_1/>
-              <Create_Shape/>
+              <Colgroup_1>
+                <Col_1>
+                  <Center_Me_1/>
+                </Col_1>
+                <Col_2>
+                  <Create_Shape/>
+                </Col_2>
+              </Colgroup_1>
             </Map>
           </Start>
           <Burial_Mound>
@@ -258,12 +264,21 @@
         <input faims_map="true" ref="Map">
           <label>{Map}</label>
         </input>
-        <trigger ref="Center_Me_1">
-          <label>{Center_Me}</label>
-        </trigger>
-        <trigger ref="Create_Shape">
-          <label>{Create_Shape}</label>
-        </trigger>
+        <group ref="Colgroup_1" faims_style="orientation">
+          <label/>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <trigger ref="Center_Me_1">
+            <label>{Center_Me}</label>
+            </trigger>
+          </group>
+          <group ref="Col_2" faims_style="even">
+            <label/>
+            <trigger ref="Create_Shape">
+              <label>{Create_Shape}</label>
+            </trigger>
+          </group>
+        </group>
       </group>
     </group>
     <group ref="Burial_Mound" faims_archent_type="Burial Mound">
@@ -277,7 +292,7 @@
           <label>{Date}</label>
         </input>
         <input faims_attribute_name="Burial Mound author" faims_attribute_type="measure" ref="Burial_Mound_author" faims_read_only="true">
-          <label>{Author}</label>
+          <label>{Burial_Mound_author}</label>
         </input>
         <select1 faims_attribute_name="Type" faims_attribute_type="vocab" ref="Type" faims_style_class="required">
           <label>{Type}</label>
