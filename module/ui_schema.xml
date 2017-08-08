@@ -66,6 +66,7 @@
           </Start>
           <Burial_Mound>
             <General>
+              <Validate/>
               <Mound_ID/>
               <Date/>
               <Burial_Mound_author/>
@@ -285,6 +286,9 @@
       <label>{Burial_Mound}</label>
       <group ref="General">
         <label>{General}</label>
+        <trigger ref="Validate">
+          <label>{Validate}</label>
+        </trigger>
         <input faims_attribute_name="Mound ID" faims_attribute_type="measure" ref="Mound_ID" faims_style_class="moundID">
           <label>{Mound_ID}</label>
         </input>
@@ -292,7 +296,7 @@
           <label>{Date}</label>
         </input>
         <input faims_attribute_name="Burial Mound author" faims_attribute_type="measure" ref="Burial_Mound_author" faims_read_only="true">
-          <label>{Burial_Mound_author}</label>
+          <label>{Author}</label>
         </input>
         <select1 faims_attribute_name="Type" faims_attribute_type="vocab" ref="Type" faims_style_class="required">
           <label>{Type}</label>
@@ -311,14 +315,14 @@
         <input faims_attribute_name="Description of Mound or Locale" faims_attribute_type="measure" ref="Description_of_Mound_or_Locale">
           <label>{Description_of_Mound_or_Locale}</label>
         </input>
-        <select1 faims_attribute_name="Landuse around Mound" faims_attribute_type="vocab" ref="Landuse_around_Mound" faims_html_description="true">
+        <select1 faims_attribute_name="Landuse around Mound" faims_attribute_type="vocab" ref="Landuse_around_Mound" faims_style_class="required" faims_html_description="true">
           <label>{Landuse_around_Mound}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
           </item>
         </select1>
-        <select1 faims_attribute_name="Landuse on top of Mound" faims_attribute_type="vocab" ref="Landuse_on_top_of_Mound" faims_html_description="true">
+        <select1 faims_attribute_name="Landuse on top of Mound" faims_attribute_type="vocab" ref="Landuse_on_top_of_Mound" faims_style_class="required" faims_html_description="true">
           <label>{Landuse_on_top_of_Mound}</label>
           <item>
             <label>Options not loaded</label>
@@ -374,14 +378,14 @@
         <input faims_attribute_name="Elevation" faims_attribute_type="measure" ref="Elevation">
           <label>{Elevation__MASL_}</label>
         </input>
-        <select1 faims_attribute_name="Facing Direction For Photo" faims_attribute_type="vocab" ref="Facing_Direction_For_Photo">
+        <select1 faims_attribute_name="Facing Direction For Photo" faims_attribute_type="vocab" ref="Facing_Direction_For_Photo" faims_style_class="required">
           <label>{Facing_Direction_For_Photo}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
           </item>
         </select1>
-        <select faims_sync="true" type="camera" faims_attribute_name="Photo" faims_attribute_type="measure" ref="Photo">
+        <select faims_sync="true" type="camera" faims_attribute_name="Photo" faims_attribute_type="measure" ref="Photo" faims_style_class="required">
           <label>{Photo}</label>
           <item>
             <label>Options not loaded</label>
@@ -434,7 +438,7 @@
         <input faims_attribute_name="Surface Material Description" faims_attribute_type="measure" ref="Surface_Material_Description">
           <label>{Surface_Material_Description}</label>
         </input>
-        <select1 appearance="full" faims_attribute_name="Sample Collected" faims_attribute_type="vocab" ref="Sample_Collected">
+        <select1 appearance="full" faims_attribute_name="Sample Collected" faims_attribute_type="vocab" ref="Sample_Collected" faims_style_class="required">
           <label>{Sample_Collected_}</label>
           <item>
             <label>Options not loaded</label>
@@ -457,14 +461,14 @@
       </group>
       <group ref="CRM">
         <label>{CRM}</label>
-        <select1 faims_attribute_name="Condition" faims_attribute_type="vocab" ref="Condition">
+        <select1 faims_attribute_name="Condition" faims_attribute_type="vocab" ref="Condition" faims_style_class="required">
           <label>{Condition}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
           </item>
         </select1>
-        <select1 faims_attribute_name="Principal Source of Impact" faims_attribute_type="vocab" ref="Principal_Source_of_Impact">
+        <select1 faims_attribute_name="Principal Source of Impact" faims_attribute_type="vocab" ref="Principal_Source_of_Impact" faims_style_class="required">
           <label>{Principal_Source_of_Impact}</label>
           <item>
             <label>Options not loaded</label>

@@ -160,6 +160,7 @@ REF_TO_TYPE.put("Start/Table/Table", "input");
 REF_TO_TYPE.put("Start/Map/Map", "map");
 REF_TO_TYPE.put("Start/Map/Center_Me_1", "button");
 REF_TO_TYPE.put("Start/Map/Create_Shape", "button");
+REF_TO_TYPE.put("Burial_Mound/General/Validate", "button");
 REF_TO_TYPE.put("Burial_Mound/General/Mound_ID", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Date", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Burial_Mound_author", "input");
@@ -1075,12 +1076,12 @@ void timedPopulateCursorList(String ref, String q, int limit) {
 
 void setUpTypeHierarchy() {
   //- 
-  //  - Shape
   //  - Burial Mound
+  //  - Shape
 
   n0 = Tree("", 1);
-  n1 = Tree("Shape", 1);
-  n2 = Tree("Burial Mound", 1);
+  n1 = Tree("Burial Mound", 1);
+  n2 = Tree("Shape", 1);
 
   n0.addChild(n1);
   n0.addChild(n2);
@@ -2501,8 +2502,15 @@ void validateBurialMound() {
   List f = new ArrayList(); // Fields to be validated
   f.add(fieldPair("Burial_Mound/General/Mound_ID", "{Mound_ID}"));
   f.add(fieldPair("Burial_Mound/General/Type", "{Type}"));
+  f.add(fieldPair("Burial_Mound/General/Landuse_around_Mound", "{Landuse_around_Mound}"));
+  f.add(fieldPair("Burial_Mound/General/Landuse_on_top_of_Mound", "{Landuse_on_top_of_Mound}"));
+  f.add(fieldPair("Burial_Mound/General/Facing_Direction_For_Photo", "{Facing_Direction_For_Photo}"));
+  f.add(fieldPair("Burial_Mound/General/Photo", "{Photo}"));
   f.add(fieldPair("Burial_Mound/Dimensions/Height_Max", "{Height_Max__m_}"));
   f.add(fieldPair("Burial_Mound/Dimensions/Diameter_Max", "{Diameter_Max__m_}"));
+  f.add(fieldPair("Burial_Mound/Material/Sample_Collected", "{Sample_Collected_}"));
+  f.add(fieldPair("Burial_Mound/CRM/Condition", "{Condition}"));
+  f.add(fieldPair("Burial_Mound/CRM/Principal_Source_of_Impact", "{Principal_Source_of_Impact}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("{validation_results}", validationMessage);
@@ -3846,6 +3854,112 @@ for (m : ENTITY_MENUS) {
   /*************************** Retain field Source value **********************/
   insertIntoLocalSettingsOnChange("Burial_Mound/General/Source");
   addOnEvent("Burial_Mound", "create", "setFieldValueFromLocalSettings(\"Burial_Mound/General/Source\")");
+
+  /********************** Custom Location for Valdiate button *****************/
+  addOnEvent("Burial_Mound/General/Validate", "click", "validateBurialMound()");
+
+  void removeNavigationButtons() {
+    removeNavigationButton("new");
+    removeNavigationButton("duplicate");
+    removeNavigationButton("delete");
+  }
+
+  void addNavigationButtons(String tabgroup) {
+    removeNavigationButtons();
+    List tabgroupsToValidate = new ArrayList();
+    tabgroupsToValidate.add("Start");
+    tabgroupsToValidate.add("Burial_Mound");
+    addNavigationButton("new", new ActionButtonCallback() {
+      actionOnLabel() {
+        "{New}";
+      }
+      actionOn() {
+        if(isNull(getUuid(tabgroup))) {
+          showAlert(
+              "{Warning}",
+              "{The_current_record_has_not_been_saved_yet}",
+              fun2str("newRecord", new Object[]{tabgroup, true}),
+              ""
+          );
+        } else {
+          newRecord(tabgroup, true);
+          showToast("{New_record_created}");
+        }
+      }
+    }, "success");
+    addNavigationButton("duplicate", new ActionButtonCallback() {
+      actionOnLabel() {
+        "{Duplicate}";
+      }
+      actionOn() {
+        if(!isNull(getUuid(tabgroup))) {
+          duplicateRecord(tabgroup);
+        } else {
+          showWarning("{Warning}", "{This_record_is_unsaved_and_cannot_be_duplicated}");
+        }
+      }
+    }, "primary");
+    addNavigationButton("delete", new ActionButtonCallback() {
+      actionOnLabel() {
+        "{Delete}";
+      }
+      actionOn() {
+        deleteRecord(tabgroup);
+      }
+    }, "danger");
+  }
+
+  void duplicateBurialMound(){
+    String tabgroup = "Burial_Mound";
+    String uuidOld = getUuid(tabgroup);
+    setUuid(tabgroup, "");
+    disableAutoSave(tabgroup);
+    incAutoNum("Burial_Mound/General/Mound_ID");
+    clearGpsInTabGroup(tabgroup);
+    populateAuthorAndTimestamp(tabgroup);
+    populateEntityListsInTabGroup(tabgroup);
+    populateCameraPictureGallery("Burial_Mound/General/Photo", new ArrayList());
+    populateCameraPictureGallery("Burial_Mound/Material/Associated_Feature_or_Material_Photo", new ArrayList());
+    populateCameraPictureGallery("Burial_Mound/CRM/CRM_Photos", new ArrayList());
+    executeOnEvent(tabgroup, "copy");
+
+    saveCallback = new SaveCallback() {
+      onSave(uuid, newRecord) {
+        setUuid(tabgroup, uuid);
+
+        timedFetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
+          onFetch(result) {
+            Log.e("Module", result.toString());
+
+            if (result != null && result.size() >= 1) {
+              parentTabgroup__ = result.get(0).get(4);
+              parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+            }
+
+            makeDuplicateRelationships(result, getUuid(tabgroup));
+
+            showToast("{Duplicated_record}");
+            dialog.dismiss();
+          }
+        });
+
+        saveTabGroup(tabgroup);
+      }
+    };
+    setDayMonth();
+    String extraDupeAttributes = "";
+    timedFetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
+      onFetch(result) {
+        excludeAttributes = new ArrayList();
+
+        excludeAttributes.add("Photo");
+        excludeAttributes.add("Associated Feature or Material Photo");
+        excludeAttributes.add("CRM Photos");
+
+        duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
+      }
+    });
+  }
 
 
 /******************************************************************************/

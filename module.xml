@@ -31,25 +31,20 @@
 
 <Burial_Mound>
   <General>
+    <Validate t="button"/>
     <Mound_ID f="id notnull autonum" b="decimal">
       <str>
         <pos>1</pos>
-        <fmt>$0 - </fmt>
+        <fmt>$0</fmt>
       </str>
     </Mound_ID>
     <Date f="readonly"/>
-    <author>
-      <str>
-        <pos>2</pos>
-        <fmt>$0</fmt>
-      </str>
-    </author>
-    <Type f="id notnull">
+    <author/>
+    <Type f="notnull">
       <opts>
         <opt>Burial Mound</opt>
         <opt>Extinct Burial Mound</opt>
         <opt>Uncertain Feature</opt>
-        <opt>Surface concentration</opt>
         <opt>Natural Feature</opt>
         <opt>Unknown</opt>
         <opt>Other</opt>
@@ -69,7 +64,7 @@
         Describe the location in relation to local topography and relief (optional)
       </desc>
     </Description_of_Mound_or_Locale>
-    <Landuse_around_Mound f="htmldesc">
+    <Landuse_around_Mound f="notnull htmldesc">
       <desc><![CDATA[
         <i>Description:</i>
         <br>
@@ -201,7 +196,10 @@
                 <p>Other (explain in notes)</p>
               </div>
               <div>
-                <img style="width:100%" src="files/data/gallery/Around_Landuse/Perennial_Roses.JPG" alt="files/data/gallery/Around_Landuse/Other_3276_Overview01_N.JPG"/>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Other_3276_Overview01_N.JPG" alt="files/data/gallery/Top_Landuse/Other_3276_Overview01_N.JPG"/>
+              </div>
+              <div>
+                <img style="width:100%" src="files/data/gallery/Around_Landuse/Other_Scrub_2102_Overview_S01.JPG" alt="files/data/gallery/Top_Landuse/Other_Scrub_2102_Overview_S01.JPG"/>
               </div>
               <hr/>
             </div>
@@ -209,7 +207,7 @@
         </opt>
       </opts>
     </Landuse_around_Mound>
-    <Landuse_on_top_of_Mound f="htmldesc">
+    <Landuse_on_top_of_Mound f="notnull htmldesc">
       <desc><![CDATA[
         <i>Description:</i>
         <br>
@@ -366,14 +364,14 @@
         <opt>Hilltop</opt>
       </opts>
     </Prominence>
-    <gps/>
+    <gps f="notnull"/>
     <Elevation b="decimal">
       Elevation (MASL)
       <desc>
         Only enter value if present in the map. List source in Annotation
       </desc>
     </Elevation>
-    <Facing_Direction_For_Photo>
+    <Facing_Direction_For_Photo f="notnull">
       <opts>
         <opt>No Observation</opt>
         <opt>North</opt>
@@ -387,7 +385,7 @@
         <opt>Other</opt>
       </opts>
     </Facing_Direction_For_Photo>
-    <Photo t="camera">
+    <Photo t="camera" f="notnull">
       <desc>Take 1 general overview shot that includes the complete feature profile, and a scale. Include direction in the Annotation (from which direction was the image taken)</desc>
     </Photo>
   </General>
@@ -471,7 +469,7 @@
         Please comment on the density, dimensions, boundedness, and other characteristics of the associated surface materials.
       </desc>
     </Surface_Material_Description>
-    <Sample_Collected t="radio">
+    <Sample_Collected t="radio" f="notnull">
       Sample Collected?
       <opts>
         <opt>Yes</opt>
@@ -482,7 +480,7 @@
     <Associated_Feature_or_Material_Photo t="camera"/>
   </Material>
   <CRM>
-    <Condition>
+    <Condition f="notnull">
       <opts>
         <opt>
           0 - No observation
@@ -522,7 +520,7 @@
         </opt>
       </opts>
     </Condition>
-    <Principal_Source_of_Impact>
+    <Principal_Source_of_Impact f="notnull">
       <opts>
         <opt>Not available</opt>
         <opt>Agriculture</opt>
@@ -893,6 +891,112 @@
   /*************************** Retain field Source value **********************/
   insertIntoLocalSettingsOnChange("Burial_Mound/General/Source");
   addOnEvent("Burial_Mound", "create", "setFieldValueFromLocalSettings(\"Burial_Mound/General/Source\")");
+
+  /********************** Custom Location for Valdiate button *****************/
+  addOnEvent("Burial_Mound/General/Validate", "click", "validateBurialMound()");
+
+  void removeNavigationButtons() {
+    removeNavigationButton("new");
+    removeNavigationButton("duplicate");
+    removeNavigationButton("delete");
+  }
+
+  void addNavigationButtons(String tabgroup) {
+    removeNavigationButtons();
+    List tabgroupsToValidate = new ArrayList();
+    tabgroupsToValidate.add("Start");
+    tabgroupsToValidate.add("Burial_Mound");
+    addNavigationButton("new", new ActionButtonCallback() {
+      actionOnLabel() {
+        "{New}";
+      }
+      actionOn() {
+        if(isNull(getUuid(tabgroup))) {
+          showAlert(
+              "{Warning}",
+              "{The_current_record_has_not_been_saved_yet}",
+              fun2str("newRecord", new Object[]{tabgroup, true}),
+              ""
+          );
+        } else {
+          newRecord(tabgroup, true);
+          showToast("{New_record_created}");
+        }
+      }
+    }, "success");
+    addNavigationButton("duplicate", new ActionButtonCallback() {
+      actionOnLabel() {
+        "{Duplicate}";
+      }
+      actionOn() {
+        if(!isNull(getUuid(tabgroup))) {
+          duplicateRecord(tabgroup);
+        } else {
+          showWarning("{Warning}", "{This_record_is_unsaved_and_cannot_be_duplicated}");
+        }
+      }
+    }, "primary");
+    addNavigationButton("delete", new ActionButtonCallback() {
+      actionOnLabel() {
+        "{Delete}";
+      }
+      actionOn() {
+        deleteRecord(tabgroup);
+      }
+    }, "danger");
+  }
+
+  void duplicateBurialMound(){
+    String tabgroup = "Burial_Mound";
+    String uuidOld = getUuid(tabgroup);
+    setUuid(tabgroup, "");
+    disableAutoSave(tabgroup);
+    incAutoNum("Burial_Mound/General/Mound_ID");
+    clearGpsInTabGroup(tabgroup);
+    populateAuthorAndTimestamp(tabgroup);
+    populateEntityListsInTabGroup(tabgroup);
+    populateCameraPictureGallery("Burial_Mound/General/Photo", new ArrayList());
+    populateCameraPictureGallery("Burial_Mound/Material/Associated_Feature_or_Material_Photo", new ArrayList());
+    populateCameraPictureGallery("Burial_Mound/CRM/CRM_Photos", new ArrayList());
+    executeOnEvent(tabgroup, "copy");
+
+    saveCallback = new SaveCallback() {
+      onSave(uuid, newRecord) {
+        setUuid(tabgroup, uuid);
+
+        timedFetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
+          onFetch(result) {
+            Log.e("Module", result.toString());
+
+            if (result != null && result.size() >= 1) {
+              parentTabgroup__ = result.get(0).get(4);
+              parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+            }
+
+            makeDuplicateRelationships(result, getUuid(tabgroup));
+
+            showToast("{Duplicated_record}");
+            dialog.dismiss();
+          }
+        });
+
+        saveTabGroup(tabgroup);
+      }
+    };
+    setDayMonth();
+    String extraDupeAttributes = "";
+    timedFetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
+      onFetch(result) {
+        excludeAttributes = new ArrayList();
+
+        excludeAttributes.add("Photo");
+        excludeAttributes.add("Associated Feature or Material Photo");
+        excludeAttributes.add("CRM Photos");
+
+        duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
+      }
+    });
+  }
 ]]></logic>
 
 </module>

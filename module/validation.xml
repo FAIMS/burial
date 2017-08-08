@@ -11,6 +11,21 @@
         <param type="field" value="vocab"/>
       </validator>
     </property>
+    <property name="Landuse around Mound">
+      <validator type="blankchecker">
+        <param type="field" value="vocab"/>
+      </validator>
+    </property>
+    <property name="Landuse on top of Mound">
+      <validator type="blankchecker">
+        <param type="field" value="vocab"/>
+      </validator>
+    </property>
+    <property name="Facing Direction For Photo">
+      <validator type="blankchecker">
+        <param type="field" value="vocab"/>
+      </validator>
+    </property>
     <property name="Height Max">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
@@ -19,6 +34,21 @@
     <property name="Diameter Max">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
+      </validator>
+    </property>
+    <property name="Sample Collected">
+      <validator type="blankchecker">
+        <param type="field" value="vocab"/>
+      </validator>
+    </property>
+    <property name="Condition">
+      <validator type="blankchecker">
+        <param type="field" value="vocab"/>
+      </validator>
+    </property>
+    <property name="Principal Source of Impact">
+      <validator type="blankchecker">
+        <param type="field" value="vocab"/>
       </validator>
     </property>
   </ArchaeologicalElement>
