@@ -50,6 +50,7 @@
               <Entity_List/>
             </Search>
             <Table>
+              <Select_Date/>
               <Table/>
             </Table>
             <Map>
@@ -256,6 +257,13 @@
       </group>
       <group ref="Table" faims_scrollable="false">
         <label>{Table}</label>
+        <select1 ref="Select_Date">
+          <label>{Select_Date}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
         <input ref="Table" faims_table="true">
           <label>{Table}</label>
         </input>
@@ -340,13 +348,13 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Latitude" faims_attribute_type="measure" ref="Latitude" faims_read_only="true">
+            <input faims_attribute_name="Latitude" faims_attribute_type="measure" ref="Latitude" faims_read_only="true" faims_style_class="required">
               <label>{Latitude}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Longitude" faims_attribute_type="measure" ref="Longitude" faims_read_only="true">
+            <input faims_attribute_name="Longitude" faims_attribute_type="measure" ref="Longitude" faims_read_only="true" faims_style_class="required">
               <label>{Longitude}</label>
             </input>
           </group>
