@@ -719,7 +719,12 @@
   /********************************* TABLE VIEW *********************************/
   addOnEvent("Start/Table/Select_Date", "show", "populateDate()");
   addOnEvent("Start/Table", "show", "populateTable()");
+  addOnEvent("Start/Table/Select_Date", "click", "populateTable()");
+
   void populateDate() {
+    String refDate = "Start/Table/Select_Date";
+    if(!isNull(getFieldValue(refDate)))
+      setFieldValue("Start/Table/Select_Date", "");
     String refDate = "Start/Table/Select_Date";
 
     String q = "";
@@ -741,7 +746,7 @@
         all.add("");
 
         // Add 'all' option to the List l
-        //l.add(all);
+        l.add(all);
         // Add all existing Date record to List l
         l.addAll(result);
         // Populate dropdown list with List l
@@ -751,6 +756,8 @@
     };
 
     fetchAll(q, popDate);
+    //setFieldValueFromLocalSettings("Start/Table/Select_Date");
+
   }
 
   loadEntityFromTable() {
@@ -763,8 +770,15 @@
      String tabgroup = "Start";
      String refDate  = tabgroup + "/Table/Select_Date";
      String date = getFieldValue(refDate);
-
-     query  = "select uuid, attributename, response ";
+     String query = "";
+     //setFieldValue(refDate,date);
+     if(isNull(date)){
+       //query = "SELECT * FROM perflog WHERE 1 = 0";
+       query = "SELECT 1=0 FROM perflog;";
+     }
+     //System.out.println(date);
+     else{
+     query += "select uuid, attributename, response ";
      query += "from ( ";
      query += "select uuid, attributename, group_concat(format(formatstring, vocabname, measure, freetext, certainty), appendcharacterstring) as response, substr(uuid,7,13) as uuidorder ";
      query += "  from (";
@@ -784,6 +798,9 @@
      query += "  having response is not null) ";
      query += "  order by uuidorder, uuid; ";
      query = dbReplaceFirst(query, "{date}", date);
+    }
+    if(!isNull(date))
+     System.out.println(date);
      tableRef       = "Start/Table/Table";
      headers        = new ArrayList();
      actionName     = "Load";
@@ -800,9 +817,7 @@
 
      populateTablePivot(tableRef, query, headers, actionName, actionIdx, actionCallback);
    }
-
-  addOnEvent("Start/Table/Select_Date", "click", "populateTable()");
-
+   
   /****************************** GIS POINT STYLES ******************************/
   final String MAP_REF = "Start/Map/Map";
   /* Displays the geometry of each entity whose menu, by the name of `attribName`,
