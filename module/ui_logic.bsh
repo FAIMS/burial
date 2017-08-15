@@ -3990,7 +3990,7 @@ for (m : ENTITY_MENUS) {
 
      populateTablePivot(tableRef, query, headers, actionName, actionIdx, actionCallback);
    }
-   
+
   /****************************** GIS POINT STYLES ******************************/
   final String MAP_REF = "Start/Map/Map";
   /* Displays the geometry of each entity whose menu, by the name of `attribName`,
@@ -4253,6 +4253,29 @@ for (m : ENTITY_MENUS) {
     String validationMessage = validateFields(f, "PLAINTEXT");
     showWarning("{validation_results}", validationMessage);
   }
+
+  /******************************** Custom User List **************************/
+  // Override auto-generated function, use populateDropDown function
+  // with hasNull parameter set to false
+  void populateListForUsers(){
+    String q = "";
+    q  = " SELECT          userid ";
+    q += "        ||'\\0'||fname ";
+    q += "        ||'\\0'||lname ";
+    q += "        ||'\\0'||email ";
+    q += "        ||'\\0'||password ";
+    q += "        ,        fname ";
+    q += "        || ' ' ||lname ";
+    q += "   FROM user ";
+    q += "  WHERE userdeleted is null";
+
+    fetchAll(q, new FetchCallback() {
+      onFetch(result) {
+        populateDropDown(USER_MENU_PATH, result, false);
+      }
+    });
+  }
+
 
 
 
