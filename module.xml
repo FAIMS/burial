@@ -710,7 +710,9 @@
     date    = new Date();
     dateFmt = new java.text.SimpleDateFormat(fmt);
     dateStr = dateFmt.format(date);
-
+    if(dateStr.endsWith(".")){
+      dateStr = dateStr.substring(0, dateStr.length()-1);
+    }
     setFieldValue(ref, dateStr);
   }
 

@@ -1,9 +1,10 @@
 /*
- * GENERATED WITH FAIMS-TOOLS, SHA1: fdacd6ccfc8ff72ec3d08ba97885e1dab2b784cc
+ * GENERATED WITH FAIMS-TOOLS, SHA1: ad14a4b50e5dcfaaaa3c3deeaf47717f384e4011
  */
 import android.util.Log;
 import android.os.Build.MODEL;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.Callable;
 
 // Beanshell won't let me write "\0".
 final String SEP = Character.toString ((char) 0);
@@ -166,8 +167,6 @@ String fun2str(String funName, Object args) {
 /* called later on. This is mostly useful for de-spagehettifying calls to     */
 /* `addOnEvent`, which would otherwise effectively use eval.                  */
 /******************************************************************************/
-import java.util.concurrent.Callable;
-
 Map KEY_TO_CALLABLE = new HashMap();
 
 String callable2key(Callable c) {
@@ -3883,7 +3882,9 @@ for (m : ENTITY_MENUS) {
     date    = new Date();
     dateFmt = new java.text.SimpleDateFormat(fmt);
     dateStr = dateFmt.format(date);
-
+    if(dateStr.endsWith(".")){
+      dateStr = dateStr.substring(0, dateStr.length()-1);
+    }
     setFieldValue(ref, dateStr);
   }
 
