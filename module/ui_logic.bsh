@@ -1,10 +1,9 @@
 /*
- * GENERATED WITH FAIMS-TOOLS, SHA1: ad14a4b50e5dcfaaaa3c3deeaf47717f384e4011
+ * GENERATED WITH FAIMS-TOOLS, SHA1: e2f2cddbbadc83876da257a4911fa4367493f5e7
  */
 import android.util.Log;
 import android.os.Build.MODEL;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.Callable;
 
 // Beanshell won't let me write "\0".
 final String SEP = Character.toString ((char) 0);
@@ -114,23 +113,6 @@ String escape(String s) {
   return translate(s, dict);
 }
 
-String getRandomString(int len) {
-  char[] chars  = (
-      "abcdefghijklmnopqrstuvwxyz" +
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-      "1234567890"
-  ).toCharArray();
-  Random random = new Random();
-
-  StringBuilder sb = new StringBuilder();
-  for (int i = 0; i < len; i++) {
-      char c = chars[random.nextInt(chars.length)];
-      sb.append(c);
-  }
-
-  return sb.toString();
-}
-
 String args2str(Object[] args) {
   String str = "";
   String sep = ", ";
@@ -160,34 +142,6 @@ String fun2str(String funName, Object[] args) {
 
 String fun2str(String funName, Object args) {
   return fun2str(funName, new Object[]{args});
-}
-
-/************************** FUNCTION-STRING MAPPING ***************************/
-/* Allows `Callable` and `Runnable` functions to be associated with a key and */
-/* called later on. This is mostly useful for de-spagehettifying calls to     */
-/* `addOnEvent`, which would otherwise effectively use eval.                  */
-/******************************************************************************/
-Map KEY_TO_CALLABLE = new HashMap();
-
-String callable2key(Callable c) {
-  String key = getRandomString(64); // 64 ==> Odds of collision ~= 1e-115
-  KEY_TO_CALLABLE.put(key, c);
-  return key;
-}
-
-Callable key2callable(String key) {
-  return KEY_TO_CALLABLE.get(key);
-}
-
-key2call(String key) {
-  Callable c = key2callable(key);
-  if (c != null)
-    return c.call();
-  return null;
-}
-
-String callable2callableString(Callable c) {
-  return fun2str("key2call", callable2key(c));
 }
 
 /******************************************************************************/
@@ -229,8 +183,8 @@ REF_TO_TYPE.put("Burial_Mound/General/Burial_Mound_author", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Type", "dropdown");
 REF_TO_TYPE.put("Burial_Mound/General/Source", "dropdown");
 REF_TO_TYPE.put("Burial_Mound/General/Description_of_Mound_or_Locale", "input");
-REF_TO_TYPE.put("Burial_Mound/General/Landuse_around_Mound", "dropdown");
-REF_TO_TYPE.put("Burial_Mound/General/Landuse_on_top_of_Mound", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/General/Landuse_around_Mound", "picture");
+REF_TO_TYPE.put("Burial_Mound/General/Landuse_on_top_of_Mound", "picture");
 REF_TO_TYPE.put("Burial_Mound/General/Prominence", "dropdown");
 REF_TO_TYPE.put("Burial_Mound/General/Latitude", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Longitude", "input");
@@ -791,20 +745,6 @@ void addOnEvent(String ref, String event, String statement) {
   addOnEvent(ref, event, statement, 0);
 }
 
-void addOnEvent(String ref, String event, Callable statement, int precedence) {
-  String statementString = callable2callableString(statement);
-  addOnEvent(ref, event, statementString);
-}
-
-void addOnEvent(String ref, String event, Callable statement) {
-  addOnEvent(ref, event, statement, 0);
-}
-
-void addOnEventCond(String ref, String event, Callable check) {
-  String checkString = runnable2runnableString(check);
-  addOnEvent(ref, event, checkString);
-}
-
 void bindOnEvent(String ref, String event) {
   String stmtsStr     = getStatementsString(ref, event);
   String focusStmtStr = getStatementsString(ref, "focus");
@@ -1262,6 +1202,23 @@ String randomMenuValue(String ref) {
   int    i   = r.nextInt(len);
 
   return vocabIds.get(i);
+}
+
+String getRandomString(int len) {
+  char[] chars  = (
+      "abcdefghijklmnopqrstuvwxyz" +
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+      "1234567890"
+  ).toCharArray();
+  Random random = new Random();
+
+  StringBuilder sb = new StringBuilder();
+  for (int i = 0; i < len; i++) {
+      char c = chars[random.nextInt(chars.length)];
+      sb.append(c);
+  }
+
+  return sb.toString();
 }
 
 String randomInputValue(String ref) {
@@ -3777,7 +3734,6 @@ for (m : ENTITY_MENUS) {
     callback += "; clearGeometry()";
     callback += "; onSave" + getArchEntTypePascalCased(tabgroup) + "__()";
     parentTabgroup = null;
-    System.out.println(callback);
     SaveCallback saveCallback  = new SaveCallback() {
       onSave(uuid, newRecord) {
         setUuid(tabgroup, uuid);
@@ -3950,7 +3906,6 @@ for (m : ENTITY_MENUS) {
        //query = "SELECT * FROM perflog WHERE 1 = 0";
        query = "SELECT 1=0 FROM perflog;";
      }
-     //System.out.println(date);
      else{
      query += "select uuid, attributename, response ";
      query += "from ( ";
@@ -3973,8 +3928,6 @@ for (m : ENTITY_MENUS) {
      query += "  order by uuidorder, uuid; ";
      query = dbReplaceFirst(query, "{date}", date);
     }
-    if(!isNull(date))
-     System.out.println(date);
      tableRef       = "Start/Table/Table";
      headers        = new ArrayList();
      actionName     = "Load";
@@ -4258,6 +4211,7 @@ for (m : ENTITY_MENUS) {
   /******************************** Custom User List **************************/
   // Override auto-generated function, use populateDropDown function
   // with hasNull parameter set to false
+  /*
   void populateListForUsers(){
     String q = "";
     q  = " SELECT          userid ";
@@ -4276,7 +4230,42 @@ for (m : ENTITY_MENUS) {
       }
     });
   }
+  */
+  /******************************    Select User   ******************************/
+  /* Override auto generated function selectUser                                */
+  /******************************************************************************/
+  // Overrides auto-generated definition
+  // Function set user to user and assign the selected user userId
+  // to the global variable userid
+  void selectUser() {
+    userId           = getUserMenuValue(0);
+    String nameFirst = getUserMenuValue(1);
+    String nameLast  = getUserMenuValue(2);
+    String email     = getUserMenuValue(3);
+    String password  = getUserMenuValue(4);
+    username         = nameFirst + " " + nameLast;
+    //Assign user id of current user to the global variable userid
 
+    userid = userId;
+    System.out.println(userid);
+    User user = new User(userId, nameFirst, nameLast, email, password);
+    setUser(user);
+  }
+
+  void onClickUserLogin () {
+    if(!isNull(userid))
+      newTab("Start", true);
+    else
+      showWarning("No user selected", "To log in, please select a user.");
+  }
+
+  void resetUser() {
+    userId   = "";
+    username = "";
+    userid = userId;
+    User user = new User(userId, "", "", "", "");
+    setUser(user);
+  }
 
 
 

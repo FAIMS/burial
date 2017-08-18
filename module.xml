@@ -65,7 +65,7 @@
         Describe the location in relation to local topography and relief (optional)
       </desc>
     </Description_of_Mound_or_Locale>
-    <Landuse_around_Mound f="notnull htmldesc">
+    <Landuse_around_Mound t="picture" f="notnull htmldesc">
       <desc><![CDATA[
         <i>Description:</i>
         <br>
@@ -75,7 +75,7 @@
         </div>
       ]]></desc>
       <opts>
-        <opt>
+        <opt p="gallery/Around_Landuse/Agr_Seedling_9063_Overview_NW01.JPG">
           Annual agriculture
           <desc><![CDATA[
             <div>
@@ -101,7 +101,7 @@
             </div>
           ]]></desc>
         </opt>
-        <opt>
+        <opt p="gallery/Around_Landuse/Perennial_Roses.JPG">
           Perennial agriculture (e.g orchard or vineyard)
           <desc><![CDATA[
             <div>
@@ -118,7 +118,7 @@
             </div>
           ]]></desc>
         </opt>
-        <opt>
+        <opt p="gallery/Around_Landuse/Pasture_9138_Overview_S01.JPG">
           Pasture (grassland)
           <desc><![CDATA[
             <div>
@@ -144,7 +144,7 @@
             </div>
           ]]></desc>
         </opt>
-        <opt>
+        <opt p="gallery/Around_Landuse/Scrub_9155_Overview_E01.JPG">
           Scrub
           <desc><![CDATA[
             <div>
@@ -158,7 +158,7 @@
             </div>
           ]]></desc>
         </opt>
-        <opt>
+        <opt p="gallery/Around_Landuse/Forest_3097_Overview_W_2.JPG">
           Forest
           <desc><![CDATA[
             <div>
@@ -175,7 +175,7 @@
             </div>
           ]]></desc>
         </opt>
-        <opt>
+        <opt p="gallery/Around_Landuse/Urban.JPG">
           Urban (in a settlement or surrounded by infrastructure)
           <desc><![CDATA[
             <div>
@@ -189,7 +189,7 @@
             </div>
           ]]></desc>
         </opt>
-        <opt>
+        <opt p="gallery/Around_Landuse/Other_3276_Overview01_N.JPG">
           Other (explain in notes)
           <desc><![CDATA[
             <div>
@@ -208,7 +208,7 @@
         </opt>
       </opts>
     </Landuse_around_Mound>
-    <Landuse_on_top_of_Mound f="notnull htmldesc">
+    <Landuse_on_top_of_Mound t="picture" f="notnull htmldesc">
       <desc><![CDATA[
         <i>Description:</i>
         <br>
@@ -218,7 +218,7 @@
         </div>
       ]]></desc>
       <opts>
-        <opt>
+        <opt p="gallery/Top_Landuse/Agr_6015_Overview_N.jpg">
           Annual agriculture
           <desc><![CDATA[
             <div>
@@ -235,7 +235,7 @@
             </div>
           ]]></desc>
         </opt>
-        <opt>
+        <opt p="gallery/Top_Landuse/Perennial_9072_Overview_S01.JPG">
           Perennial agriculture (e.g orchard or vineyard)
           <desc><![CDATA[
             <div>
@@ -249,7 +249,7 @@
             </div>
           ]]></desc>
         </opt>
-        <opt>
+        <opt p="gallery/Top_Landuse/Grassland_3315_Overview_S.JPG">
           Pasture (grassland)
           <desc><![CDATA[
             <div>
@@ -272,7 +272,7 @@
             </div>
           ]]></desc>
         </opt>
-        <opt>
+        <opt p="gallery/Top_Landuse/Scrub_2099_Overview_W02.JPG">
           Scrub
           <desc><![CDATA[
             <div>
@@ -295,7 +295,7 @@
             </div>
           ]]></desc>
         </opt>
-        <opt>
+        <opt p="gallery/Top_Landuse/Forest_3267_Overview_W02.dng">
           Forest
           <desc><![CDATA[
             <div>
@@ -321,7 +321,7 @@
             </div>
           ]]></desc>
         </opt>
-        <opt>
+        <opt p="gallery/Top_Landuse/Urban.JPG">
           Urban (in a settlement or surrounded by infrastructure)
           <desc><![CDATA[
             <div>
@@ -335,7 +335,7 @@
             </div>
           ]]></desc>
         </opt>
-        <opt>
+        <opt p="gallery/Top_Landuse/Other_3276_Overview01_N.JPG">
           Other (explain in notes)
           <desc><![CDATA[
             <div>
@@ -605,7 +605,6 @@
     callback += "; clearGeometry()";
     callback += "; onSave" + getArchEntTypePascalCased(tabgroup) + "__()";
     parentTabgroup = null;
-    System.out.println(callback);
     SaveCallback saveCallback  = new SaveCallback() {
       onSave(uuid, newRecord) {
         setUuid(tabgroup, uuid);
@@ -778,7 +777,6 @@
        //query = "SELECT * FROM perflog WHERE 1 = 0";
        query = "SELECT 1=0 FROM perflog;";
      }
-     //System.out.println(date);
      else{
      query += "select uuid, attributename, response ";
      query += "from ( ";
@@ -801,8 +799,6 @@
      query += "  order by uuidorder, uuid; ";
      query = dbReplaceFirst(query, "{date}", date);
     }
-    if(!isNull(date))
-     System.out.println(date);
      tableRef       = "Start/Table/Table";
      headers        = new ArrayList();
      actionName     = "Load";
@@ -1086,6 +1082,7 @@
   /******************************** Custom User List **************************/
   // Override auto-generated function, use populateDropDown function
   // with hasNull parameter set to false
+  /*
   void populateListForUsers(){
     String q = "";
     q  = " SELECT          userid ";
@@ -1104,7 +1101,42 @@
       }
     });
   }
+  */
+  /******************************    Select User   ******************************/
+  /* Override auto generated function selectUser                                */
+  /******************************************************************************/
+  // Overrides auto-generated definition
+  // Function set user to user and assign the selected user userId
+  // to the global variable userid
+  void selectUser() {
+    userId           = getUserMenuValue(0);
+    String nameFirst = getUserMenuValue(1);
+    String nameLast  = getUserMenuValue(2);
+    String email     = getUserMenuValue(3);
+    String password  = getUserMenuValue(4);
+    username         = nameFirst + " " + nameLast;
+    //Assign user id of current user to the global variable userid
 
+    userid = userId;
+    System.out.println(userid);
+    User user = new User(userId, nameFirst, nameLast, email, password);
+    setUser(user);
+  }
+
+  void onClickUserLogin () {
+    if(!isNull(userid))
+      newTab("Start", true);
+    else
+      showWarning("No user selected", "To log in, please select a user.");
+  }
+
+  void resetUser() {
+    userId   = "";
+    username = "";
+    userid = userId;
+    User user = new User(userId, "", "", "", "");
+    setUser(user);
+  }
 
 ]]></logic>
 

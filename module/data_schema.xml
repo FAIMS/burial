@@ -72,7 +72,7 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{Annual_agriculture}
+        <term pictureURL="files/data/gallery/Around_Landuse/Agr_Seedling_9063_Overview_NW01.JPG">{Annual_agriculture}
 <description>
             &lt;div&gt;
               &lt;div&gt;
@@ -96,7 +96,7 @@
               &lt;hr/&gt;
             &lt;/div&gt;
           </description></term>
-        <term>{Perennial_agriculture__e_g_orchard_or_vineyard_}
+        <term pictureURL="files/data/gallery/Around_Landuse/Perennial_Roses.JPG">{Perennial_agriculture__e_g_orchard_or_vineyard_}
 <description>
             &lt;div&gt;
               &lt;div&gt;
@@ -111,7 +111,7 @@
               &lt;hr/&gt;
             &lt;/div&gt;
           </description></term>
-        <term>{Pasture__grassland_}
+        <term pictureURL="files/data/gallery/Around_Landuse/Pasture_9138_Overview_S01.JPG">{Pasture__grassland_}
 <description>
             &lt;div&gt;
               &lt;div&gt;
@@ -135,7 +135,7 @@
               &lt;hr/&gt;
             &lt;/div&gt;
           </description></term>
-        <term>{Scrub}
+        <term pictureURL="files/data/gallery/Around_Landuse/Scrub_9155_Overview_E01.JPG">{Scrub}
 <description>
             &lt;div&gt;
               &lt;div&gt;
@@ -147,7 +147,7 @@
               &lt;hr/&gt;
             &lt;/div&gt;
           </description></term>
-        <term>{Forest}
+        <term pictureURL="files/data/gallery/Around_Landuse/Forest_3097_Overview_W_2.JPG">{Forest}
 <description>
             &lt;div&gt;
               &lt;div&gt;
@@ -162,7 +162,7 @@
               &lt;hr/&gt;
             &lt;/div&gt;
           </description></term>
-        <term>{Urban__in_a_settlement_or_surrounded_by_infrastructure_}
+        <term pictureURL="files/data/gallery/Around_Landuse/Urban.JPG">{Urban__in_a_settlement_or_surrounded_by_infrastructure_}
 <description>
             &lt;div&gt;
               &lt;div&gt;
@@ -174,7 +174,7 @@
               &lt;hr/&gt;
             &lt;/div&gt;
           </description></term>
-        <term>{Other__explain_in_notes_}
+        <term pictureURL="files/data/gallery/Around_Landuse/Other_3276_Overview01_N.JPG">{Other__explain_in_notes_}
 <description>
             &lt;div&gt;
               &lt;div&gt;
@@ -203,7 +203,7 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{Annual_agriculture}
+        <term pictureURL="files/data/gallery/Top_Landuse/Agr_6015_Overview_N.jpg">{Annual_agriculture}
 <description>
             &lt;div&gt;
               &lt;div&gt;
@@ -218,7 +218,7 @@
               &lt;hr/&gt;
             &lt;/div&gt;
           </description></term>
-        <term>{Perennial_agriculture__e_g_orchard_or_vineyard_}
+        <term pictureURL="files/data/gallery/Top_Landuse/Perennial_9072_Overview_S01.JPG">{Perennial_agriculture__e_g_orchard_or_vineyard_}
 <description>
             &lt;div&gt;
               &lt;div&gt;
@@ -230,7 +230,7 @@
               &lt;hr/&gt;
             &lt;/div&gt;
           </description></term>
-        <term>{Pasture__grassland_}
+        <term pictureURL="files/data/gallery/Top_Landuse/Grassland_3315_Overview_S.JPG">{Pasture__grassland_}
 <description>
             &lt;div&gt;
               &lt;div&gt;
@@ -251,7 +251,7 @@
               &lt;hr/&gt;
             &lt;/div&gt;
           </description></term>
-        <term>{Scrub}
+        <term pictureURL="files/data/gallery/Top_Landuse/Scrub_2099_Overview_W02.JPG">{Scrub}
 <description>
             &lt;div&gt;
               &lt;div&gt;
@@ -272,7 +272,7 @@
               &lt;hr/&gt;
             &lt;/div&gt;
           </description></term>
-        <term>{Forest}
+        <term pictureURL="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.dng">{Forest}
 <description>
             &lt;div&gt;
               &lt;div&gt;
@@ -296,7 +296,7 @@
               &lt;hr/&gt;
             &lt;/div&gt;
           </description></term>
-        <term>{Urban__in_a_settlement_or_surrounded_by_infrastructure_}
+        <term pictureURL="files/data/gallery/Top_Landuse/Urban.JPG">{Urban__in_a_settlement_or_surrounded_by_infrastructure_}
 <description>
             &lt;div&gt;
               &lt;div&gt;
@@ -308,7 +308,7 @@
               &lt;hr/&gt;
             &lt;/div&gt;
           </description></term>
-        <term>{Other__explain_in_notes_}
+        <term pictureURL="files/data/gallery/Top_Landuse/Other_3276_Overview01_N.JPG">{Other__explain_in_notes_}
 <description>
             &lt;div&gt;
               &lt;div&gt;
