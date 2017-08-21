@@ -54,6 +54,7 @@
     <Source>
       <opts>
         <opt>Legacy verification</opt>
+        <opt>Remote sensing ground truthing</opt>
         <opt>Survey</opt>
         <opt>Local informant</opt>
         <opt>Serendipity</opt>
@@ -386,8 +387,22 @@
         <opt>Other</opt>
       </opts>
     </Facing_Direction_For_Photo>
-    <Photo t="camera" f="notnull">
-      <desc>Take 1 general overview shot that includes the complete feature profile, and a scale. Include direction in the Annotation (from which direction was the image taken)</desc>
+    <Photo t="camera" f="notnull htmldesc">
+      <desc><![CDATA[
+        <i>Description:</i>
+        <br>
+        <div>
+            <div>
+            <p>Take one generval overview shot that includes the complete feature profile and a scale. The facing direction above should articulate which direction you were facing when taking the general overview shot.</p>
+            </div>
+            <div>
+              <p>Example:</p>
+            </div>
+            <div>
+              <img style="width:100%" src="files/data/gallery/Example_photo/2082.jpg" alt="files/data/gallery/Example_photo/2082.jpg"/>
+            </div>
+        </div>
+      ]]></desc>
     </Photo>
   </General>
   <Dimensions>
@@ -420,6 +435,9 @@
   </Dimensions>
   <Material>
     <Associated_Feature_or_Material t="checkbox">
+      <desc>
+        Stone wall (krepis) is found either at the foot of the mound, or inside it (upon excavation). Enclosure is a fence or a circle of variable material either around or some distance outside of the mound. Standing features in the vicinity comprise other standing stone or architectural features associated with the mound. Artefact scatter indicates a discreet and bounded concentration of manmade objects on the surface of the mound or its close vicinity. Loose artefacts indicates one or two artefacts dispersed on or around mound. Bones denote bioarchaeological remains, human or animal. Other - please use the annotation to describe.
+      </desc>
       <opts>
         <opt>
           Stone wall (krepis)
@@ -482,6 +500,9 @@
   </Material>
   <CRM>
     <Condition f="notnull">
+      <desc>
+        Condition here describes a measurable change in the state of a burial mound (as compared with some prior condition of the state). Please assess the amount of anthropogenic and natural impacts that the mound has suffered. Such impacts can be direct or indirect (caused by action but occur later in time or farther removed in space). They can be discrete or continuous, depending on whether the cause occurs only once, or recurs at intervals.
+      </desc>
       <opts>
         <opt>
           0 - No observation
@@ -489,53 +510,95 @@
         <opt>
           1 - pristine
           <desc>
-            1 - only superficial or minor damage, 10% of mound volume missing.
+            1 - pristine or only superficial damage, up to 10% of mound volume missing.
           </desc>
         </opt>
         <opt>
           2 - minor damage
           <desc>
-            2- minor damage, 10-25% of mound volume missing, archaeological potential not seriously compromised.
+            2- minor damage, 10-25% of mound volume missing.
           </desc>
         </opt>
         <opt>
           3 - damaged
           <desc>
-            3 - up to 50% of mound volume missing, archaeological potential compromised.
+            3 - considerable damage, up to 50% of mound volume missing.
           </desc>
         </opt>
         <opt>
           4 - seriously damaged
           <desc>
-            4 - either 50% of mound missing or archaeological potential seriously compromised.
+            4 - massive amount of damage, more than 50% of mound missing.
           </desc>
         </opt>
         <opt>
           5 - extinct or near extinct
           <desc>
-            5 - nearly nothing remains of the mound, archaeological potential nil or nearly nil.
+            5 - nearly nothing remains of the mound.
           </desc>
-        </opt>
-        <opt>
-          NA
         </opt>
       </opts>
     </Condition>
     <Principal_Source_of_Impact f="notnull">
+      <desc>
+        Please select the principal source of impact; identifying the cause of decline that has contributed most to either the amount of damage, its extent in 3D space or its duration. Please use the annotation to identify the causal agent of an impact. E.g. activities such as plowing, road construction, timber harvest can be potential impact agents, and can precipitate -cause other impacts, such as erosion through the removal of trees, or alteration by compaction of sediment, etc. The principal impacts are Anthropogenic (manmade), Animal activity, or Natural (erosion, compaction, ...etc), and Other. Please describe Other in an annotation.
+      </desc>
       <opts>
-        <opt>Not available</opt>
-        <opt>Agriculture</opt>
-        <opt>Looting</opt>
-        <opt>Infrastructure</opt>
-        <opt>Urban development</opt>
+        <opt>No observation</opt>
+        <opt>Anthropogenic
+          <opt>Agriculture</opt>
+          <opt>Looting</opt>
+          <opt>Excavation</opt>
+          <opt>Road cut</opt>
+          <opt>Construction</opt>
+          <opt>Urban development</opt>
+          <opt>Other</opt>
+        </opt>
         <opt>Animal activity</opt>
-        <opt>Topographic or post-depositional</opt>
-        <opt> Other (specify in Annotation)</opt>
+        <opt>Natural
+          <opt>Erosion</opt>
+          <opt>Post-depositional</opt>
+        </opt>
+        <opt>Other (specify in Annotation)</opt>
       </opts>
     </Principal_Source_of_Impact>
     <Other_Sources_of_Impact/>
-    <Most_recent_damage_what>
+    <Archaeological_potential f="notnull">
+      <desc>Archaeological potential is result of site formation and developmental history of a site both of which affect what is archaeologically knowable (Wildesen 1984, Schiffer 1976), a subjective judgment of the physical status of as mound in relation to the preservation of information on its use for future archaeological study.</desc>
+      <opts>
+        <opt>No observation
+        </opt>
+        <opt>1 - full
+          <desc>
+            1 - mound appears close to original condition and is likely to retain its full archaeological potential.
+          </desc>
+        </opt>
+        <opt>2 - good
+          <desc>
+            2 - mound is slightly damaged and some archaeological potential is impaired, but lots remains.
+          </desc>
+        </opt>
+        <opt>3 - impaired
+          <desc>
+            3 - archaeological potential of this mound is significantly compromised
+          </desc>
+        </opt>
+        <opt>4 - minimal
+          <desc>
+            4 - archaeological potential of the mound is low or severly compromised
+          </desc>
+        </opt>
+        <opt>5- none or nearly none
+          <desc>
+            5 - no or nearly no archaeological potential is left
+          </desc>
+        </opt>
+        <opt>Other</opt>
+      </opts>
+    </Archaeological_potential>
+    <Most_recent_damage_what f="notnull">
       Most recent damage (what)
+      <desc>Select the most recent source of damage. Use annotation if damage type not listed.</desc>
       <opts>
         <opt>Not available</opt>
         <opt>Agriculture</opt>
@@ -544,10 +607,11 @@
         <opt>Urban development</opt>
         <opt>Animal activity</opt>
         <opt>Topographic or post-depositional</opt>
-        <opt> Other (specify in Annotation)</opt>
+        <opt>Other (specify in Annotation)</opt>
+        <opt>Unknown</opt>
       </opts>
     </Most_recent_damage_what>
-    <Most_recent_damage_within>
+    <Most_recent_damage_within f="notnull">
       Most recent damage (within)
       <opts>
         <opt>Last week</opt>
@@ -557,9 +621,13 @@
         <opt>Other</opt>
       </opts>
     </Most_recent_damage_within>
-    <RT_Description/>
+    <RT_Description>
+      <desc>Describe Robber's trenches - if present - in the following format separating trenches by semicolons and parameters by commas:[TrenchNumber,shape,dimensionx,dimensiony,depth,note;TrenchNumber,shape,radius,depth,note]. Example: [01,round,1.5m,0.5m,manually excavated hole;02,rectangle,0.5,2.5,0.3,neatly excavated shallow trench]</desc>
+    </RT_Description>
     <Comments_and_Recommendations/>
-    <CRM_Photos t="camera"/>
+    <CRM_Photos t="camera">
+      <desc>Take a picture of each robber's trench with a scale.</desc>
+    </CRM_Photos>
   </CRM>
 </Burial_Mound>
 
@@ -571,572 +639,512 @@
 </Shape>
 
 <logic><![CDATA[
-  /************************************ MAP *************************************/
-  DATA_ENTRY_LAYER    = "Data Entry Layer";
-  DATA_ENTRY_LAYER_ID = 0;
-  void initMap() {
-    String refMap = "Start/Map/Map";
-    setMapZoom(refMap, 15.0f);
-    // Shape
-    isEntity = true;
-    queryName = "Shape";
-    querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Shape'";
-    ps = createPointStyle(10, Color.YELLOW, 0.2f, 0.5f);
-    ls = createLineStyle(10, Color.YELLOW, 0.05f, 0.3f, null);
-    pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
-    ts = createTextStyle(10, Color.YELLOW, 30, Typeface.SANS_SERIF);
-    showDatabaseLayer(refMap, "Shape Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
-    // Data entry layer
-    DATA_ENTRY_LAYER_ID = createCanvasLayer(refMap, DATA_ENTRY_LAYER);
-    setSelectedLayer(refMap, DATA_ENTRY_LAYER);
-  }
-  // Copy/pasted from autogenerator's definition of saveTabGroup
-  void saveShape() {
-    String  tabgroup            = "Shape";
-    Boolean enableAutosave      = true;
-    String  id                  = getUuid(tabgroup);
-    String  mapRef              = "Start/Map/Map";
-    List    geometry            = getGeometryList(mapRef, DATA_ENTRY_LAYER_ID);
-    List    attributes          = null;
-    String  parentTabgroup_     = parentTabgroup;
-    String  parentTabgroupUuid_ = getUuid(parentTabgroup_);
-    Boolean userWasSet          = !username.equals("");
-    String callback = "";
-    callback += "; clearGeometry()";
-    callback += "; onSave" + getArchEntTypePascalCased(tabgroup) + "__()";
-    parentTabgroup = null;
-    SaveCallback saveCallback  = new SaveCallback() {
-      onSave(uuid, newRecord) {
-        setUuid(tabgroup, uuid);
-        // Make a child-parent relationship if need be.
-        if (
-            newRecord &&
-            !isNull(parentTabgroup_) &&
-            !isNull(parentTabgroupUuid_)
-        ) {
-          String rel = "";
-          rel += parentTabgroup_.replaceAll("_", " ");
-          rel += " - ";
-          rel += tabgroup.replaceAll("_", " ");
-          saveEntitiesToHierRel(
-            rel,
-            parentTabgroupUuid_,
-            uuid,
-            "Parent Of",
-            "Child Of",
-            callback
-          );
-        } else {
-          execute(callback);
-        }
-        // This fixes an interesting bug. Without this, if a user was not set
-        // (by calling `setUser`) at the time `saveShape` was first called, but
-        // set by the time `onSave` was called, the tab group is saved correctly
-        // the first time only.
-        //
-        // Adding this allows subsequent saves to succeed. Presumably it plays
-        // some role in helping FAIMS associate the correct user with a record.
-        if (!userWasSet) {
-          saveShape();
-        }
-      }
-      onError(message) {
-        showToast(message);
-      }
-    };
-    saveTabGroup(tabgroup, id, geometry, attributes, saveCallback, enableAutosave);
-  }
-  void clearGeometry() {
-    String  mapRef   = "Start/Map/Map";
-    List    geometry = getGeometryList(mapRef, DATA_ENTRY_LAYER_ID);
-    if (geometry == null)     return;
-    if (geometry.size() == 0) return;
-    for (geom : geometry) {
-      print("Geometry cleared:" + geom.userData.geomId);
-      clearGeometry(mapRef, geom.userData.geomId);
+
+    /************************************ MAP *************************************/
+    DATA_ENTRY_LAYER    = "Data Entry Layer";
+    DATA_ENTRY_LAYER_ID = 0;
+    void initMap() {
+      String refMap = "Start/Map/Map";
+      setMapZoom(refMap, 15.0f);
+      // Shape
+      isEntity = true;
+      queryName = "Shape";
+      querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Shape'";
+      ps = createPointStyle(10, Color.YELLOW, 0.2f, 0.5f);
+      ls = createLineStyle(10, Color.YELLOW, 0.05f, 0.3f, null);
+      pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
+      ts = createTextStyle(10, Color.YELLOW, 30, Typeface.SANS_SERIF);
+      showDatabaseLayer(refMap, "Shape Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
+      // Data entry layer
+      DATA_ENTRY_LAYER_ID = createCanvasLayer(refMap, DATA_ENTRY_LAYER);
+      setSelectedLayer(refMap, DATA_ENTRY_LAYER);
     }
-  }
-  boolean checkForGeometry() {
-    String mapRef = "Start/Map/Map";
-    List geometry = getGeometryList(mapRef, DATA_ENTRY_LAYER_ID);
-    if (geometry == null || geometry.size() == 0) {
-      String head = "Cannot Create Shape";
-      String body = "At least one shape must be present on the data entry layer.";
-      showWarning(head, body);
-      return false;
-    } else {
-      return true;
-    }
-  }
-  void centreMe() {
-    String mapRef = "Start/Map/Map";
-    if(!isExternalGPSOn() && !isInternalGPSOn()) {
-      showToast("{GPS_Not_Initialised}");
-    } else {
-      centerOnCurrentPosition(mapRef);
-    }
-  }
-  void refreshMap() {
-    String mapRef = "Start/Map/Map";
-    refreshMap(mapRef);
-  }
-  // Overrides autogenerated definition
-  void onClickStartMapCreateShape () {
-    if (checkForGeometry()) {
-      parentTabgroup__ = "Start";
-      newShape();
-    }
-  }
-
-  // Overrides autogenerated definition
-  void onShowShape () {
-    saveShape();
-  }
-
-  void onSaveShape__() {
-    String tabgroup = "shape";
-    executeOnEvent(tabgroup, "create");
-  }
-
-  initMap();
-  addOnEvent("Start/Map",           "show",  "refreshMap()");
-
-  /****************************** DATE POPULATION *******************************/
-  void setDayMonth() {
-    ref     = "Burial_Mound/General/Date";
-
-    fmt     = "dd MMM";
-    date    = new Date();
-    dateFmt = new java.text.SimpleDateFormat(fmt);
-    dateStr = dateFmt.format(date);
-    if(dateStr.endsWith(".")){
-      dateStr = dateStr.substring(0, dateStr.length()-1);
-    }
-    setFieldValue(ref, dateStr);
-  }
-
-  addOnEvent("Burial_Mound", "create", "setDayMonth()");
-
-  /********************************* TABLE VIEW *********************************/
-  addOnEvent("Start/Table/Select_Date", "show", "populateDate()");
-  addOnEvent("Start/Table", "show", "populateTable()");
-  addOnEvent("Start/Table/Select_Date", "click", "populateTable()");
-
-  void populateDate() {
-    String refDate = "Start/Table/Select_Date";
-    if(!isNull(getFieldValue(refDate)))
-      setFieldValue("Start/Table/Select_Date", "");
-    String refDate = "Start/Table/Select_Date";
-
-    String q = "";
-    q += "  SELECT distinct measure, measure";
-    q += "  FROM latestNonDeletedAentValue join attributekey using (attributeid)";
-    q += "  WHERE attributename = 'Date'";
-    q += "  ORDER by measure;";
-
-
-    FetchCallback popDate = new FetchCallback() {
-      onFetch(result) {
-        List l = new ArrayList();
-
-        // Add all option to the list
-        List all = new ArrayList();
-        all.add("");
-        all.add("None");
-        all.add("");
-        all.add("");
-
-        // Add 'all' option to the List l
-        l.add(all);
-        // Add all existing Date record to List l
-        l.addAll(result);
-        // Populate dropdown list with List l
-
-        populateDropDown(refDate, l);
-      }
-    };
-
-    fetchAll(q, popDate);
-    //setFieldValueFromLocalSettings("Start/Table/Select_Date");
-
-  }
-
-  loadEntityFromTable() {
-    uuid = getTableValue();
-    loadEntityFrom(uuid); // Auto-gen'd function
-  }
-
-
-   void populateTable() {
-     String tabgroup = "Start";
-     String refDate  = tabgroup + "/Table/Select_Date";
-     String date = getFieldValue(refDate);
-     String query = "";
-     //setFieldValue(refDate,date);
-     if(isNull(date)){
-       //query = "SELECT * FROM perflog WHERE 1 = 0";
-       query = "SELECT 1=0 FROM perflog;";
-     }
-     else{
-     query += "select uuid, attributename, response ";
-     query += "from ( ";
-     query += "select uuid, attributename, group_concat(format(formatstring, vocabname, measure, freetext, certainty), appendcharacterstring) as response, substr(uuid,7,13) as uuidorder ";
-     query += "  from (";
-     query += "    select uuid, attributename, aenttypename, formatstring, vocabname, measure, freetext, certainty, appendcharacterstring, aentcountorder, vocabcountorder, attributeid ";
-     query += "    from latestNonDeletedArchent ";
-     query += "      JOIN aenttype using (aenttypeid) ";
-     query += "      join idealaent using (aenttypeid) ";
-     query += "      join attributekey using (attributeid) ";
-     query += "      join latestNonDeletedAentValue using (uuid, attributeid) ";
-     query += "      left outer join vocabulary using (attributeid, vocabid) ";
-     query += "    order by uuid, aentcountorder, vocabcountorder ";
-     query += "  ) ";
-     query += "  where aenttypename='Burial Mound' ";
-     query += "  and attributename in ('Mound ID', 'Type', 'Date', 'Landuse around Mound', 'Landuse on top of Mound', 'Height Max', 'Diameter Max') ";
-     query += "  and uuid in ( select uuid from latestNonDeletedAentValue where measure = {date}) ";
-     query += "  group by uuid, attributeid ";
-     query += "  having response is not null) ";
-     query += "  order by uuidorder, uuid; ";
-     query = dbReplaceFirst(query, "{date}", date);
-    }
-     tableRef       = "Start/Table/Table";
-     headers        = new ArrayList();
-     actionName     = "Load";
-     actionIdx      = 0;
-     actionCallback = "loadEntityFromTable()";
-     headers.add("");
-     headers.add("Mound ID");
-     headers.add("Type");
-     headers.add("Date");
-     headers.add("Landuse around Mound");
-     headers.add("Landuse on top of Mound");
-     headers.add("Height Max");
-     headers.add("Diameter Max");
-
-     populateTablePivot(tableRef, query, headers, actionName, actionIdx, actionCallback);
-   }
-
-  /****************************** GIS POINT STYLES ******************************/
-  final String MAP_REF = "Start/Map/Map";
-  /* Displays the geometry of each entity whose menu, by the name of `attribName`,
-   * has `vocabName` saved in it. The geometry is displayed in whatever colour is
-   * given by `geoColor`.
-   *
-   * The geometry is displayed in a layer called `layerName`. This is a
-   * human-readable name that the user can use to toggle the visibility of the
-   * geometry in the UI.
-   */
-  void showDatabaseLayerByVocabName(
-      String attribName,
-      String vocabName,
-      int    geoColor, /* Example argument: Color.BLACK */
-      String layerName
-  ) {
-    int transBlk = Color.parseColor("#AA000000");
-    GeometryStyle sln_ = createLineStyle(10, transBlk, 0.01f, 0.3f, null);
-    // Define arguments to `showDatabaseLayer`
-    String q;
-    q  = "SELECT uuid, aenttimestamp";
-    q += "  FROM latestNonDeletedArchEnt";
-    q += "  JOIN latestnondeletedaentvalue USING (uuid)";
-    q += "  JOIN attributekey              USING (attributeid)";
-    q += "  JOIN vocabulary                USING (vocabid)";
-    q += " WHERE {vocabName}  IN ('', vocabname)";
-    q += "   AND {attribName} IN ('', attributename)";
-    q  = dbReplaceFirst(q, "{vocabName}",  vocabName);
-    q  = dbReplaceFirst(q, "{attribName}", attribName);
-    boolean isEntity = true;
-    GeometryStyle spt = createPointStyle(10, geoColor, 0.2f, 0.5f);
-    GeometryStyle sln = createLineStyle(10, geoColor, 0.05f, 0.3f, null);
-    GeometryStyle spg = createPolygonStyle(10, geoColor, sln_);
-    GeometryTextStyle stx = createTextStyle(
-        10,
-        Color.BLACK,
-        40,
-        Typeface.SANS_SERIF
-    );
-    showDatabaseLayer(
-        MAP_REF,
-        layerName,
-        isEntity,
-        layerName,
-        q,
-        spt,
-        sln,
-        spg,
-        stx
-    );
-  }
-  void showDatabaseLayerByVocabName(
-      String vocabName,
-      int    geoColor,
-      String layerName
-  ) {
-    showDatabaseLayerByVocabName("", vocabName, geoColor, layerName);
-  }
-  void showDatabaseLayerByVocabName(String vocabName, int geoColor) {
-    String layerName = guessArch16nValFromKey(vocabName);
-    showDatabaseLayerByVocabName(vocabName, geoColor, layerName);
-  }
-  void initMap() {
-    // showBaseMap(MAP_REF, "Base Map", "files/data/R1980_YambolElhovoExt.tif");
-    showDatabaseLayerByVocabName("{1___pristine}",   Color.GREEN);
-    showDatabaseLayerByVocabName("{2___minor_damage}", Color.BLUE);
-    showDatabaseLayerByVocabName("{3___damaged}",  Color.YELLOW);
-    showDatabaseLayerByVocabName("{4___seriously_damaged}", Color.parseColor("#FFA500"));//FFA500 is orange in hex
-    showDatabaseLayerByVocabName("{5___extinct_or_near_extinct}", Color.RED);
-    showDatabaseLayerByVocabName("{NA}",  Color.BLACK);
-    setMapZoom(MAP_REF, 13.0f);
-  }
-  initMap();
-
-  /********************************* CUSTOM SEARCH ******************************/
-  addOnEvent("Start/Search", "show", "populateSelectAuthor()");
-  addOnEvent("Start/Search/Select_Author", "click", "search()");
-  void populateSelectAuthor(){
-  String refSearchUsers = "Start/Search/Select_Author";
-  String getNonDeletedUsersQuery = "SELECT userid, fname || ' ' || lname "+
-                                   "  FROM user "+
-                                   " WHERE userdeleted is null "+
-                                   " UNION " +
-                                   "SELECT -1, '{All}'";
-
-  fetchAll(getNonDeletedUsersQuery, new FetchCallback() {
-    onFetch(result) {
-      populateDropDown(refSearchUsers, result, false);
-      search();
-    }
-  });
-  }
-
-  // Overrides auto-generated definition
-  void search(){
-  String refEntityList    = "Start/Search/Entity_List";
-  String refSearchTerm    = "Start/Search/Search_Term";
-  String refEntityTypes   = "Start/Search/Entity_Types";
-  String refSelectAuthor  = "Start/Search/Select_Author";
-  String type = getFieldValue(refEntityTypes);
-  String term = getFieldValue(refSearchTerm);
-
-  String user = getFieldValue(refSelectAuthor);
-  String searchQuery = "SELECT uuid, response "+
-                       "  FROM latestNonDeletedArchEntFormattedIdentifiers  "+
-                       " WHERE uuid in (SELECT uuid "+
-                       "                  FROM latestNonDeletedArchEntIdentifiers "+
-                       "                 WHERE measure LIKE {term}||'%'  "+
-                       "                   AND ( aenttypename = {type} OR '' = {type} ) "+
-                       " AND ( userid = {user} OR -1 = {user}) " +
-                       "                )  "+
-                       " ORDER BY response "+
-                       " LIMIT ? "+
-                       "OFFSET ? ";
-  searchQuery = dbReplaceFirst(searchQuery, "{term}", term);
-  searchQuery = dbReplaceFirst(searchQuery, "{type}", type);
-  searchQuery = dbReplaceFirst(searchQuery, "{type}", type);
-  searchQuery = replaceFirst(searchQuery, "{user}", user);
-  searchQuery = replaceFirst(searchQuery, "{user}", user);
-  populateCursorList(refEntityList, searchQuery, 25);
-  refreshTabgroupCSS("Start");
-
-  Log.d("Module", "Search query: " + searchQuery);
-  }
-
-  /*************************** Retain field Source value **********************/
-  insertIntoLocalSettingsOnChange("Burial_Mound/General/Source");
-  addOnEvent("Burial_Mound", "create", "setFieldValueFromLocalSettings(\"Burial_Mound/General/Source\")");
-
-  /********************** Custom Location for Valdiate button *****************/
-  // Remove Validate button from Navigation drawer and place it as the first item
-  // In Burial_Mound/General tab
-  addOnEvent("Burial_Mound/General/Validate", "click", "validateBurialMound()");
-
-  void removeNavigationButtons() {
-    removeNavigationButton("new");
-    removeNavigationButton("duplicate");
-    removeNavigationButton("delete");
-  }
-
-  void addNavigationButtons(String tabgroup) {
-    removeNavigationButtons();
-    List tabgroupsToValidate = new ArrayList();
-    tabgroupsToValidate.add("Start");
-    tabgroupsToValidate.add("Burial_Mound");
-    addNavigationButton("new", new ActionButtonCallback() {
-      actionOnLabel() {
-        "{New}";
-      }
-      actionOn() {
-        if(isNull(getUuid(tabgroup))) {
-          showAlert(
-              "{Warning}",
-              "{The_current_record_has_not_been_saved_yet}",
-              fun2str("newRecord", new Object[]{tabgroup, true}),
-              ""
-          );
-        } else {
-          newRecord(tabgroup, true);
-          showToast("{New_record_created}");
-        }
-      }
-    }, "success");
-    addNavigationButton("duplicate", new ActionButtonCallback() {
-      actionOnLabel() {
-        "{Duplicate}";
-      }
-      actionOn() {
-        if(!isNull(getUuid(tabgroup))) {
-          duplicateRecord(tabgroup);
-        } else {
-          showWarning("{Warning}", "{This_record_is_unsaved_and_cannot_be_duplicated}");
-        }
-      }
-    }, "primary");
-    addNavigationButton("delete", new ActionButtonCallback() {
-      actionOnLabel() {
-        "{Delete}";
-      }
-      actionOn() {
-        deleteRecord(tabgroup);
-      }
-    }, "danger");
-  }
-
-  // Overrides auto-generated function to duplicate Burial Mound
-  // This function updates the Date field to the current date.
-  void duplicateBurialMound(){
-    String tabgroup = "Burial_Mound";
-    String uuidOld = getUuid(tabgroup);
-    setUuid(tabgroup, "");
-    disableAutoSave(tabgroup);
-    incAutoNum("Burial_Mound/General/Mound_ID");
-    clearGpsInTabGroup(tabgroup);
-    populateAuthorAndTimestamp(tabgroup);
-    populateEntityListsInTabGroup(tabgroup);
-    populateCameraPictureGallery("Burial_Mound/General/Photo", new ArrayList());
-    populateCameraPictureGallery("Burial_Mound/Material/Associated_Feature_or_Material_Photo", new ArrayList());
-    populateCameraPictureGallery("Burial_Mound/CRM/CRM_Photos", new ArrayList());
-    executeOnEvent(tabgroup, "copy");
-
-    saveCallback = new SaveCallback() {
-      onSave(uuid, newRecord) {
-        setUuid(tabgroup, uuid);
-
-        timedFetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
-          onFetch(result) {
-            Log.e("Module", result.toString());
-
-            if (result != null && result.size() >= 1) {
-              parentTabgroup__ = result.get(0).get(4);
-              parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
-            }
-
-            makeDuplicateRelationships(result, getUuid(tabgroup));
-
-            showToast("{Duplicated_record}");
-            dialog.dismiss();
+    // Copy/pasted from autogenerator's definition of saveTabGroup
+    void saveShape() {
+      String  tabgroup            = "Shape";
+      Boolean enableAutosave      = true;
+      String  id                  = getUuid(tabgroup);
+      String  mapRef              = "Start/Map/Map";
+      List    geometry            = getGeometryList(mapRef, DATA_ENTRY_LAYER_ID);
+      List    attributes          = null;
+      String  parentTabgroup_     = parentTabgroup;
+      String  parentTabgroupUuid_ = getUuid(parentTabgroup_);
+      Boolean userWasSet          = !username.equals("");
+      String callback = "";
+      callback += "; clearGeometry()";
+      callback += "; onSave" + getArchEntTypePascalCased(tabgroup) + "__()";
+      parentTabgroup = null;
+      SaveCallback saveCallback  = new SaveCallback() {
+        onSave(uuid, newRecord) {
+          setUuid(tabgroup, uuid);
+          // Make a child-parent relationship if need be.
+          if (
+              newRecord &&
+              !isNull(parentTabgroup_) &&
+              !isNull(parentTabgroupUuid_)
+          ) {
+            String rel = "";
+            rel += parentTabgroup_.replaceAll("_", " ");
+            rel += " - ";
+            rel += tabgroup.replaceAll("_", " ");
+            saveEntitiesToHierRel(
+              rel,
+              parentTabgroupUuid_,
+              uuid,
+              "Parent Of",
+              "Child Of",
+              callback
+            );
+          } else {
+            execute(callback);
           }
-        });
-
-        saveTabGroup(tabgroup);
+          // This fixes an interesting bug. Without this, if a user was not set
+          // (by calling `setUser`) at the time `saveShape` was first called, but
+          // set by the time `onSave` was called, the tab group is saved correctly
+          // the first time only.
+          //
+          // Adding this allows subsequent saves to succeed. Presumably it plays
+          // some role in helping FAIMS associate the correct user with a record.
+          if (!userWasSet) {
+            saveShape();
+          }
+        }
+        onError(message) {
+          showToast(message);
+        }
+      };
+      saveTabGroup(tabgroup, id, geometry, attributes, saveCallback, enableAutosave);
+    }
+    void clearGeometry() {
+      String  mapRef   = "Start/Map/Map";
+      List    geometry = getGeometryList(mapRef, DATA_ENTRY_LAYER_ID);
+      if (geometry == null)     return;
+      if (geometry.size() == 0) return;
+      for (geom : geometry) {
+        print("Geometry cleared:" + geom.userData.geomId);
+        clearGeometry(mapRef, geom.userData.geomId);
       }
-    };
-    setDayMonth();
-    String extraDupeAttributes = "";
-    timedFetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
+    }
+    boolean checkForGeometry() {
+      String mapRef = "Start/Map/Map";
+      List geometry = getGeometryList(mapRef, DATA_ENTRY_LAYER_ID);
+      if (geometry == null || geometry.size() == 0) {
+        String head = "Cannot Create Shape";
+        String body = "At least one shape must be present on the data entry layer.";
+        showWarning(head, body);
+        return false;
+      } else {
+        return true;
+      }
+    }
+    void centreMe() {
+      String mapRef = "Start/Map/Map";
+      if(!isExternalGPSOn() && !isInternalGPSOn()) {
+        showToast("{GPS_Not_Initialised}");
+      } else {
+        centerOnCurrentPosition(mapRef);
+      }
+    }
+    void refreshMap() {
+      String mapRef = "Start/Map/Map";
+      refreshMap(mapRef);
+    }
+    // Overrides autogenerated definition
+    void onClickStartMapCreateShape () {
+      if (checkForGeometry()) {
+        parentTabgroup__ = "Start";
+        newShape();
+      }
+    }
+
+    // Overrides autogenerated definition
+    void onShowShape () {
+      saveShape();
+    }
+
+    void onSaveShape__() {
+      String tabgroup = "shape";
+      executeOnEvent(tabgroup, "create");
+    }
+
+    initMap();
+    addOnEvent("Start/Map",           "show",  "refreshMap()");
+
+    /****************************** DATE POPULATION *******************************/
+    void setDayMonth() {
+      ref     = "Burial_Mound/General/Date";
+
+      fmt     = "dd MMM";
+      date    = new Date();
+      dateFmt = new java.text.SimpleDateFormat(fmt);
+      dateStr = dateFmt.format(date);
+      if(dateStr.endsWith(".")){
+        dateStr = dateStr.substring(0, dateStr.length()-1);
+      }
+      setFieldValue(ref, dateStr);
+    }
+
+    addOnEvent("Burial_Mound", "create", "setDayMonth()");
+
+    /********************************* TABLE VIEW *********************************/
+    addOnEvent("Start/Table/Select_Date", "show", "populateDate()");
+    addOnEvent("Start/Table", "show", "populateTable()");
+    addOnEvent("Start/Table/Select_Date", "click", "populateTable()");
+
+    void populateDate() {
+      String refDate = "Start/Table/Select_Date";
+      if(!isNull(getFieldValue(refDate)))
+        setFieldValue("Start/Table/Select_Date", "");
+      String refDate = "Start/Table/Select_Date";
+
+      String q = "";
+      q += "  SELECT distinct measure, measure";
+      q += "  FROM latestNonDeletedAentValue join attributekey using (attributeid)";
+      q += "  WHERE attributename = 'Date'";
+      q += "  ORDER by measure;";
+
+
+      FetchCallback popDate = new FetchCallback() {
+        onFetch(result) {
+          List l = new ArrayList();
+
+          // Add all option to the list
+          List all = new ArrayList();
+          all.add("");
+          all.add("None");
+          all.add("");
+          all.add("");
+
+          // Add 'all' option to the List l
+          l.add(all);
+          // Add all existing Date record to List l
+          l.addAll(result);
+          // Populate dropdown list with List l
+
+          populateDropDown(refDate, l);
+        }
+      };
+
+      fetchAll(q, popDate);
+      //setFieldValueFromLocalSettings("Start/Table/Select_Date");
+
+    }
+
+    loadEntityFromTable() {
+      uuid = getTableValue();
+      loadEntityFrom(uuid); // Auto-gen'd function
+    }
+
+
+     void populateTable() {
+       String tabgroup = "Start";
+       String refDate  = tabgroup + "/Table/Select_Date";
+       String date = getFieldValue(refDate);
+       String query = "";
+       //setFieldValue(refDate,date);
+       if(isNull(date)){
+         //query = "SELECT * FROM perflog WHERE 1 = 0";
+         query = "SELECT 1=0 FROM perflog;";
+       }
+       else{
+       query += "select uuid, attributename, response ";
+       query += "from ( ";
+       query += "select uuid, attributename, group_concat(format(formatstring, vocabname, measure, freetext, certainty), appendcharacterstring) as response, substr(uuid,7,13) as uuidorder ";
+       query += "  from (";
+       query += "    select uuid, attributename, aenttypename, formatstring, vocabname, measure, freetext, certainty, appendcharacterstring, aentcountorder, vocabcountorder, attributeid ";
+       query += "    from latestNonDeletedArchent ";
+       query += "      JOIN aenttype using (aenttypeid) ";
+       query += "      join idealaent using (aenttypeid) ";
+       query += "      join attributekey using (attributeid) ";
+       query += "      join latestNonDeletedAentValue using (uuid, attributeid) ";
+       query += "      left outer join vocabulary using (attributeid, vocabid) ";
+       query += "    order by uuid, aentcountorder, vocabcountorder ";
+       query += "  ) ";
+       query += "  where aenttypename='Burial Mound' ";
+       query += "  and attributename in ('Mound ID', 'Type', 'Date', 'Landuse around Mound', 'Landuse on top of Mound', 'Height Max', 'Diameter Max') ";
+       query += "  and uuid in ( select uuid from latestNonDeletedAentValue where measure = {date}) ";
+       query += "  group by uuid, attributeid ";
+       query += "  having response is not null) ";
+       query += "  order by uuidorder, uuid; ";
+       query = dbReplaceFirst(query, "{date}", date);
+      }
+       tableRef       = "Start/Table/Table";
+       headers        = new ArrayList();
+       actionName     = "Load";
+       actionIdx      = 0;
+       actionCallback = "loadEntityFromTable()";
+       headers.add("");
+       headers.add("Mound ID");
+       headers.add("Type");
+       headers.add("Date");
+       headers.add("Landuse around Mound");
+       headers.add("Landuse on top of Mound");
+       headers.add("Height Max");
+       headers.add("Diameter Max");
+
+       populateTablePivot(tableRef, query, headers, actionName, actionIdx, actionCallback);
+     }
+
+    /****************************** GIS POINT STYLES ******************************/
+    //final String MAP_REF = "Start/Map/Map";
+    /* Displays the geometry of each entity whose menu, by the name of `attribName`,
+     * has `vocabName` saved in it. The geometry is displayed in whatever colour is
+     * given by `geoColor`.
+     *
+     * The geometry is displayed in a layer called `layerName`. This is a
+     * human-readable name that the user can use to toggle the visibility of the
+     * geometry in the UI.
+     */
+    void showDatabaseLayerByVocabName(
+        String attribName,
+        String vocabName,
+        int    geoColor, /* Example argument: Color.BLACK */
+        String layerName
+    ) {
+      int transBlk = Color.parseColor("#AA000000");
+      GeometryStyle sln_ = createLineStyle(10, transBlk, 0.01f, 0.3f, null);
+      // Define arguments to `showDatabaseLayer`
+      String q;
+      q  = "SELECT uuid, aenttimestamp";
+      q += "  FROM latestNonDeletedArchEnt";
+      q += "  JOIN latestnondeletedaentvalue USING (uuid)";
+      q += "  JOIN attributekey              USING (attributeid)";
+      q += "  JOIN vocabulary                USING (vocabid)";
+      q += " WHERE {vocabName}  IN ('', vocabname)";
+      q += "   AND {attribName} IN ('', attributename)";
+      q  = dbReplaceFirst(q, "{vocabName}",  vocabName);
+      q  = dbReplaceFirst(q, "{attribName}", attribName);
+      boolean isEntity = true;
+      GeometryStyle spt = createPointStyle(10, geoColor, 0.2f, 0.5f);
+      GeometryStyle sln = createLineStyle(10, geoColor, 0.05f, 0.3f, null);
+      GeometryStyle spg = createPolygonStyle(10, geoColor, sln_);
+      GeometryTextStyle stx = createTextStyle(
+          10,
+          Color.BLACK,
+          40,
+          Typeface.SANS_SERIF
+      );
+      showDatabaseLayer(
+          MAP_REF,
+          layerName,
+          isEntity,
+          layerName,
+          q,
+          spt,
+          sln,
+          spg,
+          stx
+      );
+    }
+    void showDatabaseLayerByVocabName(
+        String vocabName,
+        int    geoColor,
+        String layerName
+    ) {
+      showDatabaseLayerByVocabName("", vocabName, geoColor, layerName);
+    }
+    void showDatabaseLayerByVocabName(String vocabName, int geoColor) {
+      String layerName = guessArch16nValFromKey(vocabName);
+      showDatabaseLayerByVocabName(vocabName, geoColor, layerName);
+    }
+    void initMap() {
+      showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-054-3_Yambol.32635.tif");
+      showDatabaseLayerByVocabName("{1___pristine}",   Color.GREEN);
+      showDatabaseLayerByVocabName("{2___minor_damage}", Color.BLUE);
+      showDatabaseLayerByVocabName("{3___damaged}",  Color.YELLOW);
+      showDatabaseLayerByVocabName("{4___seriously_damaged}", Color.parseColor("#FFA500"));//FFA500 is orange in hex
+      showDatabaseLayerByVocabName("{5___extinct_or_near_extinct}", Color.RED);
+      showDatabaseLayerByVocabName("{NA}",  Color.BLACK);
+      setMapZoom(MAP_REF, 13.0f);
+    }
+    initMap();
+
+    /********************************* CUSTOM SEARCH ******************************/
+    addOnEvent("Start/Search", "show", "populateSelectAuthor()");
+    addOnEvent("Start/Search/Select_Author", "click", "search()");
+    void populateSelectAuthor(){
+    String refSearchUsers = "Start/Search/Select_Author";
+    String getNonDeletedUsersQuery = "SELECT userid, fname || ' ' || lname "+
+                                     "  FROM user "+
+                                     " WHERE userdeleted is null "+
+                                     " UNION " +
+                                     "SELECT -1, '{All}'";
+
+    fetchAll(getNonDeletedUsersQuery, new FetchCallback() {
       onFetch(result) {
-        excludeAttributes = new ArrayList();
-
-        excludeAttributes.add("Photo");
-        excludeAttributes.add("Associated Feature or Material Photo");
-        excludeAttributes.add("CRM Photos");
-
-        duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
+        populateDropDown(refSearchUsers, result, false);
+        search();
       }
     });
-  }
+    }
+
+    // Overrides auto-generated definition
+    void search(){
+    String refEntityList    = "Start/Search/Entity_List";
+    String refSearchTerm    = "Start/Search/Search_Term";
+    String refEntityTypes   = "Start/Search/Entity_Types";
+    String refSelectAuthor  = "Start/Search/Select_Author";
+    String type = getFieldValue(refEntityTypes);
+    String term = getFieldValue(refSearchTerm);
+
+    String user = getFieldValue(refSelectAuthor);
+    String searchQuery = "SELECT uuid, response "+
+                         "  FROM latestNonDeletedArchEntFormattedIdentifiers  "+
+                         " WHERE uuid in (SELECT uuid "+
+                         "                  FROM latestNonDeletedArchEntIdentifiers "+
+                         "                 WHERE measure LIKE {term}||'%'  "+
+                         "                   AND ( aenttypename = {type} OR '' = {type} ) "+
+                         " AND ( userid = {user} OR -1 = {user}) " +
+                         "                )  "+
+                         " ORDER BY response "+
+                         " LIMIT ? "+
+                         "OFFSET ? ";
+    searchQuery = dbReplaceFirst(searchQuery, "{term}", term);
+    searchQuery = dbReplaceFirst(searchQuery, "{type}", type);
+    searchQuery = dbReplaceFirst(searchQuery, "{type}", type);
+    searchQuery = replaceFirst(searchQuery, "{user}", user);
+    searchQuery = replaceFirst(searchQuery, "{user}", user);
+    populateCursorList(refEntityList, searchQuery, 25);
+    refreshTabgroupCSS("Start");
+
+    Log.d("Module", "Search query: " + searchQuery);
+    }
+
+    /*************************** Retain field Source value **********************/
+    insertIntoLocalSettingsOnChange("Burial_Mound/General/Source");
+    addOnEvent("Burial_Mound", "create", "setFieldValueFromLocalSettings(\"Burial_Mound/General/Source\")");
+
+    /********************** Custom Location for Valdiate button *****************/
+    // Add validation button as the first item in Burial_Mound/General tab
+    addOnEvent("Burial_Mound/General/Validate", "click", "validateBurialMound()");
 
 
-  /*************************** Custom Validate Burial Mound ********************/
-  // Override auto-generated function, adds Latitude and Longitude field to List
-  // of fields to validate
-  void validateBurialMound() {
-    List f = new ArrayList(); // Fields to be validated
-    f.add(fieldPair("Burial_Mound/General/Mound_ID", "{Mound_ID}"));
-    f.add(fieldPair("Burial_Mound/General/Type", "{Type}"));
-    f.add(fieldPair("Burial_Mound/General/Landuse_around_Mound", "{Landuse_around_Mound}"));
-    f.add(fieldPair("Burial_Mound/General/Landuse_on_top_of_Mound", "{Landuse_on_top_of_Mound}"));
-    f.add(fieldPair("Burial_Mound/General/Facing_Direction_For_Photo", "{Facing_Direction_For_Photo}"));
-    f.add(fieldPair("Burial_Mound/General/Photo", "{Photo}"));
-    f.add(fieldPair("Burial_Mound/Dimensions/Height_Max", "{Height_Max__m_}"));
-    f.add(fieldPair("Burial_Mound/Dimensions/Diameter_Max", "{Diameter_Max__m_}"));
-    f.add(fieldPair("Burial_Mound/Material/Sample_Collected", "{Sample_Collected_}"));
-    f.add(fieldPair("Burial_Mound/CRM/Condition", "{Condition}"));
-    f.add(fieldPair("Burial_Mound/CRM/Principal_Source_of_Impact", "{Principal_Source_of_Impact}"));
-    f.add(fieldPair("Burial_Mound/General/Latitude", "{Latitude}"));
-    f.add(fieldPair("Burial_Mound/General/Longitude", "{Longitude}"));
+    // Overrides auto-generated function to duplicate Burial Mound
+    // This function updates the Date field to the current date.
+    void duplicateBurialMound(){
+      String tabgroup = "Burial_Mound";
+      String uuidOld = getUuid(tabgroup);
+      setUuid(tabgroup, "");
+      disableAutoSave(tabgroup);
+      incAutoNum("Burial_Mound/General/Mound_ID");
+      clearGpsInTabGroup(tabgroup);
+      populateAuthorAndTimestamp(tabgroup);
+      populateEntityListsInTabGroup(tabgroup);
+      populateCameraPictureGallery("Burial_Mound/General/Photo", new ArrayList());
+      populateCameraPictureGallery("Burial_Mound/Material/Associated_Feature_or_Material_Photo", new ArrayList());
+      populateCameraPictureGallery("Burial_Mound/CRM/CRM_Photos", new ArrayList());
+      executeOnEvent(tabgroup, "copy");
 
-    String validationMessage = validateFields(f, "PLAINTEXT");
-    showWarning("{validation_results}", validationMessage);
-  }
+      saveCallback = new SaveCallback() {
+        onSave(uuid, newRecord) {
+          setUuid(tabgroup, uuid);
 
-  /******************************** Custom User List **************************/
-  // Override auto-generated function, use populateDropDown function
-  // with hasNull parameter set to false
-  /*
-  void populateListForUsers(){
-    String q = "";
-    q  = " SELECT          userid ";
-    q += "        ||'\\0'||fname ";
-    q += "        ||'\\0'||lname ";
-    q += "        ||'\\0'||email ";
-    q += "        ||'\\0'||password ";
-    q += "        ,        fname ";
-    q += "        || ' ' ||lname ";
-    q += "   FROM user ";
-    q += "  WHERE userdeleted is null";
+          timedFetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
+            onFetch(result) {
+              Log.e("Module", result.toString());
 
-    fetchAll(q, new FetchCallback() {
-      onFetch(result) {
-        populateDropDown(USER_MENU_PATH, result, false);
-      }
-    });
-  }
-  */
-  /******************************    Select User   ******************************/
-  /* Override auto generated function selectUser                                */
-  /******************************************************************************/
-  // Overrides auto-generated definition
-  // Function set user to user and assign the selected user userId
-  // to the global variable userid
-  void selectUser() {
-    userId           = getUserMenuValue(0);
-    String nameFirst = getUserMenuValue(1);
-    String nameLast  = getUserMenuValue(2);
-    String email     = getUserMenuValue(3);
-    String password  = getUserMenuValue(4);
-    username         = nameFirst + " " + nameLast;
-    //Assign user id of current user to the global variable userid
+              if (result != null && result.size() >= 1) {
+                parentTabgroup__ = result.get(0).get(4);
+                parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+              }
 
-    userid = userId;
-    System.out.println(userid);
-    User user = new User(userId, nameFirst, nameLast, email, password);
-    setUser(user);
-  }
+              makeDuplicateRelationships(result, getUuid(tabgroup));
 
-  void onClickUserLogin () {
-    if(!isNull(userid))
-      newTab("Start", true);
-    else
-      showWarning("No user selected", "To log in, please select a user.");
-  }
+              showToast("{Duplicated_record}");
+              dialog.dismiss();
+            }
+          });
 
-  void resetUser() {
-    userId   = "";
-    username = "";
-    userid = userId;
-    User user = new User(userId, "", "", "", "");
-    setUser(user);
-  }
+          saveTabGroup(tabgroup);
+        }
+      };
+      setDayMonth();
+      String extraDupeAttributes = "";
+      timedFetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
+        onFetch(result) {
+          excludeAttributes = new ArrayList();
+
+          excludeAttributes.add("Photo");
+          excludeAttributes.add("Associated Feature or Material Photo");
+          excludeAttributes.add("CRM Photos");
+
+          duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
+        }
+      });
+    }
+
+
+    /*************************** Custom Validate Burial Mound ********************/
+    // Override auto-generated function, adds Latitude and Longitude field to List
+    // of fields to validate
+    void validateBurialMound() {
+      List f = new ArrayList(); // Fields to be validated
+      f.add(fieldPair("Burial_Mound/General/Mound_ID", "{Mound_ID}"));
+      f.add(fieldPair("Burial_Mound/General/Type", "{Type}"));
+      f.add(fieldPair("Burial_Mound/General/Landuse_around_Mound", "{Landuse_around_Mound}"));
+      f.add(fieldPair("Burial_Mound/General/Landuse_on_top_of_Mound", "{Landuse_on_top_of_Mound}"));
+      f.add(fieldPair("Burial_Mound/General/Facing_Direction_For_Photo", "{Facing_Direction_For_Photo}"));
+      f.add(fieldPair("Burial_Mound/General/Photo", "{Photo}"));
+      f.add(fieldPair("Burial_Mound/Dimensions/Height_Max", "{Height_Max__m_}"));
+      f.add(fieldPair("Burial_Mound/Dimensions/Diameter_Max", "{Diameter_Max__m_}"));
+      f.add(fieldPair("Burial_Mound/Material/Sample_Collected", "{Sample_Collected_}"));
+      f.add(fieldPair("Burial_Mound/CRM/Condition", "{Condition}"));
+      f.add(fieldPair("Burial_Mound/CRM/Principal_Source_of_Impact", "{Principal_Source_of_Impact}"));
+      f.add(fieldPair("Burial_Mound/General/Latitude", "{Latitude}"));
+      f.add(fieldPair("Burial_Mound/General/Longitude", "{Longitude}"));
+
+      String validationMessage = validateFields(f, "PLAINTEXT");
+      showWarning("{validation_results}", validationMessage);
+    }
+
+    /******************************** Custom User List **************************/
+    // Override auto-generated function, use populateDropDown function
+    // with hasNull parameter set to false
+    /*
+    void populateListForUsers(){
+      String q = "";
+      q  = " SELECT          userid ";
+      q += "        ||'\\0'||fname ";
+      q += "        ||'\\0'||lname ";
+      q += "        ||'\\0'||email ";
+      q += "        ||'\\0'||password ";
+      q += "        ,        fname ";
+      q += "        || ' ' ||lname ";
+      q += "   FROM user ";
+      q += "  WHERE userdeleted is null";
+
+      fetchAll(q, new FetchCallback() {
+        onFetch(result) {
+          populateDropDown(USER_MENU_PATH, result, false);
+        }
+      });
+    }
+    */
+    /******************************    Select User   ******************************/
+    /* Override auto generated function selectUser                                */
+    /******************************************************************************/
+    // Overrides auto-generated definition
+    // Function set user to user and assign the selected user userId
+    // to the global variable userid
+    void selectUser() {
+      userId           = getUserMenuValue(0);
+      String nameFirst = getUserMenuValue(1);
+      String nameLast  = getUserMenuValue(2);
+      String email     = getUserMenuValue(3);
+      String password  = getUserMenuValue(4);
+      username         = nameFirst + " " + nameLast;
+      User user = new User(userId, nameFirst, nameLast, email, password);
+      setUser(user);
+    }
+
+    void onClickUserLogin () {
+      if(!isNull(userId))
+        newTab("Start", true);
+      else
+        showWarning("No user selected", "To log in, please select a user.");
+    }
+
+  setSyncEnabled(false);
 
 ]]></logic>
 

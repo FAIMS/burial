@@ -51,6 +51,21 @@
         <param type="field" value="vocab"/>
       </validator>
     </property>
+    <property name="Archaeological potential">
+      <validator type="blankchecker">
+        <param type="field" value="vocab"/>
+      </validator>
+    </property>
+    <property name="Most recent damage what">
+      <validator type="blankchecker">
+        <param type="field" value="vocab"/>
+      </validator>
+    </property>
+    <property name="Most recent damage within">
+      <validator type="blankchecker">
+        <param type="field" value="vocab"/>
+      </validator>
+    </property>
   <property name="Latitude">
     <validator type="blankchecker">
       <param type="field" value="measure"/>

@@ -43,6 +43,8 @@
       <lookup>
         <term>{Legacy_verification}
 <description></description></term>
+        <term>{Remote_sensing_ground_truthing}
+<description></description></term>
         <term>{Survey}
 <description></description></term>
         <term>{Local_informant}
@@ -400,7 +402,21 @@
       </lookup>
     </property>
     <property name="Photo" type="file" file="true" thumbnail="true">
-      <description>Take 1 general overview shot that includes the complete feature profile, and a scale. Include direction in the Annotation (from which direction was the image taken)</description>
+      <description>
+        &lt;i&gt;Description:&lt;/i&gt;
+        &lt;br&gt;
+        &lt;div&gt;
+            &lt;div&gt;
+            &lt;p&gt;Take one generval overview shot that includes the complete feature profile and a scale. The facing direction above should articulate which direction you were facing when taking the general overview shot.&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+              &lt;p&gt;Example:&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+              &lt;img style="width:100%" src="files/data/gallery/Example_photo/2082.jpg" alt="files/data/gallery/Example_photo/2082.jpg"/&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+      </description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
@@ -439,7 +455,9 @@
       <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Associated Feature or Material" type="vocab">
-      <description></description>
+      <description>
+        Stone wall (krepis) is found either at the foot of the mound, or inside it (upon excavation). Enclosure is a fence or a circle of variable material either around or some distance outside of the mound. Standing features in the vicinity comprise other standing stone or architectural features associated with the mound. Artefact scatter indicates a discreet and bounded concentration of manmade objects on the surface of the mound or its close vicinity. Loose artefacts indicates one or two artefacts dispersed on or around mound. Bones denote bioarchaeological remains, human or animal. Other - please use the annotation to describe.
+      </description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
@@ -502,7 +520,9 @@
       <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Condition" type="vocab">
-      <description></description>
+      <description>
+        Condition here describes a measurable change in the state of a burial mound (as compared with some prior condition of the state). Please assess the amount of anthropogenic and natural impacts that the mound has suffered. Such impacts can be direct or indirect (caused by action but occur later in time or farther removed in space). They can be discrete or continuous, depending on whether the cause occurs only once, or recurs at intervals.
+      </description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
@@ -510,47 +530,50 @@
 <description></description></term>
         <term>{1___pristine}
 <description>
-            1 - only superficial or minor damage, 10% of mound volume missing.
+            1 - pristine or only superficial damage, up to 10% of mound volume missing.
           </description></term>
         <term>{2___minor_damage}
 <description>
-            2- minor damage, 10-25% of mound volume missing, archaeological potential not seriously compromised.
+            2- minor damage, 10-25% of mound volume missing.
           </description></term>
         <term>{3___damaged}
 <description>
-            3 - up to 50% of mound volume missing, archaeological potential compromised.
+            3 - considerable damage, up to 50% of mound volume missing.
           </description></term>
         <term>{4___seriously_damaged}
 <description>
-            4 - either 50% of mound missing or archaeological potential seriously compromised.
+            4 - massive amount of damage, more than 50% of mound missing.
           </description></term>
         <term>{5___extinct_or_near_extinct}
 <description>
-            5 - nearly nothing remains of the mound, archaeological potential nil or nearly nil.
+            5 - nearly nothing remains of the mound.
           </description></term>
-        <term>{NA}
-<description></description></term>
       </lookup>
     </property>
     <property name="Principal Source of Impact" type="vocab">
-      <description></description>
+      <description>
+        Please select the principal source of impact; identifying the cause of decline that has contributed most to either the amount of damage, its extent in 3D space or its duration. Please use the annotation to identify the causal agent of an impact. E.g. activities such as plowing, road construction, timber harvest can be potential impact agents, and can precipitate -cause other impacts, such as erosion through the removal of trees, or alteration by compaction of sediment, etc. The principal impacts are Anthropogenic (manmade), Animal activity, or Natural (erosion, compaction, ...etc), and Other. Please describe Other in an annotation.
+      </description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{Not_available}
+        <term>{No_observation}
 <description></description></term>
-        <term>{Agriculture}
-<description></description></term>
-        <term>{Looting}
-<description></description></term>
-        <term>{Infrastructure}
-<description></description></term>
-        <term>{Urban_development}
-<description></description></term>
+        <term>{Anthropogenic}
+<description></description><term>{Agriculture}
+<description></description></term><term>{Looting}
+<description></description></term><term>{Excavation}
+<description></description></term><term>{Road_cut}
+<description></description></term><term>{Construction}
+<description></description></term><term>{Urban_development}
+<description></description></term><term>{Other}
+<description></description></term></term>
         <term>{Animal_activity}
 <description></description></term>
-        <term>{Topographic_or_post_depositional}
-<description></description></term>
+        <term>{Natural}
+<description></description><term>{Erosion}
+<description></description></term><term>{Post_depositional}
+<description></description></term></term>
         <term>{Other__specify_in_Annotation_}
 <description></description></term>
       </lookup>
@@ -560,8 +583,39 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
+    <property name="Archaeological potential" type="vocab">
+      <description>Archaeological potential is result of site formation and developmental history of a site both of which affect what is archaeologically knowable (Wildesen 1984, Schiffer 1976), a subjective judgment of the physical status of as mound in relation to the preservation of information on its use for future archaeological study.</description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{No_observation}
+<description></description></term>
+        <term>{1___full}
+<description>
+            1 - mound appears close to original condition and is likely to retain its full archaeological potential.
+          </description></term>
+        <term>{2___good}
+<description>
+            2 - mound is slightly damaged and some archaeological potential is impaired, but lots remains.
+          </description></term>
+        <term>{3___impaired}
+<description>
+            3 - archaeological potential of this mound is significantly compromised
+          </description></term>
+        <term>{4___minimal}
+<description>
+            4 - archaeological potential of the mound is low or severly compromised
+          </description></term>
+        <term>{5__none_or_nearly_none}
+<description>
+            5 - no or nearly no archaeological potential is left
+          </description></term>
+        <term>{Other}
+<description></description></term>
+      </lookup>
+    </property>
     <property name="Most recent damage what" type="vocab">
-      <description></description>
+      <description>Select the most recent source of damage. Use annotation if damage type not listed.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
@@ -580,6 +634,8 @@
         <term>{Topographic_or_post_depositional}
 <description></description></term>
         <term>{Other__specify_in_Annotation_}
+<description></description></term>
+        <term>{Unknown}
 <description></description></term>
       </lookup>
     </property>
@@ -601,7 +657,7 @@
       </lookup>
     </property>
     <property name="RT Description" type="measure">
-      <description></description>
+      <description>Describe Robber's trenches - if present - in the following format separating trenches by semicolons and parameters by commas:[TrenchNumber,shape,dimensionx,dimensiony,depth,note;TrenchNumber,shape,radius,depth,note]. Example: [01,round,1.5m,0.5m,manually excavated hole;02,rectangle,0.5,2.5,0.3,neatly excavated shallow trench]</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
@@ -611,7 +667,7 @@
       <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="CRM Photos" type="file" file="true" thumbnail="true">
-      <description></description>
+      <description>Take a picture of each robber's trench with a scale.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>

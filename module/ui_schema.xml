@@ -128,6 +128,7 @@
               <Condition/>
               <Principal_Source_of_Impact/>
               <Other_Sources_of_Impact/>
+              <Archaeological_potential/>
               <Most_recent_damage_what/>
               <Most_recent_damage_within/>
               <RT_Description/>
@@ -393,7 +394,7 @@
             <value>Options not loaded</value>
           </item>
         </select1>
-        <select faims_sync="true" type="camera" faims_attribute_name="Photo" faims_attribute_type="measure" ref="Photo" faims_style_class="required">
+        <select faims_sync="true" type="camera" faims_attribute_name="Photo" faims_attribute_type="measure" ref="Photo" faims_style_class="required" faims_html_description="true">
           <label>{Photo}</label>
           <item>
             <label>Options not loaded</label>
@@ -486,14 +487,21 @@
         <input faims_attribute_name="Other Sources of Impact" faims_attribute_type="measure" ref="Other_Sources_of_Impact">
           <label>{Other_Sources_of_Impact}</label>
         </input>
-        <select1 faims_attribute_name="Most recent damage what" faims_attribute_type="vocab" ref="Most_recent_damage_what">
+        <select1 faims_attribute_name="Archaeological potential" faims_attribute_type="vocab" ref="Archaeological_potential" faims_style_class="required">
+          <label>{Archaeological_potential}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
+        <select1 faims_attribute_name="Most recent damage what" faims_attribute_type="vocab" ref="Most_recent_damage_what" faims_style_class="required">
           <label>{Most_recent_damage__what_}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
           </item>
         </select1>
-        <select1 faims_attribute_name="Most recent damage within" faims_attribute_type="vocab" ref="Most_recent_damage_within">
+        <select1 faims_attribute_name="Most recent damage within" faims_attribute_type="vocab" ref="Most_recent_damage_within" faims_style_class="required">
           <label>{Most_recent_damage__within_}</label>
           <item>
             <label>Options not loaded</label>

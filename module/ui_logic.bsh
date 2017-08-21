@@ -1,5 +1,5 @@
 /*
- * GENERATED WITH FAIMS-TOOLS, SHA1: e2f2cddbbadc83876da257a4911fa4367493f5e7
+ * GENERATED WITH FAIMS-TOOLS, SHA1: 2471f5c8dce7b93542de81b0608f43fbdc4191f4
  */
 import android.util.Log;
 import android.os.Build.MODEL;
@@ -18,7 +18,7 @@ String parentTabgroup;  // Used to allow entities to be saved as children
 String parentTabgroup__;// The tab group which was previously displayed
 String redirectTab;     // makes newTab work as expected
 String username = "";
-String userid   = "";
+String userId   = "";
 List   autoSaveGeo = null;
 List   autoSaveAttrs = null;
 
@@ -113,6 +113,23 @@ String escape(String s) {
   return translate(s, dict);
 }
 
+String getRandomString(int len) {
+  char[] chars  = (
+      "abcdefghijklmnopqrstuvwxyz" +
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+      "1234567890"
+  ).toCharArray();
+  Random random = new Random();
+
+  StringBuilder sb = new StringBuilder();
+  for (int i = 0; i < len; i++) {
+      char c = chars[random.nextInt(chars.length)];
+      sb.append(c);
+  }
+
+  return sb.toString();
+}
+
 String args2str(Object[] args) {
   String str = "";
   String sep = ", ";
@@ -142,6 +159,40 @@ String fun2str(String funName, Object[] args) {
 
 String fun2str(String funName, Object args) {
   return fun2str(funName, new Object[]{args});
+}
+
+/************************** FUNCTION-STRING MAPPING ***************************/
+/* Allows reflected functions to be associated with a key and called later    */
+/* on. This is mostly useful for de-spagehettifying calls to `addOnEvent`,    */
+/* which would otherwise effectively use eval.                                */
+/******************************************************************************/
+Map KEY_TO_FUN_NAME = new HashMap();
+Map KEY_TO_FUN_ARGS = new HashMap();
+
+String function2key(String function, Object[] args) {
+  if (args == null)
+    args = new Object[0];
+
+  String key = getRandomString(64); // 64 ==> Odds of collision ~= 1e-115
+
+  KEY_TO_FUN_NAME.put(key, function);
+  KEY_TO_FUN_ARGS.put(key, args);
+
+  return key;
+}
+
+key2call(String key) {
+  String   funName = KEY_TO_FUN_NAME.get(key);
+  Object[] funArgs = KEY_TO_FUN_ARGS.get(key);
+
+  if (funName == null) return;
+  if (funArgs == null) return;
+
+  this.invokeMethod(funName, funArgs);
+}
+
+String function2callableString(String function, Object[] args) {
+  return fun2str("key2call", function2key(function, args));
 }
 
 /******************************************************************************/
@@ -211,6 +262,7 @@ REF_TO_TYPE.put("Burial_Mound/Material/Associated_Feature_or_Material_Photo_Butt
 REF_TO_TYPE.put("Burial_Mound/CRM/Condition", "dropdown");
 REF_TO_TYPE.put("Burial_Mound/CRM/Principal_Source_of_Impact", "dropdown");
 REF_TO_TYPE.put("Burial_Mound/CRM/Other_Sources_of_Impact", "input");
+REF_TO_TYPE.put("Burial_Mound/CRM/Archaeological_potential", "dropdown");
 REF_TO_TYPE.put("Burial_Mound/CRM/Most_recent_damage_what", "dropdown");
 REF_TO_TYPE.put("Burial_Mound/CRM/Most_recent_damage_within", "dropdown");
 REF_TO_TYPE.put("Burial_Mound/CRM/RT_Description", "input");
@@ -261,6 +313,7 @@ DATA_REFS.add("Burial_Mound/Material/Associated_Feature_or_Material_Photo");
 DATA_REFS.add("Burial_Mound/CRM/Condition");
 DATA_REFS.add("Burial_Mound/CRM/Principal_Source_of_Impact");
 DATA_REFS.add("Burial_Mound/CRM/Other_Sources_of_Impact");
+DATA_REFS.add("Burial_Mound/CRM/Archaeological_potential");
 DATA_REFS.add("Burial_Mound/CRM/Most_recent_damage_what");
 DATA_REFS.add("Burial_Mound/CRM/Most_recent_damage_within");
 DATA_REFS.add("Burial_Mound/CRM/RT_Description");
@@ -273,7 +326,7 @@ DATA_REFS.add("Shape/Shape_Note/Note");
 
 
 
-
+HIER_REFS.add("Burial_Mound/CRM/Principal_Source_of_Impact");
 
 TAB_GROUPS_AS_LIST.add("User");
 TAB_GROUPS_AS_LIST.add("Start");
@@ -613,7 +666,13 @@ String getArchEntTypePascalCased(String ref) {
 //     Only one synchronous job is counted, and that's loading this script; that
 // is why this variable is initialised to 1.
 AtomicInteger NUM_JOBS_TILL_LOADED = new AtomicInteger(1);
+AtomicInteger NUM_FETCHES_OCCURING = new AtomicInteger(0);
 
+final int PRECEDENCE_MIN = 0;
+final int PRECEDENCE_MID = Integer.MAX_VALUE/2;
+final int PRECEDENCE_MAX = Integer.MAX_VALUE;
+
+int NUM_EVTS = 0;
 Map ON_EVT_CONDS  = new HashMap(); // (ref, event type) -> callback statement
 Map ON_EVT_STMTS  = new HashMap(); // (ref, event type) -> callback statement
 Set CUSTOM_EVENTS = new HashSet(); // Events not handled by `onEvent`
@@ -628,20 +687,66 @@ CUSTOM_EVENTS.add("leave");
 CUSTOM_EVENTS.add("prefetch");
 CUSTOM_EVENTS.add("save");
 
+List getPrioritised(String statement, int priority) {
+  List prioritised = new ArrayList();
+
+  prioritised.add(statement);
+  prioritised.add(priority);
+  prioritised.add(NUM_EVTS++);
+
+  return prioritised;
+}
+
+Comparator PrioritisedComparator() {
+  int compare(List a, List b) {
+    int aPriority = a.get(1);
+    int bPriority = b.get(1);
+
+    int aEvtNum   = a.get(2);
+    int bEvtNum   = b.get(2);
+
+    if (aPriority > bPriority) return -1;
+    if (aPriority < bPriority) return +1;
+    if (aEvtNum   > bEvtNum  ) return +1;
+    if (aEvtNum   < bEvtNum  ) return -1;
+    return 0;
+  }
+  boolean equals(a, b) { return compare(a, b) == 0; }
+  return this;
+}
+
 String getOnEventKey(String ref, String event) {
   return ref + SEP + event;
 }
 
-/* Returns the set of statements bound to an element at `ref` and occuring on
- * `event`.
- */
-
-ArrayList getOnEventVal(String ref, String event, Map map) {
+ArrayList getOnEventPriorities(String ref, String event, Map map) {
   String    key = getOnEventKey(ref, event);
   ArrayList val = (ArrayList) map.get(key);
 
   if (val == null) return new ArrayList();
   else             return val;
+}
+
+/* Returns the set of statements bound to an element at `ref` and occurring on
+ * `event`.
+ */
+ArrayList getOnEventVal(String ref, String event, Map map) {
+  String    key  = getOnEventKey(ref, event);
+  ArrayList val  = (ArrayList) map.get(key);
+  ArrayList val_ = new ArrayList();
+
+  if (val == null)
+    val = new ArrayList();
+
+  // Sort the vals by their precedence
+  Collections.sort(val, PrioritisedComparator());
+
+  // Unpack the inner objects (Strings) from the `Prioritised` objects, put them
+  // in `val_`.
+  for (v : val)
+    val_.add(v.get(0));
+
+  return val_;
 }
 
 ArrayList getConds(String ref, String event) {
@@ -652,7 +757,7 @@ ArrayList getStatements(String ref, String event) {
   return getOnEventVal(ref, event, ON_EVT_STMTS);
 }
 
-void addToOnEventVal(
+void addToOnEventPriorities(
     String ref,
     String event,
     String statement,
@@ -669,17 +774,15 @@ void addToOnEventVal(
   // `precedence` controls the order that statements are executed. Roughly,
   // a statement with a higher precedence is executed before a statement with
   // a lower precedence.
+  assert(precedence >= 0);
+  assert(precedence <= Integer.MAX_VALUE);
 
-  String    key = getOnEventKey(ref, event);
-  ArrayList val = getOnEventVal(ref, event, map);
+  String    key = getOnEventKey       (ref, event);
+  ArrayList val = getOnEventPriorities(ref, event, map);
 
   ArrayList statements = val;
 
-  precedence = Math.max(precedence, 0);
-  precedence = Math.min(precedence, statements.size());
-  precedence = statements.size() - precedence;
-
-  statements.add(precedence, statement);
+  statements.add(getPrioritised(statement, precedence));
   map.put(key, statements);
 }
 
@@ -724,25 +827,47 @@ boolean hasOnEvent(String ref, String event, String statement) {
 }
 
 void delOnEvent(String ref, String event, String statement) {
-  while(getStatements(ref, event).remove(statement));
+  String    key = getOnEventKey(ref, event);
+  ArrayList val = (ArrayList) ON_EVT_STMTS.get(key);
+
+  if (val == null)
+    return;
+
+  for (Iterator i = val.iterator(); i.hasNext(); ) {
+    obj = i.next();
+    if (statement.equals(obj.get(0)))
+      i.remove();
+  }
 }
 
 void addOnEvent(String ref, String event, String statement, int precedence) {
   validateRef(ref);
-
-  // Calling `delOnEvent()` first ensures statement occurs once in the list, at
-  // the end.
-  delOnEvent     (ref, event, statement);
-  addToOnEventVal(ref, event, statement, precedence, ON_EVT_STMTS);
+  addToOnEventPriorities(ref, event, statement, precedence, ON_EVT_STMTS);
 }
 
 void addOnEventCond(String ref, String event, String check) {
   validateRef    (ref);
-  addToOnEventVal(ref, event, check, 0, ON_EVT_CONDS);
+  addToOnEventPriorities(ref, event, check, PRECEDENCE_MID, ON_EVT_CONDS);
 }
 
 void addOnEvent(String ref, String event, String statement) {
-  addOnEvent(ref, event, statement, 0);
+  addOnEvent(ref, event, statement, PRECEDENCE_MID);
+}
+
+void addOnEvent(
+    String ref, String event, String function, Object[] args, int precedence
+) {
+  String statementString = function2callableString(function, args);
+  addOnEvent(ref, event, statementString);
+}
+
+void addOnEvent(String ref, String event, String function, Object[] args) {
+  addOnEvent(ref, event, function, args, PRECEDENCE_MID);
+}
+
+void addOnEventCond(String ref, String event, String check, Object[] args) {
+  String checkString = runnable2runnableString(check);
+  addOnEvent(ref, event, checkString);
 }
 
 void bindOnEvent(String ref, String event) {
@@ -804,6 +929,10 @@ void decAndExecIfModuleLoaded() {
     executeOnEvent("module", "load");
 }
 
+boolean isDoingFetchEvent() {
+  return NUM_FETCHES_OCCURING.get() > 0;
+}
+
 /* Establishes `onEvent` bindings necessary to make the "leave" event work. The
  * "leave" event is really triggered upon "show" of another tab.
  */
@@ -814,11 +943,29 @@ for (tg : getTabGroups()) {
 
   // Update (previously) displayed tab group
   callback = fun2str("updateDisplayedTabGroup", ref);
-  addOnEvent(ref, event, callback);
+  addOnEvent(ref, event, callback, PRECEDENCE_MAX);
 
   // Trigger on leave tab group event
   callback = "onLeaveTabGroup()";
-  addOnEvent(ref, event, callback);
+  addOnEvent(ref, event, callback, PRECEDENCE_MAX);
+}
+
+for (tg : getTabGroups()) {
+  if (isFlaggedNodata(tg))
+    continue;
+
+  addOnEvent(
+      tg,
+      "prefetch",
+      "NUM_FETCHES_OCCURING.incrementAndGet()",
+      Integer.MAX_VALUE
+  );
+  addOnEvent(
+      tg,
+      "fetch",
+      "NUM_FETCHES_OCCURING.decrementAndGet()",
+      0
+  );
 }
 
 /******************************************************************************/
@@ -1163,7 +1310,7 @@ void timedPopulateCursorList(String ref, String q, int limit) {
 }
 
 void setUpTypeHierarchy() {
-  //- 
+  //-
   //  - Shape
   //  - Burial Mound
 
@@ -1202,23 +1349,6 @@ String randomMenuValue(String ref) {
   int    i   = r.nextInt(len);
 
   return vocabIds.get(i);
-}
-
-String getRandomString(int len) {
-  char[] chars  = (
-      "abcdefghijklmnopqrstuvwxyz" +
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-      "1234567890"
-  ).toCharArray();
-  Random random = new Random();
-
-  StringBuilder sb = new StringBuilder();
-  for (int i = 0; i < len; i++) {
-      char c = chars[random.nextInt(chars.length)];
-      sb.append(c);
-  }
-
-  return sb.toString();
 }
 
 String randomInputValue(String ref) {
@@ -2412,7 +2542,8 @@ void updateGPSDiagnostics() {
   setFieldValue(diagnosticsRef, status);
 }
 
-void centerMe() { centerOnCurrentPosition("Start/Map/Map"); }
+final String MAP_REF = "Start/Map/Map";
+void centerMe() { centerOnCurrentPosition(MAP_REF); }
 addOnEvent("Start/Map/Center_Me_1", "click", "centerMe()");
 
 /******************************************************************************/
@@ -2665,6 +2796,9 @@ void validateBurialMound() {
   f.add(fieldPair("Burial_Mound/Material/Sample_Collected", "{Sample_Collected_}"));
   f.add(fieldPair("Burial_Mound/CRM/Condition", "{Condition}"));
   f.add(fieldPair("Burial_Mound/CRM/Principal_Source_of_Impact", "{Principal_Source_of_Impact}"));
+  f.add(fieldPair("Burial_Mound/CRM/Archaeological_potential", "{Archaeological_potential}"));
+  f.add(fieldPair("Burial_Mound/CRM/Most_recent_damage_what", "{Most_recent_damage__what_}"));
+  f.add(fieldPair("Burial_Mound/CRM/Most_recent_damage_within", "{Most_recent_damage__within_}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("{validation_results}", validationMessage);
@@ -2769,26 +2903,32 @@ String getTimestampNow() {
   return getTimestampNow(fmt);
 }
 
-String getTimestampNow(String fmt) {
+String getTimestampNow(String fmt, boolean doInsertColon) {
   date    = new Date();
   dateFmt = new java.text.SimpleDateFormat(fmt);
   dateStr = dateFmt.format(date);
 
   // Insert colon into timezone (e.g. +1000 -> +10:00)
-  String left; String right;
+  if (doInsertColon) {
+    String left; String right;
 
-  left    = dateStr.substring(0, dateStr.length() - 2);
-  right   = dateStr.substring(   dateStr.length() - 2);
-  dateStr = left + ":" + right;
+    left    = dateStr.substring(0, dateStr.length() - 2);
+    right   = dateStr.substring(   dateStr.length() - 2);
+    dateStr = left + ":" + right;
+  }
 
   return dateStr;
+}
+
+String getTimestampNow(String fmt) {
+  return getTimestampNow(fmt, true);
 }
 
 void populateAuthorAndTimestamp(String tabgroup) {
   Map tabgroupToAuthor    = new HashMap();
   Map tabgroupToTimestamp = new HashMap();
   tabgroupToAuthor.put("Burial_Mound", "Burial_Mound/General/Burial_Mound_author");
-  
+
   String authorPath    = tabgroupToAuthor.get(tabgroup);
   String timestampPath = tabgroupToTimestamp.get(tabgroup);
 
@@ -3159,13 +3299,13 @@ void newShape(String parent){
     parentTabgroup   = parent;
     parentTabgroup__ = parent;
   }
-  
+
 
   setUuid(tabgroup, null);
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-  
+
 
   executeOnEvent(tabgroup, "create");
 }
@@ -3229,11 +3369,11 @@ void duplicateShape(){
   String uuidOld = getUuid(tabgroup);
   setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
-  
+
   clearGpsInTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-  
+
   executeOnEvent(tabgroup, "copy");
 
   saveCallback = new SaveCallback() {
@@ -3265,7 +3405,7 @@ void duplicateShape(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
 
-      
+
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
     }
@@ -3946,7 +4086,7 @@ for (m : ENTITY_MENUS) {
    }
 
   /****************************** GIS POINT STYLES ******************************/
-  final String MAP_REF = "Start/Map/Map";
+  //final String MAP_REF = "Start/Map/Map";
   /* Displays the geometry of each entity whose menu, by the name of `attribName`,
    * has `vocabName` saved in it. The geometry is displayed in whatever colour is
    * given by `geoColor`.
@@ -4008,7 +4148,7 @@ for (m : ENTITY_MENUS) {
     showDatabaseLayerByVocabName(vocabName, geoColor, layerName);
   }
   void initMap() {
-    // showBaseMap(MAP_REF, "Base Map", "files/data/R1980_YambolElhovoExt.tif");
+    showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-054-3_Yambol.32635.tif");
     showDatabaseLayerByVocabName("{1___pristine}",   Color.GREEN);
     showDatabaseLayerByVocabName("{2___minor_damage}", Color.BLUE);
     showDatabaseLayerByVocabName("{3___damaged}",  Color.YELLOW);
@@ -4075,60 +4215,9 @@ for (m : ENTITY_MENUS) {
   addOnEvent("Burial_Mound", "create", "setFieldValueFromLocalSettings(\"Burial_Mound/General/Source\")");
 
   /********************** Custom Location for Valdiate button *****************/
-  // Remove Validate button from Navigation drawer and place it as the first item
-  // In Burial_Mound/General tab
+  // Add validation button as the first item in Burial_Mound/General tab
   addOnEvent("Burial_Mound/General/Validate", "click", "validateBurialMound()");
 
-  void removeNavigationButtons() {
-    removeNavigationButton("new");
-    removeNavigationButton("duplicate");
-    removeNavigationButton("delete");
-  }
-
-  void addNavigationButtons(String tabgroup) {
-    removeNavigationButtons();
-    List tabgroupsToValidate = new ArrayList();
-    tabgroupsToValidate.add("Start");
-    tabgroupsToValidate.add("Burial_Mound");
-    addNavigationButton("new", new ActionButtonCallback() {
-      actionOnLabel() {
-        "{New}";
-      }
-      actionOn() {
-        if(isNull(getUuid(tabgroup))) {
-          showAlert(
-              "{Warning}",
-              "{The_current_record_has_not_been_saved_yet}",
-              fun2str("newRecord", new Object[]{tabgroup, true}),
-              ""
-          );
-        } else {
-          newRecord(tabgroup, true);
-          showToast("{New_record_created}");
-        }
-      }
-    }, "success");
-    addNavigationButton("duplicate", new ActionButtonCallback() {
-      actionOnLabel() {
-        "{Duplicate}";
-      }
-      actionOn() {
-        if(!isNull(getUuid(tabgroup))) {
-          duplicateRecord(tabgroup);
-        } else {
-          showWarning("{Warning}", "{This_record_is_unsaved_and_cannot_be_duplicated}");
-        }
-      }
-    }, "primary");
-    addNavigationButton("delete", new ActionButtonCallback() {
-      actionOnLabel() {
-        "{Delete}";
-      }
-      actionOn() {
-        deleteRecord(tabgroup);
-      }
-    }, "danger");
-  }
 
   // Overrides auto-generated function to duplicate Burial Mound
   // This function updates the Date field to the current date.
@@ -4244,31 +4333,18 @@ for (m : ENTITY_MENUS) {
     String email     = getUserMenuValue(3);
     String password  = getUserMenuValue(4);
     username         = nameFirst + " " + nameLast;
-    //Assign user id of current user to the global variable userid
-
-    userid = userId;
-    System.out.println(userid);
     User user = new User(userId, nameFirst, nameLast, email, password);
     setUser(user);
   }
 
   void onClickUserLogin () {
-    if(!isNull(userid))
+    if(!isNull(userId))
       newTab("Start", true);
     else
       showWarning("No user selected", "To log in, please select a user.");
   }
 
-  void resetUser() {
-    userId   = "";
-    username = "";
-    userid = userId;
-    User user = new User(userId, "", "", "", "");
-    setUser(user);
-  }
-
-
-
+setSyncEnabled(false);
 /******************************************************************************/
 /*                                    INIT                                    */
 /*                                                                            */
