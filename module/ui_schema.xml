@@ -60,9 +60,10 @@
                   <Center_Me_1/>
                 </Col_1>
                 <Col_2>
-                  <Create_Shape/>
+                  <Save_Map_Settings_1/>
                 </Col_2>
               </Colgroup_1>
+              <Create_Shape/>
             </Map>
           </Start>
           <Burial_Mound>
@@ -97,8 +98,10 @@
                 </Col_3>
               </Colgroup_2>
               <Take_From_GPS_1/>
+              <Handheld_GPS_point/>
               <Elevation/>
               <Facing_Direction_For_Photo/>
+              <Notes/>
               <Photo/>
               <Photo_Button_1/>
             </General>
@@ -147,6 +150,7 @@
       </instance>
       <bind nodeset="/faims/Start/Main/Next_Mound_ID" type="decimal"/>
       <bind nodeset="/faims/Burial_Mound/General/Mound_ID" type="decimal"/>
+      <bind nodeset="/faims/Burial_Mound/General/Handheld_GPS_point" type="decimal"/>
       <bind nodeset="/faims/Burial_Mound/General/Elevation" type="decimal"/>
       <bind nodeset="/faims/Burial_Mound/Dimensions/Colgroup_1/Col_1/Height_Max" type="decimal"/>
       <bind nodeset="/faims/Burial_Mound/Dimensions/Colgroup_1/Col_1/Diameter_Max" type="decimal"/>
@@ -279,16 +283,19 @@
           <group ref="Col_1" faims_style="even">
             <label/>
             <trigger ref="Center_Me_1">
-            <label>{Center_Me}</label>
+              <label>{Center_Me}</label>
             </trigger>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <trigger ref="Create_Shape">
-              <label>{Create_Shape}</label>
+            <trigger ref="Save_Map_Settings_1">
+              <label>{Save_Map_Settings}</label>
             </trigger>
           </group>
         </group>
+        <trigger ref="Create_Shape">
+          <label>{Create_Shape}</label>
+        </trigger>
       </group>
     </group>
     <group ref="Burial_Mound" faims_archent_type="Burial Mound">
@@ -384,6 +391,9 @@
         <trigger ref="Take_From_GPS_1">
           <label>{Take_From_GPS}</label>
         </trigger>
+        <input faims_attribute_name="Handheld GPS point" faims_attribute_type="measure" ref="Handheld_GPS_point">
+          <label>{Handheld_GPS_point}</label>
+        </input>
         <input faims_attribute_name="Elevation" faims_attribute_type="measure" ref="Elevation">
           <label>{Elevation__MASL_}</label>
         </input>
@@ -394,6 +404,9 @@
             <value>Options not loaded</value>
           </item>
         </select1>
+        <input faims_attribute_name="Notes" faims_attribute_type="measure" ref="Notes">
+          <label>{Notes}</label>
+        </input>
         <select faims_sync="true" type="camera" faims_attribute_name="Photo" faims_attribute_type="measure" ref="Photo" faims_style_class="required" faims_html_description="true">
           <label>{Photo}</label>
           <item>

@@ -1,5 +1,5 @@
 /*
- * GENERATED WITH FAIMS-TOOLS, SHA1: 2471f5c8dce7b93542de81b0608f43fbdc4191f4
+ * GENERATED WITH FAIMS-TOOLS, SHA1: a9bfa28d5b88f52b704e2054d2c63b891d4e3771
  */
 import android.util.Log;
 import android.os.Build.MODEL;
@@ -226,6 +226,7 @@ REF_TO_TYPE.put("Start/Table/Select_Date", "dropdown");
 REF_TO_TYPE.put("Start/Table/Table", "input");
 REF_TO_TYPE.put("Start/Map/Map", "map");
 REF_TO_TYPE.put("Start/Map/Center_Me_1", "button");
+REF_TO_TYPE.put("Start/Map/Save_Map_Settings_1", "button");
 REF_TO_TYPE.put("Start/Map/Create_Shape", "button");
 REF_TO_TYPE.put("Burial_Mound/General/Validate", "button");
 REF_TO_TYPE.put("Burial_Mound/General/Mound_ID", "input");
@@ -243,8 +244,10 @@ REF_TO_TYPE.put("Burial_Mound/General/Northing", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Easting", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Accuracy", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Take_From_GPS_1", "button");
+REF_TO_TYPE.put("Burial_Mound/General/Handheld_GPS_point", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Elevation", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Facing_Direction_For_Photo", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/General/Notes", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Photo", "camera");
 REF_TO_TYPE.put("Burial_Mound/General/Photo_Button_1", "button");
 REF_TO_TYPE.put("Burial_Mound/Dimensions/Height_Max", "input");
@@ -296,8 +299,10 @@ DATA_REFS.add("Burial_Mound/General/Longitude");
 DATA_REFS.add("Burial_Mound/General/Northing");
 DATA_REFS.add("Burial_Mound/General/Easting");
 DATA_REFS.add("Burial_Mound/General/Accuracy");
+DATA_REFS.add("Burial_Mound/General/Handheld_GPS_point");
 DATA_REFS.add("Burial_Mound/General/Elevation");
 DATA_REFS.add("Burial_Mound/General/Facing_Direction_For_Photo");
+DATA_REFS.add("Burial_Mound/General/Notes");
 DATA_REFS.add("Burial_Mound/General/Photo");
 DATA_REFS.add("Burial_Mound/Dimensions/Height_Max");
 DATA_REFS.add("Burial_Mound/Dimensions/Diameter_Max");
@@ -1310,13 +1315,13 @@ void timedPopulateCursorList(String ref, String q, int limit) {
 }
 
 void setUpTypeHierarchy() {
-  //- 
-  //  - Shape
+  //-
   //  - Burial Mound
+  //  - Shape
 
   n0 = Tree("", 1);
-  n1 = Tree("Shape", 1);
-  n2 = Tree("Burial Mound", 1);
+  n1 = Tree("Burial Mound", 1);
+  n2 = Tree("Shape", 1);
 
   n0.addChild(n1);
   n0.addChild(n2);
@@ -1535,7 +1540,7 @@ void enqueueTestFiles(int numFiles, String cb) {
   numPhotosToMake -= PERF_FILES.size();
   numPhotosToMake  = Math.max(0, numPhotosToMake);
   // We're going to count returns from attachFile too, hence multiplication by 2
-  PERF_NUM_CBS_TODO_FILE = new AtomicInteger(2*numPhotosToMake);
+  PERF_NUM_CBS_TODO_FILE = new AtomicInteger(numPhotosToMake + 1);
   PERF_NUM_CBS_DONE_FILE = new AtomicInteger(0);
 
   // Make records
@@ -1548,8 +1553,8 @@ void enqueueTestFiles(int numFiles, String cb) {
     );
 
     PERF_FILES.add(fileName);
-    checkEnqueueTestFilesIsDone(cb);
   }
+  checkEnqueueTestFilesIsDone(cb);
 }
 
 void checkEnqueueTestFilesIsDone(String onDone) {
@@ -2542,9 +2547,29 @@ void updateGPSDiagnostics() {
   setFieldValue(diagnosticsRef, status);
 }
 
+final String MAP_CFG_PATH = "files/data/saved_config.json";
 final String MAP_REF = "Start/Map/Map";
 void centerMe() { centerOnCurrentPosition(MAP_REF); }
 addOnEvent("Start/Map/Center_Me_1", "click", "centerMe()");
+addOnEvent("Start/Map/Save_Map_Settings_1", "click", "saveMapSettings()");
+addOnEvent("module", "load", "loadMapSettings()");
+
+void loadMapSettings() {
+  String filePath = getAttachedFilePath(MAP_CFG_PATH);
+
+  if (!new File(filePath).exists())
+    return;
+
+  String toast = "showToast(\"{Loaded_Map_Configuration}\")";
+  loadMapViewConfiguration(MAP_REF, filePath, toast);
+}
+
+void saveMapSettings() {
+  String filePath = getAttachedFilePath(MAP_CFG_PATH);
+
+  String toast = "showToast(\"{Saved_Map_Configuration}\")";
+  saveMapViewConfiguration(MAP_REF, filePath, toast);
+}
 
 /******************************************************************************/
 /*                                 ACTION BAR                                 */
@@ -2928,7 +2953,7 @@ void populateAuthorAndTimestamp(String tabgroup) {
   Map tabgroupToAuthor    = new HashMap();
   Map tabgroupToTimestamp = new HashMap();
   tabgroupToAuthor.put("Burial_Mound", "Burial_Mound/General/Burial_Mound_author");
-  
+
   String authorPath    = tabgroupToAuthor.get(tabgroup);
   String timestampPath = tabgroupToTimestamp.get(tabgroup);
 
@@ -3299,13 +3324,13 @@ void newShape(String parent){
     parentTabgroup   = parent;
     parentTabgroup__ = parent;
   }
-  
+
 
   setUuid(tabgroup, null);
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-  
+
 
   executeOnEvent(tabgroup, "create");
 }
@@ -3369,11 +3394,11 @@ void duplicateShape(){
   String uuidOld = getUuid(tabgroup);
   setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
-  
+
   clearGpsInTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-  
+
   executeOnEvent(tabgroup, "copy");
 
   saveCallback = new SaveCallback() {
@@ -3405,7 +3430,7 @@ void duplicateShape(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
 
-      
+
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
     }
@@ -4149,7 +4174,8 @@ for (m : ENTITY_MENUS) {
       showDatabaseLayerByVocabName(vocabName, geoColor, layerName);
     }
     void initMap() {
-      showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-053-3_Elenovo.tif");
+      showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-054-3_Yambol.32635.tif");
+      //showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-053-3_Elenovo.jpg");
       /*
       showDatabaseLayerByVocabName("{1___pristine}",   Color.GREEN);
       showDatabaseLayerByVocabName("{2___minor_damage}", Color.BLUE);
@@ -4332,23 +4358,10 @@ for (m : ENTITY_MENUS) {
       });
     }
     */
-    /******************************    Select User   ******************************/
+    /**************************    No null user login   ***************************/
     /* Override auto generated function selectUser                                */
     /******************************************************************************/
-    // Overrides auto-generated definition
-    // Function set user to user and assign the selected user userId
-    // to the global variable userid
-    void selectUser() {
-      userId           = getUserMenuValue(0);
-      String nameFirst = getUserMenuValue(1);
-      String nameLast  = getUserMenuValue(2);
-      String email     = getUserMenuValue(3);
-      String password  = getUserMenuValue(4);
-      username         = nameFirst + " " + nameLast;
-      User user = new User(userId, nameFirst, nameLast, email, password);
-      setUser(user);
-    }
-
+    // Check if userId is null, if so then prompt warning message, else allow login
     void onClickUserLogin () {
       if(!isNull(userId))
         newTab("Start", true);
@@ -4356,8 +4369,9 @@ for (m : ENTITY_MENUS) {
         showWarning("No user selected", "To log in, please select a user.");
     }
   //Set sync to be disabled by default
-  setSyncEnabled(false);
 
+  setFileSyncEnabled(false);
+  setSyncEnabled (false);
 
 
 /******************************************************************************/

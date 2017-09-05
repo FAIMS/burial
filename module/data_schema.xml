@@ -26,6 +26,8 @@
 <description></description></term>
         <term>{Extinct_Burial_Mound}
 <description></description></term>
+        <term>{Uncertain_Mound}
+<description></description></term>
         <term>{Uncertain_Feature}
 <description></description></term>
         <term>{Natural_Feature}
@@ -242,13 +244,13 @@
                 &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_3315_Overview_S.JPG" alt="files/data/gallery/Top_Landuse/Grassland_3315_Overview_S.JPG"/&gt;
               &lt;/div&gt;
               &lt;div&gt;
-                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_3299_Overview_NE.dng" alt="files/data/gallery/Top_Landuse/Grassland_3299_Overview_NE.dng"/&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_3299_Overview_NE.jpg" alt="files/data/gallery/Top_Landuse/Grassland_3299_Overview_NE.jpg"/&gt;
               &lt;/div&gt;
               &lt;div&gt;
                 &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_3208_Overview_W.JPG" alt="files/data/gallery/Top_Landuse/Grassland_3208_Overview_W.JPG"/&gt;
               &lt;/div&gt;
               &lt;div&gt;
-                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_2081_Overview.dng" alt="files/data/gallery/Top_Landuse/Grassland_2081_Overview.dng"/&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_2081_Overview.jpg" alt="files/data/gallery/Top_Landuse/Grassland_2081_Overview.jpg"/&gt;
               &lt;/div&gt;
               &lt;hr/&gt;
             &lt;/div&gt;
@@ -266,7 +268,7 @@
                 &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_2013_Overview_E.JPG" alt="files/data/gallery/Top_Landuse/Scrub_2013_Overview_E.JPG"/&gt;
               &lt;/div&gt;
               &lt;div&gt;
-                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_3253_Overview_S.dng" alt="files/data/gallery/Top_Landuse/Scrub_3253_Overview_S.dng"/&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_3253_Overview_S.jpg" alt="files/data/gallery/Top_Landuse/Scrub_3253_Overview_S.jpg"/&gt;
               &lt;/div&gt;
               &lt;div&gt;
                 &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_6019_Overview_E.jpg" alt="files/data/gallery/Top_Landuse/Scrub_6019_Overview_E.jpg"/&gt;
@@ -274,14 +276,14 @@
               &lt;hr/&gt;
             &lt;/div&gt;
           </description></term>
-        <term pictureURL="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.dng">{Forest}
+        <term pictureURL="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.jpg">{Forest}
 <description>
             &lt;div&gt;
               &lt;div&gt;
                 &lt;p&gt;Forest&lt;/p&gt;
               &lt;/div&gt;
               &lt;div&gt;
-                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.dng" alt="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.dng"/&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.jpg" alt="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.jpg"/&gt;
               &lt;/div&gt;
               &lt;div&gt;
                 &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3410_Overview_W.JPG" alt="files/data/gallery/Top_Landuse/Forest_3410_Overview_W.JPG"/&gt;
@@ -293,7 +295,7 @@
                 &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3097_Overview_W_2.JPG" alt="files/data/gallery/Top_Landuse/Forest_3097_Overview_W_2.JPG"/&gt;
               &lt;/div&gt;
               &lt;div&gt;
-                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3051_Overview_S.dng" alt="files/data/gallery/Top_Landuse/Forest_3051_Overview_S.dng"/&gt;
+                &lt;img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3051_Overview_S.jpg" alt="files/data/gallery/Top_Landuse/Forest_3051_Overview_S.jpg"/&gt;
               &lt;/div&gt;
               &lt;hr/&gt;
             &lt;/div&gt;
@@ -367,6 +369,11 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
+    <property name="Handheld GPS point" type="measure">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
     <property name="Elevation" type="measure">
       <description>
         Only enter value if present in the map. List source in Annotation
@@ -400,6 +407,11 @@
         <term>{Other}
 <description></description></term>
       </lookup>
+    </property>
+    <property name="Notes" type="measure">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Photo" type="file" file="true" thumbnail="true">
       <description>
@@ -637,6 +649,8 @@
 <description></description></term>
         <term>{Unknown}
 <description></description></term>
+        <term>{None}
+<description></description></term>
       </lookup>
     </property>
     <property name="Most recent damage within" type="vocab">
@@ -653,6 +667,8 @@
         <term>{Unknown}
 <description></description></term>
         <term>{Other}
+<description></description></term>
+        <term>{None}
 <description></description></term>
       </lookup>
     </property>

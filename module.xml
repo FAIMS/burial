@@ -45,6 +45,7 @@
       <opts>
         <opt>Burial Mound</opt>
         <opt>Extinct Burial Mound</opt>
+        <opt>Uncertain Mound</opt>
         <opt>Uncertain Feature</opt>
         <opt>Natural Feature</opt>
         <opt>Unknown</opt>
@@ -261,13 +262,13 @@
                 <img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_3315_Overview_S.JPG" alt="files/data/gallery/Top_Landuse/Grassland_3315_Overview_S.JPG"/>
               </div>
               <div>
-                <img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_3299_Overview_NE.dng" alt="files/data/gallery/Top_Landuse/Grassland_3299_Overview_NE.dng"/>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_3299_Overview_NE.jpg" alt="files/data/gallery/Top_Landuse/Grassland_3299_Overview_NE.jpg"/>
               </div>
               <div>
                 <img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_3208_Overview_W.JPG" alt="files/data/gallery/Top_Landuse/Grassland_3208_Overview_W.JPG"/>
               </div>
               <div>
-                <img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_2081_Overview.dng" alt="files/data/gallery/Top_Landuse/Grassland_2081_Overview.dng"/>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Grassland_2081_Overview.jpg" alt="files/data/gallery/Top_Landuse/Grassland_2081_Overview.jpg"/>
               </div>
               <hr/>
             </div>
@@ -287,7 +288,7 @@
                 <img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_2013_Overview_E.JPG" alt="files/data/gallery/Top_Landuse/Scrub_2013_Overview_E.JPG"/>
               </div>
               <div>
-                <img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_3253_Overview_S.dng" alt="files/data/gallery/Top_Landuse/Scrub_3253_Overview_S.dng"/>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_3253_Overview_S.jpg" alt="files/data/gallery/Top_Landuse/Scrub_3253_Overview_S.jpg"/>
               </div>
               <div>
                 <img style="width:100%" src="files/data/gallery/Top_Landuse/Scrub_6019_Overview_E.jpg" alt="files/data/gallery/Top_Landuse/Scrub_6019_Overview_E.jpg"/>
@@ -296,7 +297,7 @@
             </div>
           ]]></desc>
         </opt>
-        <opt p="gallery/Top_Landuse/Forest_3267_Overview_W02.dng">
+        <opt p="gallery/Top_Landuse/Forest_3267_Overview_W02.jpg">
           Forest
           <desc><![CDATA[
             <div>
@@ -304,7 +305,7 @@
                 <p>Forest</p>
               </div>
               <div>
-                <img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.dng" alt="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.dng"/>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.jpg" alt="files/data/gallery/Top_Landuse/Forest_3267_Overview_W02.jpg"/>
               </div>
               <div>
                 <img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3410_Overview_W.JPG" alt="files/data/gallery/Top_Landuse/Forest_3410_Overview_W.JPG"/>
@@ -316,7 +317,7 @@
                 <img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3097_Overview_W_2.JPG" alt="files/data/gallery/Top_Landuse/Forest_3097_Overview_W_2.JPG"/>
               </div>
               <div>
-                <img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3051_Overview_S.dng" alt="files/data/gallery/Top_Landuse/Forest_3051_Overview_S.dng"/>
+                <img style="width:100%" src="files/data/gallery/Top_Landuse/Forest_3051_Overview_S.jpg" alt="files/data/gallery/Top_Landuse/Forest_3051_Overview_S.jpg"/>
               </div>
               <hr/>
             </div>
@@ -367,6 +368,7 @@
       </opts>
     </Prominence>
     <gps/>
+    <Handheld_GPS_point b="decimal"/>
     <Elevation b="decimal">
       Elevation (MASL)
       <desc>
@@ -387,6 +389,7 @@
         <opt>Other</opt>
       </opts>
     </Facing_Direction_For_Photo>
+    <Notes/>
     <Photo t="camera" f="notnull htmldesc">
       <desc><![CDATA[
         <i>Description:</i>
@@ -609,6 +612,7 @@
         <opt>Topographic or post-depositional</opt>
         <opt>Other (specify in Annotation)</opt>
         <opt>Unknown</opt>
+        <opt>None</opt>
       </opts>
     </Most_recent_damage_what>
     <Most_recent_damage_within f="notnull">
@@ -619,6 +623,7 @@
         <opt>Last year</opt>
         <opt>Unknown</opt>
         <opt>Other</opt>
+        <opt>None</opt>
       </opts>
     </Most_recent_damage_within>
     <RT_Description>
@@ -948,7 +953,8 @@
       showDatabaseLayerByVocabName(vocabName, geoColor, layerName);
     }
     void initMap() {
-      showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-054-3_Yambol.32635.tif");
+      //showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-054-3_Yambol.32635.tif");
+      showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-053-3_Elenovo.jpg");
       /*
       showDatabaseLayerByVocabName("{1___pristine}",   Color.GREEN);
       showDatabaseLayerByVocabName("{2___minor_damage}", Color.BLUE);
@@ -1131,23 +1137,10 @@
       });
     }
     */
-    /******************************    Select User   ******************************/
+    /**************************    No null user login   ***************************/
     /* Override auto generated function selectUser                                */
     /******************************************************************************/
-    // Overrides auto-generated definition
-    // Function set user to user and assign the selected user userId
-    // to the global variable userid
-    void selectUser() {
-      userId           = getUserMenuValue(0);
-      String nameFirst = getUserMenuValue(1);
-      String nameLast  = getUserMenuValue(2);
-      String email     = getUserMenuValue(3);
-      String password  = getUserMenuValue(4);
-      username         = nameFirst + " " + nameLast;
-      User user = new User(userId, nameFirst, nameLast, email, password);
-      setUser(user);
-    }
-
+    // Check if userId is null, if so then prompt warning message, else allow login
     void onClickUserLogin () {
       if(!isNull(userId))
         newTab("Start", true);
@@ -1155,8 +1148,9 @@
         showWarning("No user selected", "To log in, please select a user.");
     }
   //Set sync to be disabled by default
-  setSyncEnabled(false);
 
+  setFileSyncEnabled(false);
+  setSyncEnabled (false);
 ]]></logic>
 
 </module>
