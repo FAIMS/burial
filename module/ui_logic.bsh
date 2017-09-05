@@ -1315,7 +1315,7 @@ void timedPopulateCursorList(String ref, String q, int limit) {
 }
 
 void setUpTypeHierarchy() {
-  //-
+  //- 
   //  - Burial Mound
   //  - Shape
 
@@ -2953,7 +2953,7 @@ void populateAuthorAndTimestamp(String tabgroup) {
   Map tabgroupToAuthor    = new HashMap();
   Map tabgroupToTimestamp = new HashMap();
   tabgroupToAuthor.put("Burial_Mound", "Burial_Mound/General/Burial_Mound_author");
-
+  
   String authorPath    = tabgroupToAuthor.get(tabgroup);
   String timestampPath = tabgroupToTimestamp.get(tabgroup);
 
@@ -3324,13 +3324,13 @@ void newShape(String parent){
     parentTabgroup   = parent;
     parentTabgroup__ = parent;
   }
-
+  
 
   setUuid(tabgroup, null);
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-
+  
 
   executeOnEvent(tabgroup, "create");
 }
@@ -3394,11 +3394,11 @@ void duplicateShape(){
   String uuidOld = getUuid(tabgroup);
   setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
-
+  
   clearGpsInTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-
+  
   executeOnEvent(tabgroup, "copy");
 
   saveCallback = new SaveCallback() {
@@ -3430,7 +3430,7 @@ void duplicateShape(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
 
-
+      
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
     }
@@ -4174,8 +4174,8 @@ for (m : ENTITY_MENUS) {
       showDatabaseLayerByVocabName(vocabName, geoColor, layerName);
     }
     void initMap() {
-      showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-054-3_Yambol.32635.tif");
-      //showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-053-3_Elenovo.jpg");
+      //showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-054-3_Yambol.32635.tif");
+      showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-053-3_Elenovo.32635.tif");
       /*
       showDatabaseLayerByVocabName("{1___pristine}",   Color.GREEN);
       showDatabaseLayerByVocabName("{2___minor_damage}", Color.BLUE);

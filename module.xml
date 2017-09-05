@@ -954,7 +954,7 @@
     }
     void initMap() {
       //showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-054-3_Yambol.32635.tif");
-      showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-053-3_Elenovo.jpg");
+      showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-053-3_Elenovo.32635.tif");
       /*
       showDatabaseLayerByVocabName("{1___pristine}",   Color.GREEN);
       showDatabaseLayerByVocabName("{2___minor_damage}", Color.BLUE);
