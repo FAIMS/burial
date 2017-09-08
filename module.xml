@@ -1137,11 +1137,12 @@ setSyncEnabled (false);
     showSpatialLayer(mapRef, name, dbLocation, table, idCol, labCol, ps, ls, pos, ts);
   }
   String vectorDBLoc = "files/data/Map/spatialite.Vectors4FAIMS.32635.db";
-  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "YamLegGC","PK_UID", "TRAPID", "GC", Color.GREEN);
+
+  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "YamLegGC","PK_UID", "ObjectID", "GC", Color.GREEN);
   showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "yamlegneedgc","PK_UID", "TopoID", "Need GC",Color.RED );
-  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "roads","PK_UID", "none", "Roads", Color.parseColor("#000000FF"));//Black
-  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "towns","PK_UID", "anme (latin)", "Towns", Color.parseColor("#808080FF")); //Grey
-  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "yambolregion","PK_UID", "none", "Yambol region", Color.parseColor("#FFC0CB55"));//Pink
+  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "roads","PK_UID", "ObjectID", "Roads", Color.BLACK);//Black
+  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "towns","PK_UID", "name_en", "Towns", Color.GRAY); //Grey
+  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "yambolregion","PK_UID", "name_en", "Yambol Region", Color.MAGENTA);
 
 ]]></logic>
 
