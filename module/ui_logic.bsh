@@ -4234,7 +4234,7 @@ for (m : ENTITY_MENUS) {
                          "                   AND ( aenttypename = {type} OR '' = {type} ) "+
                          " AND ( userid = {user} OR -1 = {user}) " +
                          "                )  "+
-                         " ORDER BY response "+
+                         " ORDER BY substr(uuid, 7, 13) DESC "+
                          " LIMIT ? "+
                          "OFFSET ? ";
     searchQuery = dbReplaceFirst(searchQuery, "{term}", term);
