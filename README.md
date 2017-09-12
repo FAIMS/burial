@@ -36,3 +36,31 @@ This module is part of the **FAIMS Demo library** on our publicly accessible Dem
 For more details about the **The Tundzha Regional Archaeological Project** please visit www.tundzha.org. If you have any questions about the The Tundzha Regional Archaeological Project, contact adela.sobotkova@mq.edu.au.
 
 If you have any questions about the module, please contact the FAIMS team at **enquiries@fedarch.org** and we will get back to you within one business day.
+
+<p align="left">
+  <img src="https://github.com/FAIMS/burial/blob/master/screenshots/Screenshot_20170912-143447.png" width="250"/>
+  <img src="https://github.com/FAIMS/burial/blob/master/screenshots/Screenshot_20170912-152722.png" width="250"/>
+  <img src="https://github.com/FAIMS/burial/blob/master/screenshots/Screenshot_20170912-152733.png" width="250"/>
+</p>
+
+<p align="left">
+  <img src="https://github.com/FAIMS/burial/blob/master/screenshots/Screenshot_20170912-152740.png" width="250"/>
+  <img src="https://github.com/FAIMS/burial/blob/master/screenshots/Screenshot_20170912-152814.png" width="250"/>
+  <img src="https://github.com/FAIMS/burial/blob/master/screenshots/Screenshot_20170912-152852.png" width="250"/>
+</p>
+
+<p align="left">
+  <img src="https://github.com/FAIMS/burial/blob/master/screenshots/Screenshot_20170912-152953.png" width="250"/>
+  <img src="https://github.com/FAIMS/burial/blob/master/screenshots/Screenshot_20170912-153000.png" width="250"/>
+  <img src="https://github.com/FAIMS/burial/blob/master/screenshots/Screenshot_20170912-153013.png" width="250"/>
+</p>
+
+<p align="left">
+  <img src="https://github.com/FAIMS/burial/blob/master/screenshots/Screenshot_20170912-153025.png" width="250"/>
+  <img src="https://github.com/FAIMS/burial/blob/master/screenshots/Screenshot_20170912-153032.png" width="250"/>
+  <img src="https://github.com/FAIMS/burial/blob/master/screenshots/Screenshot_20170912-153042.png" width="250"/>
+</p>
+
+<p align="left">
+  <img src="https://github.com/FAIMS/burial/blob/master/screenshots/Screenshot_20170912-153046.png" width="250"/>
+</p>
