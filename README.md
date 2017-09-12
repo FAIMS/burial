@@ -1,7 +1,7 @@
 # About this module:
-This module was created for the **The Tundzha Regional Archaeological Project**, based at Macquarie University, Sydney, Australia. The module has been designed to document the current condition and an exact location of burial mounds by broader community in Bulgaria. This module is designed to foster awareness of and community engagement in monitoring cultural heritage in Bulgaria.
+This module was created for the **The Tundzha Regional Archaeological Project**, based at Macquarie University, Sydney, Australia. The module has been designed to document the current condition and an exact location of burial mounds in Bulgaria.
  
-## Authorship
+## Authorship:
 This module was co-developed by Adela Sobotkova at Macquarie University and Petra Janouchova at the FAIMS Project, Department of Ancient History, Macquarie University.
  
 ## Funding:
@@ -10,18 +10,16 @@ Development of this module was funded by Macquarie University Strategic Infrastr
 ## Date of release:
 August 2017
 
-## FAIMS Mobile version
+## FAIMS Mobile version:
 FAIMS **v2.5** (Android 6+)
  
-## Licence
+## Licence:
 This module is licensed under an international Creative Commons Attribution 4.0 Licence (**CC BY 4.0**).
 
 ## Access:
 This module is part of the **FAIMS Demo library** on our publicly accessible Demo server (http://demo.fedarch.org/).
 
 ## This module contains the following FAIMS features: 
-* it is packaged in a standalone APK on Google Play
-* user sign-up (users can create their own accounts)
 * picture galleries
 * coordinates from internal GPS
 * attribute-level timestamps
