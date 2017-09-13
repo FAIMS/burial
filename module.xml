@@ -1128,7 +1128,7 @@
 setFileSyncEnabled(false);
 setSyncEnabled (false);
 /********************************** Vector Layer ****************************/
-
+  //Helper function to showSpatialLayer
   void showSpatialLayerHelper(String dbLocation, String mapRef,String table, String idCol, String labCol, String name, int c){
     ps = createPointStyle(10, c, 0.2f, 0.5f);
     ls = createLineStyle(10, c, 0.05f, 0.3f, null);
@@ -1136,14 +1136,19 @@ setSyncEnabled (false);
     ts = createTextStyle(10, c, 40, Typeface.SANS_SERIF);
     showSpatialLayer(mapRef, name, dbLocation, table, idCol, labCol, ps, ls, pos, ts);
   }
-  String vectorDBLoc = "files/data/Map/spatialite.Vectors4FAIMS.32635.db";
 
-  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "YamLegGC","PK_UID", "ObjectID", "GC", Color.GREEN);
-  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "yamlegneedgc","PK_UID", "TopoID", "Need GC",Color.RED );
-  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "roads","PK_UID", "ObjectID", "Roads", Color.BLACK);//Black
-  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "towns","PK_UID", "name_en", "Towns", Color.GRAY); //Grey
-  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "yambolregion","PK_UID", "name_en", "Yambol Region", Color.MAGENTA);
+  //Preload all Spatial Layer
+  void loadSpatialLayers(){
+    String vectorDBLoc = "files/data/Map/spatialite.Vectors4FAIMS.32635.db";
+    String mapRef = "Start/Map/Map";
+    showSpatialLayerHelper(vectorDBLoc, mapRef, "YamLegGC","PK_UID", "ObjectID", "GC", Color.GREEN);
+    showSpatialLayerHelper(vectorDBLoc, mapRef, "yamlegneedgc","PK_UID", "TopoID", "Need GC",Color.RED );
+    showSpatialLayerHelper(vectorDBLoc, mapRef, "roads","PK_UID", "ObjectID", "Roads", Color.BLACK);//Black
+    showSpatialLayerHelper(vectorDBLoc, mapRef, "towns","PK_UID", "name_en", "Towns", Color.GRAY); //Grey
+    showSpatialLayerHelper(vectorDBLoc, mapRef, "yambolregion","PK_UID", "name_en", "Yambol Region", Color.MAGENTA);
+  }
 
+  addOnEvent("module", "load", "loadSpatialLayers()");
 ]]></logic>
 
 </module>

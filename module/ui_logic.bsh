@@ -1315,7 +1315,7 @@ void timedPopulateCursorList(String ref, String q, int limit) {
 }
 
 void setUpTypeHierarchy() {
-  //- 
+  //-
   //  - Burial Mound
   //  - Shape
 
@@ -2953,7 +2953,7 @@ void populateAuthorAndTimestamp(String tabgroup) {
   Map tabgroupToAuthor    = new HashMap();
   Map tabgroupToTimestamp = new HashMap();
   tabgroupToAuthor.put("Burial_Mound", "Burial_Mound/General/Burial_Mound_author");
-  
+
   String authorPath    = tabgroupToAuthor.get(tabgroup);
   String timestampPath = tabgroupToTimestamp.get(tabgroup);
 
@@ -3324,13 +3324,13 @@ void newShape(String parent){
     parentTabgroup   = parent;
     parentTabgroup__ = parent;
   }
-  
+
 
   setUuid(tabgroup, null);
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-  
+
 
   executeOnEvent(tabgroup, "create");
 }
@@ -3394,11 +3394,11 @@ void duplicateShape(){
   String uuidOld = getUuid(tabgroup);
   setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
-  
+
   clearGpsInTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-  
+
   executeOnEvent(tabgroup, "copy");
 
   saveCallback = new SaveCallback() {
@@ -3430,7 +3430,7 @@ void duplicateShape(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
 
-      
+
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
     }
@@ -4349,7 +4349,7 @@ for (m : ENTITY_MENUS) {
 setFileSyncEnabled(false);
 setSyncEnabled (false);
 /********************************** Vector Layer ****************************/
-
+  //Helper function to showSpatialLayer
   void showSpatialLayerHelper(String dbLocation, String mapRef,String table, String idCol, String labCol, String name, int c){
     ps = createPointStyle(10, c, 0.2f, 0.5f);
     ls = createLineStyle(10, c, 0.05f, 0.3f, null);
@@ -4357,15 +4357,19 @@ setSyncEnabled (false);
     ts = createTextStyle(10, c, 40, Typeface.SANS_SERIF);
     showSpatialLayer(mapRef, name, dbLocation, table, idCol, labCol, ps, ls, pos, ts);
   }
-  String vectorDBLoc = "files/data/Map/spatialite.Vectors4FAIMS.32635.db";
 
-  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "YamLegGC","PK_UID", "ObjectID", "GC", Color.GREEN);
-  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "yamlegneedgc","PK_UID", "TopoID", "Need GC",Color.RED );
-  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "roads","PK_UID", "ObjectID", "Roads", Color.BLACK);//Black
-  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "towns","PK_UID", "name_en", "Towns", Color.GRAY); //Grey
-  showSpatialLayerHelper(vectorDBLoc,"Start/Map/Map", "yambolregion","PK_UID", "name_en", "Yambol Region", Color.MAGENTA);
+  //Preload all Spatial Layer
+  void loadSpatialLayers(){
+    String vectorDBLoc = "files/data/Map/spatialite.Vectors4FAIMS.32635.db";
+    String mapRef = "Start/Map/Map";
+    showSpatialLayerHelper(vectorDBLoc, mapRef, "YamLegGC","PK_UID", "ObjectID", "GC", Color.GREEN);
+    showSpatialLayerHelper(vectorDBLoc, mapRef, "yamlegneedgc","PK_UID", "TopoID", "Need GC",Color.RED );
+    showSpatialLayerHelper(vectorDBLoc, mapRef, "roads","PK_UID", "ObjectID", "Roads", Color.BLACK);//Black
+    showSpatialLayerHelper(vectorDBLoc, mapRef, "towns","PK_UID", "name_en", "Towns", Color.GRAY); //Grey
+    showSpatialLayerHelper(vectorDBLoc, mapRef, "yambolregion","PK_UID", "name_en", "Yambol Region", Color.MAGENTA);
+  }
 
-
+  addOnEvent("module", "load", "loadSpatialLayers()");
 
 /******************************************************************************/
 /*                                    INIT                                    */
