@@ -149,7 +149,6 @@
         </faims>
       </instance>
       <bind nodeset="/faims/Start/Main/Next_Mound_ID" type="decimal"/>
-      <bind nodeset="/faims/Burial_Mound/General/Mound_ID" type="decimal"/>
       <bind nodeset="/faims/Burial_Mound/General/Handheld_GPS_point" type="decimal"/>
       <bind nodeset="/faims/Burial_Mound/General/Elevation" type="decimal"/>
       <bind nodeset="/faims/Burial_Mound/Dimensions/Colgroup_1/Col_1/Height_Max" type="decimal"/>

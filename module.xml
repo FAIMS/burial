@@ -33,7 +33,7 @@
 <Burial_Mound>
   <General>
     <Validate t="button"/>
-    <Mound_ID f="id notnull autonum" b="decimal">
+    <Mound_ID f="id notnull autonum">
       <str>
         <pos>1</pos>
         <fmt>$0</fmt>
