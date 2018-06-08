@@ -23,19 +23,19 @@
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Burial_Mound}
-<description></description></term>
+<description> </description></term>
         <term>{Extinct_Burial_Mound}
-<description></description></term>
+<description> </description></term>
         <term>{Uncertain_Mound}
-<description></description></term>
+<description> </description></term>
         <term>{Uncertain_Feature}
-<description></description></term>
+<description> </description></term>
         <term>{Natural_Feature}
-<description></description></term>
+<description> </description></term>
         <term>{Surface_Scatter}
-<description></description></term>
+<description> </description></term>
         <term>{Other}
-<description></description></term>
+<description> </description></term>
       </lookup>
     </property>
     <property name="Source" type="vocab">
@@ -44,17 +44,17 @@
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Legacy_verification}
-<description></description></term>
+<description> </description></term>
         <term>{Remote_sensing_ground_truthing}
-<description></description></term>
+<description> </description></term>
         <term>{Survey}
-<description></description></term>
+<description> </description></term>
         <term>{Local_informant}
-<description></description></term>
+<description> </description></term>
         <term>{Serendipity}
-<description></description></term>
+<description> </description></term>
         <term>{Other}
-<description></description></term>
+<description> </description></term>
       </lookup>
     </property>
     <property name="Description of Mound or Locale" type="measure">
@@ -335,13 +335,13 @@
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Valley_Bottom_or_Plain}
-<description></description></term>
+<description> </description></term>
         <term>{Upper_slope}
 <description>Upper and lower slope - mentally divide the slope in half and poinpoint your position within upper or lower part.</description></term>
         <term>{Lower_slope}
-<description></description></term>
+<description> </description></term>
         <term>{Hilltop}
-<description></description></term>
+<description> </description></term>
       </lookup>
     </property>
     <property name="Latitude" type="measure">
@@ -387,25 +387,25 @@
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{No_Observation}
-<description></description></term>
+<description> </description></term>
         <term>{North}
-<description></description></term>
+<description> </description></term>
         <term>{Northeast}
-<description></description></term>
+<description> </description></term>
         <term>{East}
-<description></description></term>
+<description> </description></term>
         <term>{Southeast}
-<description></description></term>
+<description> </description></term>
         <term>{South}
-<description></description></term>
+<description> </description></term>
         <term>{Southwest}
-<description></description></term>
+<description> </description></term>
         <term>{West}
-<description></description></term>
+<description> </description></term>
         <term>{Northwest}
-<description></description></term>
+<description> </description></term>
         <term>{Other}
-<description></description></term>
+<description> </description></term>
       </lookup>
     </property>
     <property name="Notes" type="measure">
@@ -516,9 +516,9 @@
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Yes}
-<description></description></term>
+<description> </description></term>
         <term>{No}
-<description></description></term>
+<description> </description></term>
       </lookup>
     </property>
     <property name="Chronology Estimate" type="measure">
@@ -539,7 +539,7 @@
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{0___No_observation}
-<description></description></term>
+<description> </description></term>
         <term>{1___pristine}
 <description>
             1 - pristine or only superficial damage, up to 10% of mound volume missing.
@@ -570,24 +570,24 @@
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{No_observation}
-<description></description></term>
+<description> </description></term>
         <term>{Anthropogenic}
-<description></description><term>{Agriculture}
-<description></description></term><term>{Looting}
-<description></description></term><term>{Excavation}
-<description></description></term><term>{Road_cut}
-<description></description></term><term>{Construction}
-<description></description></term><term>{Urban_development}
-<description></description></term><term>{Other}
-<description></description></term></term>
+<description> </description><term>{Agriculture}
+<description> </description></term><term>{Looting}
+<description> </description></term><term>{Excavation}
+<description> </description></term><term>{Road_cut}
+<description> </description></term><term>{Construction}
+<description> </description></term><term>{Urban_development}
+<description> </description></term><term>{Other}
+<description> </description></term></term>
         <term>{Animal_activity}
-<description></description></term>
+<description> </description></term>
         <term>{Natural}
-<description></description><term>{Erosion}
-<description></description></term><term>{Post_depositional}
-<description></description></term></term>
+<description> </description><term>{Erosion}
+<description> </description></term><term>{Post_depositional}
+<description> </description></term></term>
         <term>{Other__specify_in_Annotation_}
-<description></description></term>
+<description> </description></term>
       </lookup>
     </property>
     <property name="Other Sources of Impact" type="measure">
@@ -601,7 +601,7 @@
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{No_observation}
-<description></description></term>
+<description> </description></term>
         <term>{1___full}
 <description>
             1 - mound appears close to original condition and is likely to retain its full archaeological potential.
@@ -623,7 +623,7 @@
             5 - no or nearly no archaeological potential is left
           </description></term>
         <term>{Other}
-<description></description></term>
+<description> </description></term>
       </lookup>
     </property>
     <property name="Most recent damage what" type="vocab">
@@ -632,25 +632,25 @@
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Not_available}
-<description></description></term>
+<description> </description></term>
         <term>{Agriculture}
-<description></description></term>
+<description> </description></term>
         <term>{Looting}
-<description></description></term>
+<description> </description></term>
         <term>{Infrastructure}
-<description></description></term>
+<description> </description></term>
         <term>{Urban_development}
-<description></description></term>
+<description> </description></term>
         <term>{Animal_activity}
-<description></description></term>
+<description> </description></term>
         <term>{Topographic_or_post_depositional}
-<description></description></term>
+<description> </description></term>
         <term>{Other__specify_in_Annotation_}
-<description></description></term>
+<description> </description></term>
         <term>{Unknown}
-<description></description></term>
+<description> </description></term>
         <term>{None}
-<description></description></term>
+<description> </description></term>
       </lookup>
     </property>
     <property name="Most recent damage within" type="vocab">
@@ -659,17 +659,17 @@
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Last_week}
-<description></description></term>
+<description> </description></term>
         <term>{Last_month}
-<description></description></term>
+<description> </description></term>
         <term>{Last_year}
-<description></description></term>
+<description> </description></term>
         <term>{Unknown}
-<description></description></term>
+<description> </description></term>
         <term>{Other}
-<description></description></term>
+<description> </description></term>
         <term>{None}
-<description></description></term>
+<description> </description></term>
       </lookup>
     </property>
     <property name="RT Description" type="measure">

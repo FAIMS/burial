@@ -21,6 +21,31 @@
         <param type="field" value="vocab"/>
       </validator>
     </property>
+    <property name="Latitude">
+      <validator type="blankchecker">
+        <param type="field" value="measure"/>
+      </validator>
+    </property>
+    <property name="Longitude">
+      <validator type="blankchecker">
+        <param type="field" value="measure"/>
+      </validator>
+    </property>
+    <property name="Northing">
+      <validator type="blankchecker">
+        <param type="field" value="measure"/>
+      </validator>
+    </property>
+    <property name="Easting">
+      <validator type="blankchecker">
+        <param type="field" value="measure"/>
+      </validator>
+    </property>
+    <property name="Accuracy">
+      <validator type="blankchecker">
+        <param type="field" value="measure"/>
+      </validator>
+    </property>
     <property name="Facing Direction For Photo">
       <validator type="blankchecker">
         <param type="field" value="vocab"/>
@@ -66,15 +91,5 @@
         <param type="field" value="vocab"/>
       </validator>
     </property>
-  <property name="Latitude">
-    <validator type="blankchecker">
-      <param type="field" value="measure"/>
-    </validator>
-  </property>
-  <property name="Longitude">
-    <validator type="blankchecker">
-      <param type="field" value="measure"/>
-    </validator>
-  </property>
   </ArchaeologicalElement>
 </ValidationSchema>

@@ -8,6 +8,7 @@ import re
 import sys
 import urllib
 import urllib2
+from   datetime import datetime
 
 ################################################################################
 
@@ -53,7 +54,7 @@ if len(sys.argv) > 1 and not hasFlag:
 else:
     # Set module location to that of this script
     moduleLocation = os.path.realpath(__file__)
-    moduleLocation = os.path.dirname(moduleLocation)
+    moduleLocation = os.path.dirname(moduleLocation) + os.sep + 'module'
 
 # Determine module name using a heuristic. If the module is in a (parent)
 # directory called 'module', it's generally reasonable to assume that
@@ -63,7 +64,7 @@ else:
 moduleName = moduleLocation.split(os.sep)
 if moduleName[-1] == 'module': moduleName = moduleName[-2]
 else:                          moduleName = moduleName[-1]
-moduleName = 'Burial - Feb 22'
+moduleName += datetime.now().strftime(' %Y-%m-%d')
 
 # Check that all the given paths really exist
 if not os.path.exists(moduleLocation):
