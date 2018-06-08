@@ -78,6 +78,7 @@
               <Landuse_around_Mound/>
               <Landuse_on_top_of_Mound/>
               <Prominence/>
+              <Mound_prominence/>
               <Colgroup_1>
                 <Col_1>
                   <Latitude/>
@@ -101,7 +102,7 @@
               <Handheld_GPS_point/>
               <Elevation/>
               <Facing_Direction_For_Photo/>
-              <Notes/>
+              <Notes_and_Photo_ID/>
               <Photo/>
               <Photo_Button_1/>
             </General>
@@ -351,6 +352,13 @@
             <value>Options not loaded</value>
           </item>
         </select1>
+        <select1 faims_attribute_name="Mound prominence" faims_attribute_type="vocab" ref="Mound_prominence">
+          <label>{Mound_prominence}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
         <group ref="Colgroup_1" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
@@ -403,8 +411,8 @@
             <value>Options not loaded</value>
           </item>
         </select1>
-        <input faims_attribute_name="Notes" faims_attribute_type="measure" ref="Notes">
-          <label>{Notes}</label>
+        <input faims_attribute_name="Notes and Photo ID" faims_attribute_type="measure" ref="Notes_and_Photo_ID">
+          <label>{Notes_and_Photo_ID}</label>
         </input>
         <select faims_sync="true" type="camera" faims_attribute_name="Photo" faims_attribute_type="measure" ref="Photo" faims_style_class="required" faims_html_description="true">
           <label>{Photo}</label>

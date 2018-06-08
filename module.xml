@@ -43,10 +43,10 @@
       <opts>
         <opt>Burial Mound</opt>
         <opt>Extinct Burial Mound</opt>
-        <opt>Uncertain Mound</opt>
-        <opt>Uncertain Feature</opt>
         <opt>Natural Feature</opt>
         <opt>Surface Scatter</opt>
+        <opt>Tell</opt>
+        <opt>Uncertain Feature</opt>
         <opt>Other</opt>
       </opts>
     </Type>
@@ -365,6 +365,47 @@
         <opt>Hilltop</opt>
       </opts>
     </Prominence>
+    <Mound_prominence>
+      <desc>
+        This is the team's subjective measure of how prominent the mound is
+        within its landscape setting. It is understood that other circumstances
+        contribute to the overall measure, such as weather/visibility, line of
+        approach, mound height, elevation, surrounding landuse, geomorphology,
+        and vegetation. Teams are to assess how noticeable the mound is in its
+        current condition.
+      </desc>
+      <opts>
+        <opt>
+          Nil
+          <desc>
+            Not noticeable without preexisting information or without being
+            within 50 m of it
+          </desc>
+        </opt>
+        <opt>
+          Low
+          <desc>Not prominent, but noticeable at 50-250m distance</desc>
+        </opt>
+        <opt>
+          Medium
+          <desc>
+            Noticeable once in line of sight, or noticeable at 250-500m
+          </desc>
+        </opt>
+        <opt>
+          High
+          <desc>
+            Noticeable at a considerable distance, or visible at &gt;500m
+          </desc>
+        </opt>
+        <opt>
+          Super prominent
+          <desc>
+            Noticeable at great distance, dominant point in local landscape
+          </desc>
+        </opt>
+      </opts>
+    </Mound_prominence>
     <gps f="notnull"/>
     <Handheld_GPS_point b="decimal"/>
     <Elevation b="decimal">
@@ -387,7 +428,7 @@
         <opt>Other</opt>
       </opts>
     </Facing_Direction_For_Photo>
-    <Notes/>
+    <Notes_and_Photo_ID/>
     <Photo t="camera" f="notnull htmldesc">
       <desc><![CDATA[
         <i>Description:</i>

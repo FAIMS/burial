@@ -26,13 +26,13 @@
 <description> </description></term>
         <term>{Extinct_Burial_Mound}
 <description> </description></term>
-        <term>{Uncertain_Mound}
-<description> </description></term>
-        <term>{Uncertain_Feature}
-<description> </description></term>
         <term>{Natural_Feature}
 <description> </description></term>
         <term>{Surface_Scatter}
+<description> </description></term>
+        <term>{Tell}
+<description> </description></term>
+        <term>{Uncertain_Feature}
 <description> </description></term>
         <term>{Other}
 <description> </description></term>
@@ -344,6 +344,39 @@
 <description> </description></term>
       </lookup>
     </property>
+    <property name="Mound prominence" type="vocab">
+      <description>
+        This is the team's subjective measure of how prominent the mound is
+        within its landscape setting. It is understood that other circumstances
+        contribute to the overall measure, such as weather/visibility, line of
+        approach, mound height, elevation, surrounding landuse, geomorphology,
+        and vegetation. Teams are to assess how noticeable the mound is in its
+        current condition.
+      </description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{Nil}
+<description>
+            Not noticeable without preexisting information or without being
+            within 50 m of it
+          </description></term>
+        <term>{Low}
+<description>Not prominent, but noticeable at 50-250m distance</description></term>
+        <term>{Medium}
+<description>
+            Noticeable once in line of sight, or noticeable at 250-500m
+          </description></term>
+        <term>{High}
+<description>
+            Noticeable at a considerable distance, or visible at &gt;500m
+          </description></term>
+        <term>{Super_prominent}
+<description>
+            Noticeable at great distance, dominant point in local landscape
+          </description></term>
+      </lookup>
+    </property>
     <property name="Latitude" type="measure">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
@@ -408,7 +441,7 @@
 <description> </description></term>
       </lookup>
     </property>
-    <property name="Notes" type="measure">
+    <property name="Notes and Photo ID" type="measure">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>

@@ -1,5 +1,5 @@
 /*
- * GENERATED WITH FAIMS-TOOLS, SHA1: 57272e4a96c06c4c58cded13cb22d5f376a33e88
+ * GENERATED WITH FAIMS-TOOLS, SHA1: b885104c91284d1b340ff7b7e16b0fd837c86e51
  */
 import android.util.Log;
 import android.os.Build.MODEL;
@@ -339,6 +339,7 @@ REF_TO_TYPE.put("Burial_Mound/General/Description_of_Mound_or_Locale", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Landuse_around_Mound", "picture");
 REF_TO_TYPE.put("Burial_Mound/General/Landuse_on_top_of_Mound", "picture");
 REF_TO_TYPE.put("Burial_Mound/General/Prominence", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/General/Mound_prominence", "dropdown");
 REF_TO_TYPE.put("Burial_Mound/General/Latitude", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Longitude", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Northing", "input");
@@ -348,7 +349,7 @@ REF_TO_TYPE.put("Burial_Mound/General/Take_From_GPS_1", "button");
 REF_TO_TYPE.put("Burial_Mound/General/Handheld_GPS_point", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Elevation", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Facing_Direction_For_Photo", "dropdown");
-REF_TO_TYPE.put("Burial_Mound/General/Notes", "input");
+REF_TO_TYPE.put("Burial_Mound/General/Notes_and_Photo_ID", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Photo", "camera");
 REF_TO_TYPE.put("Burial_Mound/General/Photo_Button_1", "button");
 REF_TO_TYPE.put("Burial_Mound/Dimensions/Height_Max", "input");
@@ -395,6 +396,7 @@ DATA_REFS.add("Burial_Mound/General/Description_of_Mound_or_Locale");
 DATA_REFS.add("Burial_Mound/General/Landuse_around_Mound");
 DATA_REFS.add("Burial_Mound/General/Landuse_on_top_of_Mound");
 DATA_REFS.add("Burial_Mound/General/Prominence");
+DATA_REFS.add("Burial_Mound/General/Mound_prominence");
 DATA_REFS.add("Burial_Mound/General/Latitude");
 DATA_REFS.add("Burial_Mound/General/Longitude");
 DATA_REFS.add("Burial_Mound/General/Northing");
@@ -403,7 +405,7 @@ DATA_REFS.add("Burial_Mound/General/Accuracy");
 DATA_REFS.add("Burial_Mound/General/Handheld_GPS_point");
 DATA_REFS.add("Burial_Mound/General/Elevation");
 DATA_REFS.add("Burial_Mound/General/Facing_Direction_For_Photo");
-DATA_REFS.add("Burial_Mound/General/Notes");
+DATA_REFS.add("Burial_Mound/General/Notes_and_Photo_ID");
 DATA_REFS.add("Burial_Mound/General/Photo");
 DATA_REFS.add("Burial_Mound/Dimensions/Height_Max");
 DATA_REFS.add("Burial_Mound/Dimensions/Diameter_Max");
