@@ -21,6 +21,11 @@
         <param type="field" value="vocab"/>
       </validator>
     </property>
+    <property name="Mound prominence">
+      <validator type="blankchecker">
+        <param type="field" value="vocab"/>
+      </validator>
+    </property>
     <property name="Latitude">
       <validator type="blankchecker">
         <param type="field" value="measure"/>

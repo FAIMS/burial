@@ -1,5 +1,5 @@
 /*
- * GENERATED WITH FAIMS-TOOLS, SHA1: b885104c91284d1b340ff7b7e16b0fd837c86e51
+ * GENERATED WITH FAIMS-TOOLS, SHA1: 99594b70357b9df81f7201ec19a06907b4867ac1
  */
 import android.util.Log;
 import android.os.Build.MODEL;
@@ -516,6 +516,9 @@ boolean hasVpRef(String ref) {
   return getVpRef(ref) != null;
 }
 
+/* Returns `true` if `ref` refers to a hierarhical menu. (e.g. a hierarchical
+ * dropdown or hierarchical picture gallery.) Returns `false` otherwise.
+ */
 boolean isHier(String ref) {
   return HIER_REFS.contains(ref);
 }
@@ -1058,6 +1061,21 @@ void addOnEvent(String ref, String event, String statement, int precedence) {
   addToOnEventPriorities(ref, event, statement, precedence, ON_EVT_STMTS);
 }
 
+/* Adds a condition to be checked before any expressions bound by `addOnEvent`
+ * are evaluated. `check` is `boolean` expression which must evaluate to `true`
+ * before the bound expressions evaluate. For instance, in the following logic,
+ * `onShowMyTabGroup()` will never be evaluated:
+ *
+ * ```
+ * boolean myChecker() {
+ *   showWarning("I'm Sorry, Dave", "I'm afraid I can't do that.");
+ *   return false;
+ * }
+ *
+ * addOnEvent    ("My_Tab_Group", "show", "onShowMyTabGroup()");
+ * addOnEventCond("My_Tab_Group", "show", "myChecker()");
+ * ```
+ */
 void addOnEventCond(String ref, String event, String check) {
   addToOnEventPriorities(ref, event, check, PRECEDENCE_MID, ON_EVT_CONDS);
 }
@@ -1317,6 +1335,28 @@ int getNumDummyPhotosAtNode(tree) {
     PERF_PHOTOS_PER_FIELD;
 }
 
+int getNumSavedPhotos() {
+  String dirStr = "/sdcard/faims/modules/" + getModuleId() + "/files/server/";
+  return getNumFilesInDir(dirStr);
+}
+
+int getNumFilesInDir(String path) {
+  File file = new File(path);
+  return getNumFilesInDir(file);
+}
+
+int getNumFilesInDir(File dir) {
+  int num = 0;
+
+  File[] files = dir.listFiles();
+  if (files == null) return num;
+
+  for (File file : dir.listFiles())
+    num += file.isFile() ? 1 : getNumFilesInDir(file);
+
+  return num;
+}
+
 int getNumDummyRecords() {
   getNumDummyRecords(PERF_TYPE_TREE);
 }
@@ -1346,8 +1386,32 @@ float getFileSizeInMBytes(String path) {
   return file.length() / 1000.f / 1000.f;
 }
 
+float getDirSizeInMBytes(String path) {
+  File file = new File(path);
+  return getDirSizeInMBytes(file);
+}
+
+float getDirSizeInMBytes(File dir) {
+  float length = 0;
+
+  File[] files = dir.listFiles();
+  if (files == null) return length;
+
+  for (File file : dir.listFiles())
+    length += file.isFile()
+      ? file.length() / 1000.f / 1000.f
+      : getDirSizeInMBytes(file);
+
+  return length;
+}
+
 float getSizeDummyPhotosInMBytes() {
   return getNumDummyPhotos() * getFileSizeInMBytes(PERF_TEST_IMG);
+}
+
+float getSizeSavedPhotosInMBytes() {
+  String dirStr = "/sdcard/faims/modules/" + getModuleId() + "/files/server/";
+  return getDirSizeInMBytes(dirStr);
 }
 
 String megabytesToString(float mb) {
@@ -1360,8 +1424,16 @@ String getSizeDummyPhotosInMBytesAsString() {
   return megabytesToString(getSizeDummyPhotosInMBytes());
 }
 
+String getSizeSavedPhotosInMBytesAsString() {
+  return megabytesToString(getSizeSavedPhotosInMBytes());
+}
+
 float getFreeSpaceInMBytes() {
-  StatFs statFs = new StatFs(Environment.getRootDirectory().getAbsolutePath());
+  return getFreeSpaceInMBytes(Environment.getRootDirectory().getAbsolutePath());
+}
+
+float getFreeSpaceInMBytes(String path) {
+  StatFs statFs = new StatFs(path);
   return statFs.getBlockCount() * statFs.getBlockSize() / 1000.f / 1000.f;
 }
 
@@ -1675,6 +1747,23 @@ List getAttribsForArchEnt(String archEntType) {
   return attribs;
 }
 
+List getDummyGeometry(String archEntType) {
+  String tabGroupRef = archEntType.replaceAll(" ", "_");
+
+  if (getTakeFromGpsMappings().get(tabGroupRef) == null)
+    return null;
+
+  Double northing = 1.f;
+  Double easting  = 1.f;
+
+  MapPos mapPos = new MapPos(easting, northing);
+  Point samplePoint = new Point(mapPos, null, (PointStyle) null, null);
+  ArrayList geolist = new ArrayList();
+  geolist.add(samplePoint);
+
+  return geolist;
+}
+
 void displayRecordDigest(int numCreated) {
   String q = "";
   q += "   SELECT '{All}', count(*)";
@@ -1701,6 +1790,14 @@ void displayRecordDigest(int numCreated) {
 
         body += "\t- " + type + ": " + num + "\n";
       }
+
+      body += "\nThere are " +
+        getNumSavedPhotos() +
+        " saved files on this device. There is " +
+        getFreeSpaceInMBytesAsString() +
+        " MB of free space on this device, of which the saved files use " +
+        getSizeSavedPhotosInMBytesAsString() +
+        " MB.";
 
       if (dialog != null)
         dialog.dismiss();
@@ -1756,12 +1853,13 @@ PerfSaveCallback(tree, String parentUuid) {
 
 void saveArchEnts(tree, String parentUuid) {
   String archEntName = tree.label;
+  List   geometry    = getDummyGeometry(archEntName);
   int    numEnts     = tree.data;
   cb                 = PerfSaveCallback(tree, parentUuid);
 
   for (int i = 0; i < numEnts; i++) {
     List attribs = getAttribsForArchEnt(archEntName);
-    saveArchEnt(null, archEntName, (List) null, attribs, cb);
+    saveArchEnt(null, archEntName, geometry, attribs, cb);
   }
 }
 
@@ -1834,9 +1932,9 @@ PerfImageDownloader() {
       return;
 
     String filStr = "/sdcard/faims/modules/" + getModuleId() +
-        "/files/app/test.jpg";
-    String urlStr = "https://raw.githubusercontent.com/FAIMS/FAIMS-Tools/" +
-        "master/test-images/construction-2894x1924.jpg";
+        "/files/test.jpg";
+    String urlStr = "https://github.com/FAIMS/FAIMS-Tools/raw/master/" +
+        "generators/christian/tests/images/construction-2894x1924.jpg";
 
     if (detectFile(filStr))
       return;
@@ -3117,6 +3215,7 @@ void validateBurialMound() {
   f.add(fieldPair("Burial_Mound/General/Type", "{Type}"));
   f.add(fieldPair("Burial_Mound/General/Landuse_around_Mound", "{Landuse_around_Mound}"));
   f.add(fieldPair("Burial_Mound/General/Landuse_on_top_of_Mound", "{Landuse_on_top_of_Mound}"));
+  f.add(fieldPair("Burial_Mound/General/Mound_prominence", "{Mound_prominence}"));
   f.add(fieldPair("Burial_Mound/General/Latitude", "{Latitude}"));
   f.add(fieldPair("Burial_Mound/General/Longitude", "{Longitude}"));
   f.add(fieldPair("Burial_Mound/General/Northing", "{Northing}"));

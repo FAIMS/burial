@@ -352,7 +352,7 @@
             <value>Options not loaded</value>
           </item>
         </select1>
-        <select1 faims_attribute_name="Mound prominence" faims_attribute_type="vocab" ref="Mound_prominence">
+        <select1 faims_attribute_name="Mound prominence" faims_attribute_type="vocab" ref="Mound_prominence" faims_style_class="required">
           <label>{Mound_prominence}</label>
           <item>
             <label>Options not loaded</label>

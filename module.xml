@@ -365,7 +365,7 @@
         <opt>Hilltop</opt>
       </opts>
     </Prominence>
-    <Mound_prominence>
+    <Mound_prominence f="notnull">
       <desc>
         This is the team's subjective measure of how prominent the mound is
         within its landscape setting. It is understood that other circumstances
