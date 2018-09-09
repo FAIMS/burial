@@ -4601,8 +4601,7 @@ for (m : ENTITY_MENUS) {
     showDatabaseLayerByVocabName(vocabName, geoColor, layerName);
   }
   void initMap() {
-    //showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-054-3_Yambol.32635.tif");
-    showBaseMap(MAP_REF, "Base Map", "files/data/Map/K-35-066-3_Razdel.tif");
+    //showBaseMap(MAP_REF, "Base Map", "files/data/Map/K-35-066-3_Razdel.tif");
     /*
     showDatabaseLayerByVocabName("{1___pristine}",   Color.GREEN);
     showDatabaseLayerByVocabName("{2___minor_damage}", Color.BLUE);

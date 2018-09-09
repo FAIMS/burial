@@ -23,17 +23,17 @@
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Burial_Mound}
-<description> </description></term>
+<description> Burial mound visible in the field.</description></term>
         <term>{Extinct_Burial_Mound}
-<description> </description></term>
+<description> Visible symbol in the map, but no burial mound in the field or modern disturbance. </description></term>
         <term>{Surface_Scatter}
-<description> </description></term>
+<description> Pottery scatter in the field. </description></term>
         <term>{Tell}
-<description> </description></term>
+<description> Settlement mound: comprises layers of prehistoric pottery and construction material and is spatially more extensive than a regular burial mound. </description></term>
         <term>{Uncertain_Feature}
-<description> </description></term>
+<description> Uncertain mound; no point in the map, but suspicious, ambiguous feature is present that could have been a mound.</description></term>
         <term>{Other}
-<description> </description></term>
+<description> Other archaeological site, building, object or other find.</description></term>
       </lookup>
     </property>
     <property name="Source" type="vocab">

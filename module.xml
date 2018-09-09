@@ -41,12 +41,24 @@
     <author/>
     <Type f="notnull">
       <opts>
-        <opt>Burial Mound</opt>  <desc> Burial mound visible in the field.</desc>
-        <opt>Extinct Burial Mound</opt> <desc> Visible symbol in the map, but no burial mound in the field or modern disturbance. </desc>
-        <opt>Surface Scatter</opt> <desc> Pottery scatter in the field. </desc>
-        <opt>Tell</opt> <desc> Settlement mound: comprises layers of prehistoric pottery and construction material and is spatially more extensive than a regular burial mound. </desc>
-        <opt>Uncertain Feature</opt> <desc> Uncertain mound; no point in the map, but suspicious, ambiguous feature is present that could have been a mound.</desc>
-        <opt>Other</opt><desc> Other archaeological site, building, object or other find.</desc>
+        <opt>Burial Mound 
+          <desc> Burial mound visible in the field.</desc>
+        </opt> 
+        <opt>Extinct Burial Mound
+          <desc> Visible symbol in the map, but no burial mound in the field or modern disturbance. </desc>
+        </opt> 
+        <opt>Surface Scatter
+          <desc> Pottery scatter in the field. </desc>
+        </opt> 
+        <opt>Tell 
+          <desc> Settlement mound: comprises layers of prehistoric pottery and construction material and is spatially more extensive than a regular burial mound. </desc>
+        </opt>
+        <opt>Uncertain Feature
+          <desc> Uncertain mound; no point in the map, but suspicious, ambiguous feature is present that could have been a mound.</desc>
+        </opt> 
+        <opt>Other
+          <desc> Other archaeological site, building, object or other find.</desc>
+        </opt>
       </opts>
     </Type>
     <Source>
@@ -930,8 +942,7 @@
     showDatabaseLayerByVocabName(vocabName, geoColor, layerName);
   }
   void initMap() {
-    //showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-054-3_Yambol.32635.tif");
-    showBaseMap(MAP_REF, "Base Map", "files/data/Map/K-35-066-3_Razdel.tif");
+    //showBaseMap(MAP_REF, "Base Map", "files/data/Map/K-35-066-3_Razdel.tif");
     /*
     showDatabaseLayerByVocabName("{1___pristine}",   Color.GREEN);
     showDatabaseLayerByVocabName("{2___minor_damage}", Color.BLUE);
