@@ -1,5 +1,5 @@
 /*
- * GENERATED WITH FAIMS-TOOLS, SHA1: 99594b70357b9df81f7201ec19a06907b4867ac1
+ * GENERATED WITH FAIMS-TOOLS, SHA1: 8c3e1dc4e380cf6416e4e0ddb364f9b5df31352d
  */
 import android.util.Log;
 import android.os.Build.MODEL;
@@ -338,7 +338,7 @@ REF_TO_TYPE.put("Burial_Mound/General/Source", "dropdown");
 REF_TO_TYPE.put("Burial_Mound/General/Description_of_Mound_or_Locale", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Landuse_around_Mound", "picture");
 REF_TO_TYPE.put("Burial_Mound/General/Landuse_on_top_of_Mound", "picture");
-REF_TO_TYPE.put("Burial_Mound/General/Prominence", "dropdown");
+REF_TO_TYPE.put("Burial_Mound/General/Position_in_the_landscape", "dropdown");
 REF_TO_TYPE.put("Burial_Mound/General/Mound_prominence", "dropdown");
 REF_TO_TYPE.put("Burial_Mound/General/Latitude", "input");
 REF_TO_TYPE.put("Burial_Mound/General/Longitude", "input");
@@ -395,7 +395,7 @@ DATA_REFS.add("Burial_Mound/General/Source");
 DATA_REFS.add("Burial_Mound/General/Description_of_Mound_or_Locale");
 DATA_REFS.add("Burial_Mound/General/Landuse_around_Mound");
 DATA_REFS.add("Burial_Mound/General/Landuse_on_top_of_Mound");
-DATA_REFS.add("Burial_Mound/General/Prominence");
+DATA_REFS.add("Burial_Mound/General/Position_in_the_landscape");
 DATA_REFS.add("Burial_Mound/General/Mound_prominence");
 DATA_REFS.add("Burial_Mound/General/Latitude");
 DATA_REFS.add("Burial_Mound/General/Longitude");
@@ -4035,15 +4035,15 @@ void takePoint(String tabgroup) {
 
   String accuracy = "" + getGPSEstimatedAccuracy();
   setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Accuracy",  accuracy);
-  setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Longitude", sLatitude);
-  setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Latitude",  sLongitude);
-  setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Easting",   sNorthing);
-  setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Northing",  sEasting);
+  setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Longitude", sLongitude);
+  setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Latitude",  sLatitude);
+  setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Easting",   sEasting);
+  setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Northing",  sNorthing);
 
   List attribs = createAttributeList();
   attribs.add(createEntityAttribute("Accuracy",  "", "", accuracy,   "1.0"));
-  attribs.add(createEntityAttribute("Longitude", "", "", sLatitude,  "1.0"));
-  attribs.add(createEntityAttribute("Latitude",  "", "", sLongitude, "1.0"));
+  attribs.add(createEntityAttribute("Longitude", "", "", sLongitude,  "1.0"));
+  attribs.add(createEntityAttribute("Latitude",  "", "", sLatitude, "1.0"));
   attribs.add(createEntityAttribute("Northing",  "", "", sNorthing,  "1.0"));
   attribs.add(createEntityAttribute("Easting",   "", "", sEasting,   "1.0"));
 
@@ -4053,6 +4053,32 @@ void takePoint(String tabgroup) {
   );
   SaveCallback saveCallback = getDefaultSaveCallback(tabgroup, showToast);
   saveArchEnt(currentUuid, archEntType, geolist, attribs, saveCallback);
+}
+
+/* Sets the value of GPS views for the given tab ref. */
+void fillInGPS(String tabgroup) {
+  Map tabgroupToTabRef = getTakeFromGpsMappings();
+  String currentUuid = getUuid(tabgroup);
+  if (isNull(currentUuid)) {
+    return;
+  }
+
+  String query = "SELECT x(transform(geospatialcolumn,                4326)) as longtiude, " +
+                 "       y(transform(geospatialcolumn,                4326)) as latitude, " +
+                 "       x(transform(geospatialcolumn, "+getModuleSrid()+")) as easting, " +
+                 "       y(transform(geospatialcolumn, "+getModuleSrid()+")) as northing " +
+                 "  FROM latestnondeletedarchent " +
+                 " WHERE uuid = '" + currentUuid + "';";
+
+  fetchOne(query, new FetchCallback() {
+    onFetch(result) {
+      print("[fillInGPS()] Fetched DB transformed geometry: " + result);
+      setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Longitude" , result.get(0));
+      setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Latitude"  , result.get(1));
+      setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Easting"   , result.get(2));
+      setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Northing"  , result.get(3));
+    }
+  });
 }
 
 void clearGpsInTabGroup(String tabgroup) {
@@ -4125,9 +4151,39 @@ Integer incField(String ref, Integer defaultVal) {
     return defaultVal;
   }
 
-  Integer inc = Integer.parseInt(val) + 1;
-  setFieldValue(ref, inc);
-  insertIntoLocalSettings(ref, inc.toString());
+  Integer inc = null;
+  try {
+    inc = Integer.parseInt(val) + 1;
+  } catch (Exception e) { ; }
+
+  if (inc == null) {
+    try {
+      Double dinc = Double.parseDouble(val) + 1;
+      inc = Math.round(dinc);
+
+      String head, body;
+      head  = "{inc_field_head}";
+      body  = "{inc_field_body_1}" + getArch16nKey(ref) + "{inc_field_body_2}";
+
+      showWarning(head, body);
+    } catch (Exception e) {
+      Log.d("incField", "" + e);
+      ;
+    }
+  }
+
+  if (inc == null) {
+    String head, body;
+    head  = "{inc_field_head}";
+    body  = "{inc_field_body_1}" + getArch16nKey(ref) + "{inc_field_body_3}";
+
+    showWarning(head, body);
+  }
+
+  if (inc != null) {
+    setFieldValue(ref, inc);
+    insertIntoLocalSettings(ref, inc.toString());
+  }
 
   return inc;
 }
@@ -4546,8 +4602,7 @@ for (m : ENTITY_MENUS) {
   }
   void initMap() {
     //showBaseMap(MAP_REF, "Base Map", "files/data/gallery/Map/K-35-054-3_Yambol.32635.tif");
-    /* showBaseMap(MAP_REF, "Base Map", "files/data/Map/K-35-053-3_Elenovo.tif"); */ //loads map of Elenovo, uncomment of you need to load the map automatically 
-    showBaseMap(MAP_REF, "Base Map", "files/data/Map/K-35-066-3_Razdel.tif"); //loads map of Razdel
+    showBaseMap(MAP_REF, "Base Map", "files/data/Map/K-35-053-3_Elenovo.tif");
     /*
     showDatabaseLayerByVocabName("{1___pristine}",   Color.GREEN);
     showDatabaseLayerByVocabName("{2___minor_damage}", Color.BLUE);

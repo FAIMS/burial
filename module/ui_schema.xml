@@ -77,7 +77,7 @@
               <Description_of_Mound_or_Locale/>
               <Landuse_around_Mound/>
               <Landuse_on_top_of_Mound/>
-              <Prominence/>
+              <Position_in_the_landscape/>
               <Mound_prominence/>
               <Colgroup_1>
                 <Col_1>
@@ -345,8 +345,8 @@
             <value>Options not loaded</value>
           </item>
         </select1>
-        <select1 faims_attribute_name="Prominence" faims_attribute_type="vocab" ref="Prominence">
-          <label>{Prominence}</label>
+        <select1 faims_attribute_name="Position in the landscape" faims_attribute_type="vocab" ref="Position_in_the_landscape">
+          <label>{Position_in_the_landscape}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
