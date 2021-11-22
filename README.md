@@ -2,7 +2,10 @@
 This module was created for the **The Tundzha Regional Archaeological Project**, based at Macquarie University, Sydney, Australia. The module has been designed to document the current condition and an exact location of burial mounds in Bulgaria.
  
 ## Authorship:
-This module was co-developed by Adela Sobotkova at Macquarie University and Petra Janouchova at the FAIMS Project, Department of Ancient History, Macquarie University.
+This module was co-developed by Adela Sobotkova at Macquarie University and Petra Janouchova (Heřmánková) at the FAIMS Project, Department of Ancient History, Macquarie University.
+
+## Cite us:
+Sobotkova, A., Heřmánková, P., Ballsun-Stanton, B., Bui, T. 2018. Burial. Github. https://github.com/FAIMS/burial
  
 ## Funding:
 Development of this module was funded by Macquarie University Strategic Infrastructure Scheme (MQSIS) 20110091, aimed to support FAIMS infrastructure development in 2017.
