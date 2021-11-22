@@ -5,7 +5,7 @@ This module was created for the **The Tundzha Regional Archaeological Project**,
 This module was co-developed by Adela Sobotkova at Macquarie University and Petra Janouchova (Heřmánková) at the FAIMS Project, Department of Ancient History, Macquarie University.
 
 ## Cite us:
-Sobotkova, A., Heřmánková, P., Ballsun-Stanton, B., Bui, T. 2018. Burial. Github. https://github.com/FAIMS/burial
+Nassif-Haynes, Christian, Terry H. Bui, Adela Sobotkova, and Petra Heřmánková. 2019. TRAP Burial Mound Monitoring Module (version 89333d). Github. https://github.com/FAIMS/burial/releases/tag/1.0.0.
  
 ## Funding:
 Development of this module was funded by Macquarie University Strategic Infrastructure Scheme (MQSIS) 20110091, aimed to support FAIMS infrastructure development in 2017.
